@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="800.0" maxWidth="1920.0" minHeight="768.0" minWidth="320.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ForceSimulationController">
+   <children>
+      <Pane>
+         <children>
+            <ImageView fx:id="background1" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/background.svg.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="background2" pickOnBounds="true" preserveRatio="true" x="2000.0">
+               <image>
+                  <Image url="@../assets/background.svg.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="656.0" layoutY="668.0" text="Speed">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="speedTextField" layoutX="735.0" layoutY="666.0" text="0" />
+            <Button fx:id="btnControl" layoutX="96.0" layoutY="660.0" mnemonicParsing="false" onAction="#controlPressed" opacity="0.7" text="&gt;">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="speedButton" layoutX="928.0" layoutY="666.0" mnemonicParsing="false" text="Let's go" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#415568" height="200.0" layoutX="462.0" layoutY="362.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+         </children>
+      </Pane>
+   </children>
+</StackPane>
