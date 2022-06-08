@@ -1,3 +1,4 @@
+package dsai.group07.force;
 
 
 import javafx.application.Application;
@@ -11,14 +12,14 @@ public class ForceSimulationApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ForceSimulationApp.fxml") );
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/ForceSimulationApp.fxml") );
 		Parent p = fxmlLoader.load();
 		
 //		BackgroundController c = fxmlLoader.getController();
 		
 		Scene scene = new Scene(p);
 
-		primaryStage.setTitle( "BackgroundApp" );
+		primaryStage.setTitle( "Force Simulation App" );
 		primaryStage.setScene( scene );
 //		primaryStage.setOnShown(event ->  c.startAmination() );
 		primaryStage.show();
