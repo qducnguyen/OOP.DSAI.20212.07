@@ -114,6 +114,7 @@
                   <CheckBox mnemonicParsing="false" text="Acceleration" GridPane.rowIndex="5" />
                </children>
             </GridPane>
+            <Rectangle fx:id="myRect" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="108.0" layoutX="279.0" layoutY="628.0" stroke="BLACK" strokeType="INSIDE" width="124.0" />
          </children>
       </Pane>
    </children>

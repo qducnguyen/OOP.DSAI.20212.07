@@ -1,22 +1,28 @@
 package dsai.group07.force.view;
 
 
+//import DraggableMaker;
 import javafx.animation.Animation;
+import javafx.animation.Animation.Status;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.scene.control.TextField;
 
 public class ForceSimulationController {
 	
 	private int BACKGROUND_WIDTH = 2000;
-	
+	@FXML
+	Rectangle myRect;
 	@FXML
 	ImageView background1;
 
@@ -32,12 +38,14 @@ public class ForceSimulationController {
     @FXML
     private TextField speedTextField;
     
-	
+    DraggableMaker mydrag = new DraggableMaker();
 	private ParallelTransition parallelTransition;
 	
 	@FXML
 	public void initialize() {
-		
+		// Drag and Drop
+		mydrag.makeDraggable(myRect);
+	
 		TranslateTransition translateTransition =
 	            new TranslateTransition(Duration.millis(10000), background1);
 		translateTransition.setFromX(0);
@@ -57,11 +65,13 @@ public class ForceSimulationController {
 		//
 		// Sets the label of the Button based on the animation state
 		//
-		parallelTransition.statusProperty().addListener((obs, oldValue, newValue) -> {
-			if( newValue == Animation.Status.RUNNING ) {
-				btnControl.setText( "||" );
-			} else {
-				btnControl.setText( ">" );
+		parallelTransition.statusProperty().addListener(new ChangeListener<Status>() {
+			public void changed(ObservableValue<? extends Status> obs, Status oldValue, Status newValue) {
+				if( newValue == Animation.Status.RUNNING ) {
+					btnControl.setText( "||" );
+				} else {
+					btnControl.setText( ">" );
+				}
 			}
 		});
 		
@@ -69,7 +79,6 @@ public class ForceSimulationController {
 		speedButton.setOnAction( 
 				new EventHandler<ActionEvent>() {
 					
-					@Override
 					public void handle(ActionEvent event) {
 						try {
 						double speedNow = Double.valueOf(speedTextField.getText());
