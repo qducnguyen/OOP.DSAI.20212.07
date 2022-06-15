@@ -14,17 +14,19 @@ public class ForceSimulationApp extends Application {
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/ForceSimulationApp.fxml") );
 		Parent p = fxmlLoader.load();
-		
-//		BackgroundController c = fxmlLoader.getController();
-		
 		Scene scene = new Scene(p);
 
 		primaryStage.setTitle( "Force Simulation App" );
 		primaryStage.setScene( scene );
-//		primaryStage.setOnShown(event ->  c.startAmination() );
+//		System.out.println(scene.getHeight());
+//		System.out.println(scene.getWidth());
+		
 		primaryStage.show();
 	}
-
+	
+	
+	
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
