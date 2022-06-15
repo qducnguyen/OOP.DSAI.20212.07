@@ -18,9 +18,6 @@ public class ForceSimulationApp extends Application {
 
 		primaryStage.setTitle( "Force Simulation App" );
 		primaryStage.setScene( scene );
-//		System.out.println(scene.getHeight());
-//		System.out.println(scene.getWidth());
-		
 		primaryStage.show();
 	}
 	
