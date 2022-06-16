@@ -7,69 +7,67 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class HorizontalVector {
 	
-	BooleanProperty direction = new SimpleBooleanProperty(true);
-	DoubleProperty value = new SimpleDoubleProperty(0.0);
-	
-	public HorizontalVector() {
-		
-		value.addListener(
-				(observable, oldValue, newValue) -> {
-				if (newValue.doubleValue() > 0) {
-					direction.set(true);
-				}
-				else {
-					direction.set(false);
-				}}
-				);
-		
-		direction.addListener((observable, oldValue, newValue) -> {
-			double newVal = Math.abs(value.doubleValue());
-			if(newValue.booleanValue()) {
-				value.set(newVal);
-			}
-			else {
-				value.set(-newVal);
-			}
-		});
-	}
-	
-	
-	
+	private BooleanProperty direction = new SimpleBooleanProperty(true);
+	private DoubleProperty value = new SimpleDoubleProperty(0.0);
 	
 	public HorizontalVector(double value) {
-		this();
-		this.value.set(value);
-		
+		this.setValue(value);
 	}
-	
-//	public HorizontalVector(double length, boolean isRight) {
-//		this();
-//		this.value.set(value.get() * (isRight == true ? 1 : -1));
-//		this.direction.set(isRight);
-//	}
 	
 	public static final HorizontalVector sumTwoVector(HorizontalVector v1, HorizontalVector v2) {
-		return new HorizontalVector(v1.getValue().doubleValue() + v2.getValue().doubleValue());
+		HorizontalVector result = new HorizontalVector(v1.getValue() + v2.getValue());
+		result.updateValueDirection();
+		return result;
+		
 	}
 
-	public BooleanProperty getDirection() {
-		return direction;
+	public BooleanProperty directionProperty() {
+		return this.direction;
+	}
+	
+	
+	public boolean getDirection() {
+		return this.direction.get();
 	}
 
 	public void setDirection(boolean isRight) {
-		this.direction.set(isRight);;
+		this.direction.set(isRight);
+		updateDirectionValue();
 	}
 
-	public DoubleProperty getValue() {
-		return value;
+	public DoubleProperty valueProperty() {
+		return this.value;
 	}
 
+	public double getValue() {
+		return this.value.get();
+	}
+	
 	public void setValue(double value) {
 		this.value.set(value);
+		updateValueDirection();
 	}
 	
 	public double getLength() {
-		return Math.abs(this.value.doubleValue());	}
+		return Math.abs(this.value.doubleValue());	
+		}
 	
+	private void updateValueDirection() {
+		if(this.getValue() >= 0) {
+			this.direction.set(true);;
+		}
+		else {
+			this.direction.set(false);
+		}
+	}
 	
+	private void updateDirectionValue() {
+		double absValue =	Math.abs(this.getValue());
+		if (this.getDirection()) {
+			this.value.set(absValue);
+		}
+		else {
+			this.value.set(-absValue);
+		}
+				}
 }

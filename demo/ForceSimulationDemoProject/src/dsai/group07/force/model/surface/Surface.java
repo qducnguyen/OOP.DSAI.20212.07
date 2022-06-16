@@ -7,17 +7,24 @@ public class Surface {
 	DoubleProperty staCo = new SimpleDoubleProperty(0);
 	DoubleProperty kiCo = new SimpleDoubleProperty(0);
 	
-	public DoubleProperty getStaCo() {
-		return staCo;
+	public DoubleProperty staCoProperty() {
+		return this.staCo;
 	}
 	public void setStaCo(double staCo) {
 		this.staCo.setValue(staCo);	
 		}
-	public DoubleProperty getKiCo() {
-		return kiCo;
+	public double getStaCo() {
+		return this.staCo.get();
+	}
+	public DoubleProperty kiCoProperty() {
+		return this.kiCo;
 	}
 	public void setKiCo(double kiCo) {
 		this.kiCo.setValue(kiCo);
 	}
+	public double getKiCo() {
+		return this.kiCo.get();
+	}
+	
 	
 }

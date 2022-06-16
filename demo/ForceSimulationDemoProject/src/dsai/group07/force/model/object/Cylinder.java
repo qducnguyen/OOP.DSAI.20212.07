@@ -6,14 +6,9 @@ import javafx.geometry.HorizontalDirection;
 
 public class Cylinder extends MainObject implements Rotatable{
 @Override
-public void updateAcc(HorizontalVector sumVec) {
-	// TODO Auto-generated method stub
-	
-}@Override
-	public void updateVel() {
-		// TODO Auto-generated method stub
-		
-	}
+public void updateAcc(HorizontalVector sumForce) {
+	setAccValue(sumForce.getValue() / getMass());
+}
 
 @Override
 	public DoubleProperty getAngAcc() {

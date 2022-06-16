@@ -2,7 +2,7 @@ package dsai.group07.force;
 
 import javafx.animation.AnimationTimer;
 
-public abstract class LoopTimer extends AnimationTimer {
+public abstract class GameAnimationTimer extends AnimationTimer {
 
     long pauseStart;
 //    long animationStart;
