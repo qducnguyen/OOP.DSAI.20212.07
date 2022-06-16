@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.vector.controller.VectorController">
    <children>
-      <TextField layoutY="160.0" prefHeight="81.0" prefWidth="120.0" />
-      <CheckBox fx:id="myVisible" layoutX="452.0" layoutY="29.0" mnemonicParsing="false" onAction="#checkBoxValue" prefHeight="60.0" prefWidth="93.0" text="Visible" />
+      <TextField layoutY="230.0" prefHeight="81.0" prefWidth="120.0" />
+      <CheckBox fx:id="myVisible" layoutX="452.0" layoutY="29.0" mnemonicParsing="false" onAction="#checkBoxValue" prefHeight="60.0" prefWidth="93.0" selected="true" text="Visible" />
       <ImageView fx:id="myVector" fitHeight="94.0" fitWidth="110.0" layoutX="203.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../resources/images/vector.png" />
          </image>
       </ImageView>
+      <Slider fx:id="mySlider" layoutX="180.0" layoutY="270.0" max="2.0" prefHeight="18.0" prefWidth="170.0" value="1.0" />
    </children>
 </AnchorPane>
