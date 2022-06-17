@@ -48,7 +48,7 @@ public class Surface {
 			System.out.println("Kinetic friction coefficient is setted to " + String.format("%.3f", getKineticCoefValue()));
 			System.out.println("Static friction coefficient is setted to " + String.format("%.3f", getStaticCoefValue()));
 		} else if (staticCoefValue <= getKineticCoefValue()) {
-            staticCoefProperty.setValue(Math.min(getKineticCoefValue() * 2, 1));
+            staticCoefProperty.setValue(Math.min(getKineticCoefValue() + 0.001, 1));
 			throw new ArithmeticException("Static friction coefficient must be > kinetic friction coefficient: " + String.format("%.3f", getKineticCoefValue()));
 		} else {
 			staticCoefProperty.setValue(staticCoefValue);
@@ -67,7 +67,7 @@ public class Surface {
 			kineticCoefProperty.setValue(0);
 			System.out.println("Kinetic friction coefficient is setted to " + String.format("%.3f", getKineticCoefValue()));
 		} else if (getStaticCoefValue() <= kineticCoefValue) {
-            kineticCoefProperty.setValue(getStaticCoefValue() / 2);
+            kineticCoefProperty.setValue(getStaticCoefValue() - 0.001);
 			throw new ArithmeticException("Kinetic friction coefficient must be < static friction coefficient: " + String.format("%.3f", getStaticCoefValue()));
 		} else {
 			kineticCoefProperty.setValue(kineticCoefValue);

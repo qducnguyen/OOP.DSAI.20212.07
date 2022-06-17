@@ -79,7 +79,7 @@ public class Controller {
             try {
                 model.getSurface().setStaticCoefValue(Double.parseDouble(newValue));
             } catch (ArithmeticException e) {
-                pauseButtonPress(new ActionEvent());
+                //pauseButtonPress(new ActionEvent());
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText(e.getMessage());
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -91,7 +91,7 @@ public class Controller {
             try {
                 model.getSurface().setKineticCoefValue(Double.parseDouble(newValue));
             } catch (ArithmeticException e) {
-                pauseButtonPress(new ActionEvent());
+                //pauseButtonPress(new ActionEvent());
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText(e.getMessage());
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
