@@ -50,7 +50,7 @@ public class HorizontalVector {
 	
 	public double getLength() {
 		return Math.abs(this.value.doubleValue());	
-		}
+	}
 	
 	private void updateValueDirection() {
 		if(this.getValue() >= 0) {
@@ -62,12 +62,12 @@ public class HorizontalVector {
 	}
 	
 	private void updateDirectionValue() {
-		double absValue =	Math.abs(this.getValue());
+		double absValue = Math.abs(this.getValue());
 		if (this.getDirection()) {
 			this.value.set(absValue);
 		}
 		else {
 			this.value.set(-absValue);
 		}
-				}
+	}
 }
