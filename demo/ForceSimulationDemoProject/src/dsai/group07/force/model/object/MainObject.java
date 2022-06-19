@@ -1,5 +1,6 @@
 package dsai.group07.force.model.object;
 
+import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.HorizontalVector;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -36,10 +37,18 @@ public abstract class MainObject {
 		this.acc.setValue(acc);
 	}
 	
-	public void updateVel() {
-		//TODO : LOL
+	public void updateVel(double t) {
+		double a = getAcc().getValue();
+		this.vel.setValue(getVel().getValue() + a * t);
 	};
 	
-	public abstract void updateAcc(HorizontalVector sumVec);
+	public void updateAcc(Force force) {
+		this.acc.setValue(force.getValue() / getMass());
+	};
+	
+	public void applyForceInTime(Force force, double t) {
+		updateAcc(force);
+		updateVel(t);
+	}
 
 }

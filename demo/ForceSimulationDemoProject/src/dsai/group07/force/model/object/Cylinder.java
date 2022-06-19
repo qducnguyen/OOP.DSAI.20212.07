@@ -1,16 +1,10 @@
 package dsai.group07.force.model.object;
 
-import dsai.group07.force.model.vector.HorizontalVector;
 import javafx.beans.property.DoubleProperty;
 import javafx.geometry.HorizontalDirection;
 
 public class Cylinder extends MainObject implements Rotatable{
 	
-	@Override
-	public void updateAcc(HorizontalVector sumForce) {
-		setAccValue(sumForce.getValue() / getMass());
-	}
-
 	@Override
 	public DoubleProperty getAngAcc() {
 		// TODO Auto-generated method stub
