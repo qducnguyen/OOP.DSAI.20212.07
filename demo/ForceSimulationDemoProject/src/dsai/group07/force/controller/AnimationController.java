@@ -1,4 +1,4 @@
-package dsai.group07.force.view;
+package dsai.group07.force.controller;
 
 import dsai.group07.force.GameAnimationTimer;
 import dsai.group07.force.model.Simulation;
@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public class MainAppController {
+public class AnimationController {
 	
 	private final int BACKGROUND_WIDTH = 2000;
 	private final float ratioTwoBackGround = 5.0f;
