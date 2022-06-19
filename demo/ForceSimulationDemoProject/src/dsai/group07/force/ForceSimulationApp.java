@@ -23,6 +23,8 @@ public class ForceSimulationApp extends Application  {
 	private StackPane downStackPane;
 	
 	GridPane controlPanel;
+	AnimationController con;
+	
 	
 	
 	@Override
@@ -72,7 +74,7 @@ public class ForceSimulationApp extends Application  {
 			this.rootLayout.getChildren().add(downStackPane);
 			
 
-			AnimationController con = loader.getController();
+			con = loader.getController();
 			con.setSce(scene);
 			
 		}
@@ -86,9 +88,10 @@ public class ForceSimulationApp extends Application  {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("view/ControlPanel.fxml"));
 			controlPanel = (GridPane) loader.load();
-			
+						
 			downStackPane.getChildren().add(controlPanel);
 			
+			showRecCir();
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -96,7 +99,19 @@ public class ForceSimulationApp extends Application  {
 	}
 	
 	private void showRecCir() {
+		try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("view/ObjectContainer.fxml"));
+		GridPane ObjectPanel = (GridPane) loader.load();
+		controlPanel.add(ObjectPanel, 0, 0);
 		
+		
+		con.setObjController(loader.getController());
+		
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

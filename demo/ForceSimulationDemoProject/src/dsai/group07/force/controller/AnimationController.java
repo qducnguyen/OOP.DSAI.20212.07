@@ -9,10 +9,18 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 public class AnimationController {
@@ -21,11 +29,17 @@ public class AnimationController {
 	private final float ratioTwoBackGround = 5.0f;
 	private final int numDuration = 40000;
 	private final double acce = 0.05;
+	
+	private ObjectContainerController objController;
 
 	private GameAnimationTimer timer;
 	private Simulation sim;
 
 	private ParallelTransition parallelTransition;
+	
+	@FXML
+	private StackPane topStackPane;
+	
     @FXML
     private ImageView backGroundMiddleUp;
 
@@ -126,7 +140,58 @@ public class AnimationController {
 		
 //        startAmination();
 		
-	}
+        //Drag and drop
+        
+        topStackPane.setOnDragDropped(event -> 
+    	{
+    		Dragboard db = event.getDragboard();
+    		Circle circle = this.objController.getCircle();
+        	Rectangle rec = this.objController.getRectangle();
+        	
+            if (db.hasContent(this.objController.getCirFormat())) 
+            {
+            	GridPane parent = (GridPane) circle.getParent();
+            	StackPane.setAlignment(circle, Pos.BOTTOM_CENTER);
+            	
+            	//TODO: another view for drag and drop ...
+            	if (topStackPane.getChildren().contains(rec)) {
+	            	parent.add(rec, 0, 0);
+            	}
+            	
+            	topStackPane.getChildren().add(circle);
+ 
+            	event.setDropCompleted(true);
+            }          
+            
+            else if (db.hasContent(this.objController.getRecFormat())) {
+            	
+            	GridPane parent = (GridPane) rec.getParent();
+            	StackPane.setAlignment(rec, Pos.BOTTOM_CENTER);
+
+            	if (topStackPane.getChildren().contains(circle)) {
+	            	parent.add(circle, 1, 0);
+            	}
+            	
+            	topStackPane.getChildren().add(rec);
+            	
+            	event.setDropCompleted(true);
+            }
+	});
+    
+        topStackPane.setOnDragOver(event -> 
+        {
+        	Dragboard db = event.getDragboard();
+    		if(db.hasContent(this.objController.getCirFormat()) && this.objController.getCircle().getParent()!= topStackPane) {
+    			event.acceptTransferModes(TransferMode.MOVE);
+    		}
+    		else if(db.hasContent(this.objController.getRecFormat()) && this.objController.getRectangle().getParent()!= topStackPane)
+    			event.acceptTransferModes(TransferMode.MOVE);	
+        });
+    }
+    
+    public void setObjController(ObjectContainerController objController) {
+    	this.objController = objController;
+    }
     
     public void setSce(Scene sce) {
     	backGroundRightUp.fitHeightProperty().bind(sce.heightProperty().multiply(0.7));
