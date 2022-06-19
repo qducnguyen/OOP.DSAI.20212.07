@@ -133,8 +133,12 @@ public class ObjectContainerController {
     		SnapshotParameters snapShotparams = new SnapshotParameters();
     		snapShotparams.setFill(Color.TRANSPARENT);
     		db.setDragView(s.snapshot(snapShotparams, null), event.getX(), event.getY());
+    		if (s instanceof Circle) {
+    			db.setDragViewOffsetX(event.getX() + cir.getRadius());
+    			db.setDragViewOffsetY(event.getY()  + cir.getRadius());
+    		}
     		ClipboardContent cc = new ClipboardContent();
-    		cc.put(shapeFormat, "circle");
+    		cc.put(shapeFormat, this.shapeFormat.toString());
     		db.setContent(cc);
     	}
     	
