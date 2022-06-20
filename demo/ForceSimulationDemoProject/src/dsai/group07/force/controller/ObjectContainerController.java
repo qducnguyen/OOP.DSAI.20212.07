@@ -3,8 +3,11 @@ package dsai.group07.force.controller;
 
 
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Cube;
+import dsai.group07.force.model.object.Cylinder;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.ClipboardContent;
@@ -13,6 +16,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -21,9 +25,10 @@ import javafx.scene.shape.Shape;
 public class ObjectContainerController {
 
 	
-	private AnimationController aniController;
     private Simulation simul;
-
+    
+    private StackPane topStackPane;
+    private StackPane downStackPane;
     
     
 	private final DataFormat cirFormat = new DataFormat("dsai.group07.force.circle");
@@ -44,18 +49,72 @@ public class ObjectContainerController {
     
 
 
-	public void setAniController(AnimationController aniController) {
-		this.aniController = aniController;
+	public void setDownStackPane(StackPane downStackPane) {
+		this.downStackPane = downStackPane;
 		
     	//TODO: more binding for circle
 
-    	cir.radiusProperty().bind(this.aniController.getDownStackPane().heightProperty().multiply(0.3));
-    	rec.widthProperty().bind(this.aniController.getDownStackPane().widthProperty().multiply(0.1));
-    	rec.heightProperty().bind(this.aniController.getDownStackPane().heightProperty().multiply(0.8));
+    	cir.radiusProperty().bind(downStackPane.heightProperty().multiply(0.3));
+    	rec.widthProperty().bind(downStackPane.widthProperty().multiply(0.1));
+    	rec.heightProperty().bind(downStackPane.heightProperty().multiply(0.8));
     	
-
-
 	}
+
+	
+
+	public void setTopStackPane(StackPane topStackPane) {
+		this.topStackPane = topStackPane;
+		
+		 this.topStackPane.setOnDragDropped(event -> 
+	    	{
+	    		Dragboard db = event.getDragboard();
+	        	
+	            if (db.hasContent(cirFormat)) 
+	            {
+	            	StackPane.setAlignment(cir, Pos.BOTTOM_CENTER);
+	            	
+	            	//TODO: another view for drag and drop ...
+	            	if (topStackPane.getChildren().contains(rec)) {
+	            		gridPaneObjectContainer.add(rec, 0, 0);
+	            	}
+	            	
+	            	topStackPane.getChildren().add(cir);
+	            	
+	            	this.simul.setObject(new Cylinder());
+	            	
+	            	event.setDropCompleted(true);
+	            	
+	            }          
+	            
+	            else if (db.hasContent(recFormat)) {
+	            	
+	            	StackPane.setAlignment(rec, Pos.BOTTOM_CENTER);
+	
+	            	if (topStackPane.getChildren().contains(cir)) {
+	            		gridPaneObjectContainer.add(cir, 1, 0);
+	            	}
+	            	
+	            	topStackPane.getChildren().add(rec);
+	            	
+	            	this.simul.setObject(new Cube());
+	            	
+	            	event.setDropCompleted(true);
+	            	
+	            }
+		});
+		 
+	 this.topStackPane.setOnDragOver(event -> 
+        {
+        	Dragboard db = event.getDragboard();
+    		if(db.hasContent(cirFormat) && cir.getParent()!= topStackPane) {
+    			event.acceptTransferModes(TransferMode.MOVE);
+    		}
+    		else if(db.hasContent(recFormat) && this.rec.getParent()!= topStackPane)
+    			event.acceptTransferModes(TransferMode.MOVE);	
+        });
+	}
+
+	
 
 
 	private EventDragDetected cirOnDragDectected = new EventDragDetected(cirFormat) ;
@@ -107,6 +166,7 @@ public class ObjectContainerController {
         
         
         
+        
         draggableCheckBox.selectedProperty().addListener(
         		(observable, oldValue, newValue) -> 
         		{
@@ -123,22 +183,6 @@ public class ObjectContainerController {
                 
     }
     
-    
-    public DataFormat getCirFormat() {
-    	return this.cirFormat;
-    }
-    
-    public DataFormat getRecFormat() {
-    	return this.recFormat;
-    }
-    
-    public Circle getCircle() {
-    	return this.cir;
-    }
-    
-    public Rectangle getRectangle() {
-    	return this.rec;
-    }
 	
     public void setSimul(Simulation simul) {
 		this.simul = simul;

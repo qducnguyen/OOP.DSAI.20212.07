@@ -39,7 +39,6 @@ public class PauseResetPanelController {
 						pauseButton.setText( ">" );
 					}
 				});
-			 
 		}
 	 
 	 

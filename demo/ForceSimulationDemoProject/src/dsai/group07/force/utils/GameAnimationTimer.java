@@ -1,4 +1,4 @@
-package dsai.group07.force;
+package dsai.group07.force.utils;
 
 import javafx.animation.AnimationTimer;
 

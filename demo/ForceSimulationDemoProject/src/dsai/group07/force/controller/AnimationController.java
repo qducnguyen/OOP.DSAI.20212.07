@@ -1,9 +1,7 @@
 package dsai.group07.force.controller;
 
-import dsai.group07.force.GameAnimationTimer;
 import dsai.group07.force.model.Simulation;
-import dsai.group07.force.model.object.Cube;
-import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.utils.GameAnimationTimer;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
@@ -11,17 +9,9 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class AnimationController {
@@ -31,7 +21,6 @@ public class AnimationController {
 	private final int numDuration = 40000;
 	private final double acce = 0.05;
 	
-	private ObjectContainerController objController;
 
 	private GameAnimationTimer timer;
 	private Simulation simul;
@@ -77,9 +66,6 @@ public class AnimationController {
     DoubleProperty pos  = new SimpleDoubleProperty(0);
 	DoubleProperty vel  = new SimpleDoubleProperty(0);
 
-	
-    	
-
     @FXML
 	public void initialize()  {
     	
@@ -87,7 +73,7 @@ public class AnimationController {
     	posVelLabel.textProperty().bind(vel.asString("Current Velocity: %.2f m/s"));
     	
 		TranslateTransition translateTransition =
-            new TranslateTransition(Duration.millis(numDuration), backGroundRightUp);
+				new TranslateTransition(Duration.millis(numDuration), backGroundRightUp);
 		translateTransition.setFromX(0);
 		translateTransition.setToX(-1 * BACKGROUND_WIDTH);
 		translateTransition.setInterpolator(Interpolator.LINEAR);
@@ -121,10 +107,8 @@ public class AnimationController {
 		
 		 parallelTransition =
 				new ParallelTransition(parallelTransitionUp,parallelTransitionDown );
-		//
-		// Sets the label of the Button based on the animation state
-		//
-	
+
+		 
 		 parallelTransition.rateProperty().bind(vel.multiply(0.5));
 
 		timer = new GameAnimationTimer() {
@@ -134,64 +118,7 @@ public class AnimationController {
             	pos.set(secondsSinceLastFrame  * vel.get() + pos.get());
             }
         };
-        
 		
-//        startAmination();
-		
-        //Drag and drop
-        
-        topStackPane.setOnDragDropped(event -> 
-    	{
-    		Dragboard db = event.getDragboard();
-    		Circle circle = this.objController.getCircle();
-        	Rectangle rec = this.objController.getRectangle();
-        	
-            if (db.hasContent(this.objController.getCirFormat())) 
-            {
-            	GridPane parent = (GridPane) circle.getParent();
-            	StackPane.setAlignment(circle, Pos.BOTTOM_CENTER);
-            	
-            	//TODO: another view for drag and drop ...
-            	if (topStackPane.getChildren().contains(rec)) {
-	            	parent.add(rec, 0, 0);
-            	}
-            	
-            	topStackPane.getChildren().add(circle);
-            	
-            	this.simul.setObject(new Cylinder());
-            	
-            	event.setDropCompleted(true);
-            	
-            }          
-            
-            else if (db.hasContent(this.objController.getRecFormat())) {
-            	
-            	GridPane parent = (GridPane) rec.getParent();
-            	StackPane.setAlignment(rec, Pos.BOTTOM_CENTER);
-
-            	if (topStackPane.getChildren().contains(circle)) {
-	            	parent.add(circle, 1, 0);
-            	}
-            	
-            	topStackPane.getChildren().add(rec);
-            	
-            	this.simul.setObject(new Cube());
-            	
-            	event.setDropCompleted(true);
-            	
-            }
-	});
-    
-        topStackPane.setOnDragOver(event -> 
-        {
-        	Dragboard db = event.getDragboard();
-    		if(db.hasContent(this.objController.getCirFormat()) && this.objController.getCircle().getParent()!= topStackPane) {
-    			event.acceptTransferModes(TransferMode.MOVE);
-    		}
-    		else if(db.hasContent(this.objController.getRecFormat()) && this.objController.getRectangle().getParent()!= topStackPane)
-    			event.acceptTransferModes(TransferMode.MOVE);	
-        });
-        
         // Responsive app
         backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
         backGroundMiddleUp.fitHeightProperty().bind(topStackPane.heightProperty());
@@ -199,11 +126,6 @@ public class AnimationController {
         backGroundMiddleDown.fitHeightProperty().bind(downStackPane.heightProperty());   
     }
     
-    public void setObjController(ObjectContainerController objController) {
-    	this.objController = objController;
-    	
-    	
-    }
     
     public void setSim(Simulation sim) {
 		this.simul = sim;
@@ -212,7 +134,6 @@ public class AnimationController {
 	public void startAmination() {
 		parallelTransition.play();
 		timer.start();
-			
 	}
 	
     public void continueAnimation() {

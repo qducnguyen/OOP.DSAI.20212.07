@@ -125,9 +125,9 @@ public class ForceSimulationApp extends Application  {
 		
 		ObjectContainerController objCon = loader.getController();
 		
-		con.setObjController(objCon);
-		objCon.setAniController(con);
 		objCon.setSimul(simul);
+		objCon.setTopStackPane(topStackPane);
+		objCon.setDownStackPane(downStackPane);
 		
 		}
 		catch(IOException e) {
