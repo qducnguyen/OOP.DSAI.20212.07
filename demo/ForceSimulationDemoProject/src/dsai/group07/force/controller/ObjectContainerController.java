@@ -47,13 +47,11 @@ public class ObjectContainerController {
 	public void setAniController(AnimationController aniController) {
 		this.aniController = aniController;
 		
-		//Bind to topStackPane (debug)
-		
     	//TODO: more binding for circle
 
-    	cir.radiusProperty().bind(this.aniController.getTopStackPane().widthProperty().multiply(0.07));
-    	rec.widthProperty().bind(this.aniController.getTopStackPane().widthProperty().multiply(0.11));
-    	rec.heightProperty().bind(this.aniController.getTopStackPane().heightProperty().multiply(0.34));
+    	cir.radiusProperty().bind(this.aniController.getDownStackPane().heightProperty().multiply(0.3));
+    	rec.widthProperty().bind(this.aniController.getDownStackPane().widthProperty().multiply(0.1));
+    	rec.heightProperty().bind(this.aniController.getDownStackPane().heightProperty().multiply(0.8));
     	
 
 

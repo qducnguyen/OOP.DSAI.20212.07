@@ -4,11 +4,14 @@ import java.io.IOException;
 
 import dsai.group07.force.controller.AnimationController;
 import dsai.group07.force.controller.ObjectContainerController;
+import dsai.group07.force.controller.PauseResetPanelController;
 import dsai.group07.force.model.Simulation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -25,9 +28,8 @@ public class ForceSimulationApp extends Application  {
 	
 	private Stage primaryStage;
 	private GridPane rootLayout;
-	private Scene scene;
 	
-	private StackPane upStackPane;
+	private StackPane topStackPane;
 	private StackPane downStackPane;
 	
 	
@@ -54,16 +56,18 @@ public class ForceSimulationApp extends Application  {
 		
 		showControlPane();
 		
+		
+		
 	}
 	
 	
 	private void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/Rootlayout.fxml"));
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/Rootlayout.fxml"));
 			rootLayout = (GridPane) loader.load();
 			
-			scene = new Scene(rootLayout);
+			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
@@ -75,18 +79,18 @@ public class ForceSimulationApp extends Application  {
 	private void showAnimation() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/Animation.fxml"));
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/Animation.fxml"));
 			GridPane gridPaneOutSide = (GridPane) loader.load();
 			
-			upStackPane = (StackPane) gridPaneOutSide.getChildren().get(0);
+			topStackPane = (StackPane) gridPaneOutSide.getChildren().get(0);
 			downStackPane = (StackPane) gridPaneOutSide.getChildren().get(1);
 			
-			this.rootLayout.getChildren().add(upStackPane);
+			this.rootLayout.getChildren().add(topStackPane);
 			this.rootLayout.getChildren().add(downStackPane);
 			
 
 			con = loader.getController();
-			con.setSce(scene);
+			
 			con.setSim(simul);
 			
 		}
@@ -98,12 +102,14 @@ public class ForceSimulationApp extends Application  {
 	private void showControlPane() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/ControlPanel.fxml"));
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ControlPanel.fxml"));
 			controlPanel = (GridPane) loader.load();
 						
 			downStackPane.getChildren().add(controlPanel);
 			
 			showRecCir();
+			
+			showPauseResetPanel();
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -113,7 +119,7 @@ public class ForceSimulationApp extends Application  {
 	private void showRecCir() {
 		try {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("view/ObjectContainer.fxml"));
+		loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectContainer.fxml"));
 		GridPane ObjectPanel = (GridPane) loader.load();
 		controlPanel.add(ObjectPanel, 0, 0);
 		
@@ -129,6 +135,25 @@ public class ForceSimulationApp extends Application  {
 		}
 	}
 	
+	private void showPauseResetPanel() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/PauseResetPanel.fxml"));
+			AnchorPane panel = (AnchorPane) loader.load();
+			StackPane.setAlignment(panel, Pos.BOTTOM_RIGHT);
+			
+			topStackPane.getChildren().add(panel);
+			
+			PauseResetPanelController resController = loader.getController();
+			
+			resController.setSimul(simul);
+			resController.setAnimationController(con);
+			
+			}
+		catch(IOException e) {
+				e.printStackTrace();
+			}
+	}
 	
 	private void initSimulation() {
 		this.simul = new Simulation();

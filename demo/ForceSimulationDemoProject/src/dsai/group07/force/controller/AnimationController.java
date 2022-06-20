@@ -38,12 +38,23 @@ public class AnimationController {
 
 	private ParallelTransition parallelTransition;
 	
+	public ParallelTransition getParallelTransition() {
+		return parallelTransition;
+	}
+
 	@FXML
 	private StackPane topStackPane;
 	
     public StackPane getTopStackPane() {
 		return topStackPane;
 	}
+    
+    @FXML
+    private StackPane downStackPane;
+    
+    public StackPane getDownStackPane() {
+    	return downStackPane;
+    }
 
 	@FXML
     private ImageView backGroundMiddleUp;
@@ -54,12 +65,6 @@ public class AnimationController {
     @FXML
     private ImageView backGroundMiddleDown;
 
-    @FXML
-	Button btnControl;
-    
-    @FXML
-    Button resetButton;
-    
     @FXML
     Label posPathLabel;
     
@@ -122,15 +127,6 @@ public class AnimationController {
 	
 		 parallelTransition.rateProperty().bind(vel.multiply(0.5));
 
-		 parallelTransition.statusProperty().addListener((obs, oldValue, newValue) -> {
-				if( newValue == Animation.Status.RUNNING ) {
-					btnControl.setText( "||" );
-				} else {
-					btnControl.setText( ">" );
-				}
-			});
-		 
-		 
 		timer = new GameAnimationTimer() {
             @Override
             public void tick(float secondsSinceLastFrame) {
@@ -195,6 +191,12 @@ public class AnimationController {
     		else if(db.hasContent(this.objController.getRecFormat()) && this.objController.getRectangle().getParent()!= topStackPane)
     			event.acceptTransferModes(TransferMode.MOVE);	
         });
+        
+        // Responsive app
+        backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
+        backGroundMiddleUp.fitHeightProperty().bind(topStackPane.heightProperty());
+        backGroundRightDown.fitHeightProperty().bind(downStackPane.heightProperty());   
+        backGroundMiddleDown.fitHeightProperty().bind(downStackPane.heightProperty());   
     }
     
     public void setObjController(ObjectContainerController objController) {
@@ -203,21 +205,8 @@ public class AnimationController {
     	
     }
     
-    public void setSce(Scene sce) {
-    	//TODO: We do not need the scene
-    	backGroundRightUp.fitHeightProperty().bind(sce.heightProperty().multiply(0.7));
-    	backGroundMiddleUp.fitHeightProperty().bind(sce.heightProperty().multiply(0.7));
-    	backGroundRightDown.fitHeightProperty().bind(sce.heightProperty().multiply(0.3));
-    	backGroundMiddleDown.fitHeightProperty().bind(sce.heightProperty().multiply(0.3));
-    }
-    
-    
-   
     public void setSim(Simulation sim) {
 		this.simul = sim;
-		
-    	resetButton.disableProperty().bind(this.simul.isStartProperty().not());
-
 	}
 
 	public void startAmination() {
@@ -243,35 +232,6 @@ public class AnimationController {
 		timer.stop();
 		vel.set(0);
 		pos.set(0);
-	}
-	
-	
-	@FXML
-	public void controlPressed() {
-		if( parallelTransition.getStatus() == Animation.Status.RUNNING ) {
-			pauseAnimation();
-			
-			//Testing
-			if (this.simul.getObj() != null) {
-			System.out.println(this.simul.getObj().getClass());}
-			else {
-				System.out.println("Null Object");
-			}
-		} else {
-			if (!simul.getIsStart()) {
-				startAmination();
-				simul.setIsStart(true);
-			}
-			else {
-				continueAnimation();
-			}
-		}
-	}
-	
-	@FXML
-	public void resetButtonPressed() {
-		simul.restart();
-		resetAnimation();
 	}
 	
 }

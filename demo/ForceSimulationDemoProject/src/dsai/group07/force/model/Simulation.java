@@ -1,6 +1,5 @@
 package dsai.group07.force.model;
 
-import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.MainObject;
 import dsai.group07.force.model.surface.Surface;
 import dsai.group07.force.model.vector.AppliedForce;
@@ -15,6 +14,7 @@ public class Simulation {
 	
 	
 	private BooleanProperty isStart = new SimpleBooleanProperty(false); 
+	private BooleanProperty isPause ;
 	private MainObject obj;
 	private Surface sur;
 	private Force aForce;
@@ -93,6 +93,20 @@ public class Simulation {
 		setObject(null);
 	}
 	
+	
+	
+	public BooleanProperty isPauseProperty() {
+		return isPause;
+	}
+	
+	public boolean getIsPause() {
+		return isPause.get();
+	}
+
+	public void setIsPause(boolean isPause) {
+		this.isPause.set(isPause);;
+	}
+
 	public void getObjAcc() {
 		getObj().updateAcc(getNetForce());
 	}
