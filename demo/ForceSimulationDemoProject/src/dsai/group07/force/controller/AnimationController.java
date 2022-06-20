@@ -2,6 +2,8 @@ package dsai.group07.force.controller;
 
 import dsai.group07.force.GameAnimationTimer;
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Cube;
+import dsai.group07.force.model.object.Cylinder;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
@@ -20,7 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 public class AnimationController {
@@ -33,7 +34,7 @@ public class AnimationController {
 	private ObjectContainerController objController;
 
 	private GameAnimationTimer timer;
-	private Simulation sim;
+	private Simulation simul;
 
 	private ParallelTransition parallelTransition;
 	
@@ -76,9 +77,6 @@ public class AnimationController {
 
     @FXML
 	public void initialize()  {
-    	sim = new Simulation();
-    	resetButton.disableProperty().bind(sim.isStartProperty().not());
-    	
     	
     	posPathLabel.textProperty().bind(pos.asString("Total Path: %.2f m"));
     	posVelLabel.textProperty().bind(vel.asString("Current Velocity: %.2f m/s"));
@@ -137,15 +135,10 @@ public class AnimationController {
             @Override
             public void tick(float secondsSinceLastFrame) {
             	vel.set(secondsSinceLastFrame * acce + vel.get());
-            	pos.set(secondsSinceLastFrame  * vel.get() + pos.get() );
+            	pos.set(secondsSinceLastFrame  * vel.get() + pos.get());
             }
         };
         
-//        backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
-//    	backGroundMiddleUp.fitHeightProperty().bind(topStackPane.heightProperty());
-//    	backGroundRightDown.fitHeightProperty().bind(bottomS);
-//    	backGroundMiddleDown.fitHeightProperty().bind(sce.heightProperty().multiply(0.3));
-       
 		
 //        startAmination();
 		
@@ -168,7 +161,9 @@ public class AnimationController {
             	}
             	
             	topStackPane.getChildren().add(circle);
- 
+            	
+            	this.simul.setObject(new Cylinder());
+            	
             	event.setDropCompleted(true);
             	
             }          
@@ -183,6 +178,8 @@ public class AnimationController {
             	}
             	
             	topStackPane.getChildren().add(rec);
+            	
+            	this.simul.setObject(new Cube());
             	
             	event.setDropCompleted(true);
             	
@@ -202,6 +199,8 @@ public class AnimationController {
     
     public void setObjController(ObjectContainerController objController) {
     	this.objController = objController;
+    	
+    	
     }
     
     public void setSce(Scene sce) {
@@ -211,8 +210,17 @@ public class AnimationController {
     	backGroundRightDown.fitHeightProperty().bind(sce.heightProperty().multiply(0.3));
     	backGroundMiddleDown.fitHeightProperty().bind(sce.heightProperty().multiply(0.3));
     }
+    
+    
    
-    public void startAmination() {
+    public void setSim(Simulation sim) {
+		this.simul = sim;
+		
+    	resetButton.disableProperty().bind(this.simul.isStartProperty().not());
+
+	}
+
+	public void startAmination() {
 		parallelTransition.play();
 		timer.start();
 			
@@ -242,10 +250,17 @@ public class AnimationController {
 	public void controlPressed() {
 		if( parallelTransition.getStatus() == Animation.Status.RUNNING ) {
 			pauseAnimation();
+			
+			//Testing
+			if (this.simul.getObj() != null) {
+			System.out.println(this.simul.getObj().getClass());}
+			else {
+				System.out.println("Null Object");
+			}
 		} else {
-			if (!sim.getIsStart()) {
+			if (!simul.getIsStart()) {
 				startAmination();
-				sim.setIsStart(true);;
+				simul.setIsStart(true);
 			}
 			else {
 				continueAnimation();
@@ -255,7 +270,7 @@ public class AnimationController {
 	
 	@FXML
 	public void resetButtonPressed() {
-		sim.restart();
+		simul.restart();
 		resetAnimation();
 	}
 	

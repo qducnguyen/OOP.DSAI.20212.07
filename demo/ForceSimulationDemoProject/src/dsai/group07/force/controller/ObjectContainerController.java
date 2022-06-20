@@ -2,6 +2,7 @@ package dsai.group07.force.controller;
 
 
 
+import dsai.group07.force.model.Simulation;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
@@ -19,7 +20,12 @@ import javafx.scene.shape.Shape;
 
 public class ObjectContainerController {
 
+	
 	private AnimationController aniController;
+    private Simulation simul;
+
+    
+    
 	private final DataFormat cirFormat = new DataFormat("dsai.group07.force.circle");
 	private final DataFormat recFormat = new DataFormat("dsai.group07.force.rec");
 	
@@ -48,6 +54,7 @@ public class ObjectContainerController {
     	cir.radiusProperty().bind(this.aniController.getTopStackPane().widthProperty().multiply(0.07));
     	rec.widthProperty().bind(this.aniController.getTopStackPane().widthProperty().multiply(0.11));
     	rec.heightProperty().bind(this.aniController.getTopStackPane().heightProperty().multiply(0.34));
+    	
 
 
 	}
@@ -61,6 +68,10 @@ public class ObjectContainerController {
     	
         //Drag and drop
         
+    	cir.setOnDragDetected(cirOnDragDectected);
+		rec.setOnDragDetected(recOnDragDectected);
+    	
+    	
         gridPaneObjectContainer.setOnDragDropped(event -> 
     	{
     		Dragboard db = event.getDragboard();
@@ -70,6 +81,8 @@ public class ObjectContainerController {
             	//TODO: another view for drag and drop ...
             	
             	gridPaneObjectContainer.add(cir, 1 , 0);
+            	//model
+            	this.simul.setObject(null);
             	
             	event.setDropCompleted(true);
             }          
@@ -77,6 +90,9 @@ public class ObjectContainerController {
             else if (db.hasContent(recFormat))
             {
             	gridPaneObjectContainer.add(rec, 0 , 0);
+            	
+            	this.simul.setObject(null);
+            	
             	event.setDropCompleted(true);
             }
 	});
@@ -126,8 +142,14 @@ public class ObjectContainerController {
     	return this.rec;
     }
 	
-    
-    private class EventDragDetected implements EventHandler<MouseEvent>{
+    public void setSimul(Simulation simul) {
+		this.simul = simul;
+		
+    	draggableCheckBox.selectedProperty().bind(this.simul.isStartProperty().not());
+
+	}
+
+	private class EventDragDetected implements EventHandler<MouseEvent>{
     	private final DataFormat shapeFormat;
     	public EventDragDetected(DataFormat data) {
     		this.shapeFormat = data;

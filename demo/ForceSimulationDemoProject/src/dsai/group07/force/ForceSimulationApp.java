@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import dsai.group07.force.controller.AnimationController;
 import dsai.group07.force.controller.ObjectContainerController;
+import dsai.group07.force.model.Simulation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,12 +17,19 @@ public class ForceSimulationApp extends Application  {
 	
 	private final String nameApp = "Force Simulation App";
 	
+	//Model
+	
+	private Simulation simul;
+	
+	
+	
 	private Stage primaryStage;
 	private GridPane rootLayout;
 	private Scene scene;
 	
 	private StackPane upStackPane;
 	private StackPane downStackPane;
+	
 	
 	GridPane controlPanel;
 	AnimationController con;
@@ -37,6 +45,8 @@ public class ForceSimulationApp extends Application  {
 		
 		this.primaryStage.setMinHeight(400);
 		this.primaryStage.setMinWidth(650);
+		
+		initSimulation();
 		
 		initRootLayout();
 		
@@ -77,6 +87,7 @@ public class ForceSimulationApp extends Application  {
 
 			con = loader.getController();
 			con.setSce(scene);
+			con.setSim(simul);
 			
 		}
 		catch(IOException e) {
@@ -110,6 +121,7 @@ public class ForceSimulationApp extends Application  {
 		
 		con.setObjController(objCon);
 		objCon.setAniController(con);
+		objCon.setSimul(simul);
 		
 		}
 		catch(IOException e) {
@@ -117,6 +129,10 @@ public class ForceSimulationApp extends Application  {
 		}
 	}
 	
+	
+	private void initSimulation() {
+		this.simul = new Simulation();
+	}
 	
 	public static void main(String[] args) {
 		launch(args);

@@ -21,7 +21,7 @@ public class Simulation {
 	private Force fForce;
 	
 	public Simulation() {
-		this.obj = new Cube();
+		this.obj = null;
 		this.sur = new Surface();
 		this.aForce = new AppliedForce(0);
 		this.fForce = new FrictionForce(0);
