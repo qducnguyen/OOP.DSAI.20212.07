@@ -33,9 +33,9 @@ public class ForceSimulationApp extends Application  {
 	private StackPane downStackPane;
 	
 	
-	GridPane controlPanel;
-	AnimationController con;
-	
+	private GridPane controlPanel;
+	private AnimationController con;
+	private ObjectContainerController objCon;
 	
 	
 	@Override
@@ -123,7 +123,7 @@ public class ForceSimulationApp extends Application  {
 		GridPane ObjectPanel = (GridPane) loader.load();
 		controlPanel.add(ObjectPanel, 0, 0);
 		
-		ObjectContainerController objCon = loader.getController();
+		objCon = loader.getController();
 		
 		objCon.setSimul(simul);
 		objCon.setTopStackPane(topStackPane);
@@ -146,8 +146,10 @@ public class ForceSimulationApp extends Application  {
 			
 			PauseResetPanelController resController = loader.getController();
 			
+			
 			resController.setSimul(simul);
 			resController.setAnimationController(con);
+			resController.setObjController(objCon);
 			
 			}
 		catch(IOException e) {

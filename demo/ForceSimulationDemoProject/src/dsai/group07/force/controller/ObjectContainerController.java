@@ -54,9 +54,9 @@ public class ObjectContainerController {
 		
     	//TODO: more binding for circle
 
-    	cir.radiusProperty().bind(downStackPane.heightProperty().multiply(0.3));
-    	rec.widthProperty().bind(downStackPane.widthProperty().multiply(0.1));
-    	rec.heightProperty().bind(downStackPane.heightProperty().multiply(0.8));
+    	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
+    	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+    	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
     	
 	}
 
@@ -216,7 +216,13 @@ public class ObjectContainerController {
     	
     }
     
-  
+	public void resetObjectPosition() {
+		topStackPane.getChildren().remove(rec);
+		topStackPane.getChildren().remove(cir);
+		gridPaneObjectContainer.getChildren().clear();
+		gridPaneObjectContainer.add(rec, 0 ,0);
+		gridPaneObjectContainer.add(cir, 1 ,0);
+	}
     
 	
 }

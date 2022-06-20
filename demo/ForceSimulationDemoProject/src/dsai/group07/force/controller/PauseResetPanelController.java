@@ -4,10 +4,13 @@ import dsai.group07.force.model.Simulation;
 import javafx.animation.Animation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 
 public class PauseResetPanelController {
 	private Simulation simul;
 	private AnimationController animationController;
+	
+	private ObjectContainerController objController;
 	
 
 	@FXML
@@ -16,8 +19,9 @@ public class PauseResetPanelController {
     @FXML
     Button resetButton;
 	
+    
 	
-	 @FXML
+	@FXML
    	public void initialize()  {
 		 
 	}
@@ -42,10 +46,16 @@ public class PauseResetPanelController {
 		}
 	 
 	 
+	public void setObjController(ObjectContainerController objController) {
+		this.objController = objController;
+	}
+
 	@FXML
 	public void resetButtonPressed() {
 		this.simul.restart();
 		this.animationController.resetAnimation();
+		this.objController.resetObjectPosition();
+		
 	}
 	
 	
@@ -70,6 +80,5 @@ public class PauseResetPanelController {
 			}
 		}
 	}
-	
 }
 	
