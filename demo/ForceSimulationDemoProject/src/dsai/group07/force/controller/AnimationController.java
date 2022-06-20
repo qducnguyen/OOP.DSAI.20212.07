@@ -40,7 +40,11 @@ public class AnimationController {
 	@FXML
 	private StackPane topStackPane;
 	
-    @FXML
+    public StackPane getTopStackPane() {
+		return topStackPane;
+	}
+
+	@FXML
     private ImageView backGroundMiddleUp;
 
     @FXML
@@ -136,6 +140,11 @@ public class AnimationController {
             	pos.set(secondsSinceLastFrame  * vel.get() + pos.get() );
             }
         };
+        
+//        backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
+//    	backGroundMiddleUp.fitHeightProperty().bind(topStackPane.heightProperty());
+//    	backGroundRightDown.fitHeightProperty().bind(bottomS);
+//    	backGroundMiddleDown.fitHeightProperty().bind(sce.heightProperty().multiply(0.3));
        
 		
 //        startAmination();
@@ -161,6 +170,7 @@ public class AnimationController {
             	topStackPane.getChildren().add(circle);
  
             	event.setDropCompleted(true);
+            	
             }          
             
             else if (db.hasContent(this.objController.getRecFormat())) {
@@ -175,6 +185,7 @@ public class AnimationController {
             	topStackPane.getChildren().add(rec);
             	
             	event.setDropCompleted(true);
+            	
             }
 	});
     
@@ -194,12 +205,13 @@ public class AnimationController {
     }
     
     public void setSce(Scene sce) {
+    	//TODO: We do not need the scene
     	backGroundRightUp.fitHeightProperty().bind(sce.heightProperty().multiply(0.7));
     	backGroundMiddleUp.fitHeightProperty().bind(sce.heightProperty().multiply(0.7));
     	backGroundRightDown.fitHeightProperty().bind(sce.heightProperty().multiply(0.3));
     	backGroundMiddleDown.fitHeightProperty().bind(sce.heightProperty().multiply(0.3));
     }
-    
+   
     public void startAmination() {
 		parallelTransition.play();
 		timer.start();

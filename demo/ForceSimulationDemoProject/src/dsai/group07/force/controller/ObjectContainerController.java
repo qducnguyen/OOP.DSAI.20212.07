@@ -19,6 +19,7 @@ import javafx.scene.shape.Shape;
 
 public class ObjectContainerController {
 
+	private AnimationController aniController;
 	private final DataFormat cirFormat = new DataFormat("dsai.group07.force.circle");
 	private final DataFormat recFormat = new DataFormat("dsai.group07.force.rec");
 	
@@ -35,22 +36,29 @@ public class ObjectContainerController {
     private CheckBox draggableCheckBox;
     
     
-    private EventDragDetected cirOnDragDectected = new EventDragDetected(cirFormat) ;
+
+
+	public void setAniController(AnimationController aniController) {
+		this.aniController = aniController;
+		
+		//Bind to topStackPane (debug)
+		
+    	//TODO: more binding for circle
+
+    	cir.radiusProperty().bind(this.aniController.getTopStackPane().widthProperty().multiply(0.07));
+    	rec.widthProperty().bind(this.aniController.getTopStackPane().widthProperty().multiply(0.11));
+    	rec.heightProperty().bind(this.aniController.getTopStackPane().heightProperty().multiply(0.34));
+
+
+	}
+
+
+	private EventDragDetected cirOnDragDectected = new EventDragDetected(cirFormat) ;
     private EventDragDetected recOnDragDectected = new EventDragDetected(recFormat) ;
     
     @FXML
    	public void initialize()  {
-    	rec.widthProperty().bind(gridPaneObjectContainer.widthProperty().multiply(0.4));
-    	rec.heightProperty().bind(gridPaneObjectContainer.heightProperty().multiply(0.8));
-    	cir.radiusProperty().bind(gridPaneObjectContainer.widthProperty().multiply(0.2));
-    	//TODO: more binding for circle
     	
-    	
-//        cir.setOnDragDetected(cirOnDragDectected);
-//        rec.setOnDragDetected(recOnDragDectected);
-        
-        
-        
         //Drag and drop
         
         gridPaneObjectContainer.setOnDragDropped(event -> 

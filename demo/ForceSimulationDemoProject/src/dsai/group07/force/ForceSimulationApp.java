@@ -3,6 +3,7 @@ package dsai.group07.force;
 import java.io.IOException;
 
 import dsai.group07.force.controller.AnimationController;
+import dsai.group07.force.controller.ObjectContainerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -105,8 +106,10 @@ public class ForceSimulationApp extends Application  {
 		GridPane ObjectPanel = (GridPane) loader.load();
 		controlPanel.add(ObjectPanel, 0, 0);
 		
+		ObjectContainerController objCon = loader.getController();
 		
-		con.setObjController(loader.getController());
+		con.setObjController(objCon);
+		objCon.setAniController(con);
 		
 		}
 		catch(IOException e) {
