@@ -80,7 +80,11 @@ public class ObjectContainerController {
 	            	
 	            	topStackPane.getChildren().add(cir);
 	            	
-	            	this.simul.setObject(new Cylinder());
+	            	try {
+						this.simul.setObject(new Cylinder());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 	            	
 	            	event.setDropCompleted(true);
 	            	
@@ -96,7 +100,11 @@ public class ObjectContainerController {
 	            	
 	            	topStackPane.getChildren().add(rec);
 	            	
-	            	this.simul.setObject(new Cube());
+	            	try {
+						this.simul.setObject(new Cube());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 	            	
 	            	event.setDropCompleted(true);
 	            	
