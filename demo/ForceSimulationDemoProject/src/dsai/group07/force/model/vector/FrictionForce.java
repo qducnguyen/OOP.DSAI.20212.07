@@ -22,11 +22,71 @@ public class FrictionForce extends Force {
 		this.surface = surface;
 		this.mainObj = mainObj;
 		this.aForce = aForce;
-		//Add listener to changes of Simulation
-		updateValue();
+		updateFrictionForce();
+		objectListener();
+		aForceListener();
+		surfaceListener();
 	}
 	
-	public void updateValue() {
+	public void surfaceListener() {
+		try {
+			surface.staCoefProperty().addListener(observable -> {
+				try {
+					updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			
+			surface.kiCoefProperty().addListener(observable -> {
+				try {
+					updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void objectListener() {
+		try {
+			mainObj.massProperty().addListener(observable -> {
+				try {
+					updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			
+			mainObj.velProperty().valueProperty().addListener(observable -> {
+				try {
+					updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void aForceListener() {
+		try {
+			aForce.valueProperty().addListener(observable -> {
+				try {
+					updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateFrictionForce() {
 		double normalForce = g * mainObj.getMass();
 		
 		if (mainObj instanceof Cube) {
@@ -45,8 +105,22 @@ public class FrictionForce extends Force {
 				setValue(sign * surface.getKiCoef() * normalForce); 
 			}
 		} else if (mainObj instanceof Cylinder) {
-			
+			if (aForce.getLength() <= 3 * normalForce * surface.getStaCoef()) {
+				if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
+					mainObj.setVel(0);
+					setValue(-aForce.getValue() / 3);
+				} else {
+					double sign = -Math.signum(mainObj.velProperty().getValue());
+					setValue(sign * surface.getKiCoef() * normalForce);
+				}
+			} else {
+				double sign = -Math.signum(mainObj.velProperty().getValue());
+				setValue(sign * surface.getKiCoef() * normalForce);
+			}
 		}
 	}
 
 }
+
+
+

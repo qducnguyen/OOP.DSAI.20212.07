@@ -14,11 +14,11 @@ public class Cylinder extends MainObject implements Rotatable{
 	private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS);
 	public static final double MAX_RADIUS = 1.0;
 	
-	public Cylinder() {
+	public Cylinder() throws Exception {
 		super();
 	}
 	
-	public Cylinder(double mass) throws ArithmeticException {
+	public Cylinder(double mass) throws Exception {
 		super(mass);
 	}
 
@@ -97,16 +97,23 @@ public class Cylinder extends MainObject implements Rotatable{
 	}
 
 	@Override
-	public void setRadius(double radius) throws ArithmeticException {
+	public void setRadius(double radius) throws Exception {
 		if (radius <= 0) {
 			this.radius.setValue(0.001);
-			throw new ArithmeticException("The radius of object must be > 0 and <= " + MAX_RADIUS);
+			throw new Exception("The radius of object must be > 0 and <= " + MAX_RADIUS);
 		} else if (radius > MAX_RADIUS) {
 			this.radius.setValue(MAX_RADIUS);
-			throw new ArithmeticException("The radius of object must be > 0 and <= " + MAX_RADIUS);
+			throw new Exception("The radius of object must be > 0 and <= " + MAX_RADIUS);
 		} else {
 			this.radius.setValue(radius);
 		}
+	}
+
+	@Override
+	public void applyForceInTimeRotate(Force force, double t) throws Exception {
+		updateAngAcc(force);
+		updateAngVel(angAcc.get(), t);
+		updateAngle(angVel.get(), t);
 	}
 }
 

@@ -1,6 +1,9 @@
 package dsai.group07.force.model;
 
+import java.awt.Robot;
+
 import dsai.group07.force.model.object.MainObject;
+import dsai.group07.force.model.object.Rotatable;
 import dsai.group07.force.model.surface.Surface;
 import dsai.group07.force.model.vector.AppliedForce;
 import dsai.group07.force.model.vector.Force;
@@ -16,22 +19,22 @@ public class Simulation {
 	private BooleanProperty isStart = new SimpleBooleanProperty(false); 
 	private BooleanProperty isPause ;
 	private MainObject obj;
-	private Surface sur;
+	private Surface surface;
 	private Force aForce;
 	private Force fForce;
 	
 	public Simulation() {
 		this.obj = null;
-		this.sur = new Surface();
+		this.surface = new Surface();
 		this.aForce = new AppliedForce(0);
 		this.fForce = new FrictionForce(0);
 	}
 	
-	public Simulation(MainObject mainObj, Surface sur, AppliedForce aForce) {
+	public Simulation(MainObject mainObj, Surface surface, AppliedForce aForce) {
 		this.obj = mainObj;
-		this.sur = sur;
+		this.surface = surface;
 		this.aForce = aForce;
-		this.fForce = new FrictionForce(0, this);
+		this.fForce = new FrictionForce(0, surface, mainObj, aForce);
 	}
 	
 	public MainObject getObj() {
@@ -43,7 +46,7 @@ public class Simulation {
 	}
 	
 	public Surface getSur() {
-		return sur;
+		return surface;
 	}
 	
 	public Force getaForce() {
@@ -56,10 +59,6 @@ public class Simulation {
 
 	public Force getfForce() {
 		return fForce;
-	}
-
-	public void setfForce(double fForce) {
-		this.fForce.setValue(fForce);
 	}
 	
 	public Force getNetForce() {
@@ -93,8 +92,6 @@ public class Simulation {
 		setObject(null);
 	}
 	
-	
-	
 	public BooleanProperty isPauseProperty() {
 		return isPause;
 	}
@@ -112,11 +109,18 @@ public class Simulation {
 	}
 	
 	public HorizontalVector getObjVel() {
-		return getObj().getVel();
+		return getObj().velProperty();
 	}
 	
 	public void applyForceInTime(Force force, double t) {
-		getObj().applyForceInTime(force, t);
+		obj.applyForceInTime(force, t);
+		if (obj instanceof Rotatable) {
+			try {
+				((Rotatable) obj).applyForceInTimeRotate(force, t);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

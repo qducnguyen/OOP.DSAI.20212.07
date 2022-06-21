@@ -20,9 +20,9 @@ public abstract class MainObject {
 		return mass.get();
 	}
 	
-	public void setMass(double mass) throws ArithmeticException {
+	public void setMass(double mass) throws Exception {
 		if (mass <= 0) {
-			throw new ArithmeticException("Object's mass must be > 0");
+			throw new Exception("Object's mass must be > 0");
 		} else {
 			this.mass.setValue(mass);
 		}
@@ -54,7 +54,8 @@ public abstract class MainObject {
 	
 	public void applyForceInTime(Force force, double t) {
 		updateAcc(force);
-		updateVel(this.acc.getValue(), t);
+		updateVel(acc.getValue(), t);
+		updatePos(vel.getValue(), t);
 	}
 	
 	public DoubleProperty posProperty() {
@@ -69,15 +70,15 @@ public abstract class MainObject {
 		this.pos.setValue(pos);
 	}
 	
-	public void updatePos(HorizontalVector vel, double t) {
-		setPos(getPos() + vel.getValue() * t); 
+	public void updatePos(double v, double t) {
+		setPos(getPos() + v * t); 
 	}
 	
-	public MainObject() {
+	public MainObject() throws Exception {
 		setMass(0.001);
 	}
 	
-	public MainObject(double mass) throws ArithmeticException {
+	public MainObject(double mass) throws Exception {
 		setMass(mass);
 	}
 

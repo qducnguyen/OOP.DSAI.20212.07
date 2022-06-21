@@ -23,9 +23,9 @@ public interface Rotatable {
 	
 	DoubleProperty radiusProperty();
 	double getRadius();
-	void setRadius(double radius);
+	void setRadius(double radius) throws Exception;
 	
-	void applyForceInTime(Force force, double t);
+	void applyForceInTimeRotate(Force force, double t) throws Exception;
 	
 	//void upAngAcc(HorizontalDirection fric);
 	//void upAngVel(HorizontalDirection fric);
