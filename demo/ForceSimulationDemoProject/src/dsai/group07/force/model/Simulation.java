@@ -8,38 +8,72 @@ import dsai.group07.force.model.vector.FrictionForce;
 import dsai.group07.force.model.vector.HorizontalVector;
 import dsai.group07.force.model.vector.NetForce;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class Simulation {
 	
 	
 	private BooleanProperty isStart = new SimpleBooleanProperty(false); 
-	private BooleanProperty isPause ;
-	private MainObject obj;
+	private BooleanProperty isPause = new SimpleBooleanProperty(true);
+	private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
+	private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
+	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
 	private Surface sur;
 	private Force aForce;
 	private Force fForce;
 	
+	
+	
+	
+	public void setSysVel(HorizontalVector horizontalVector) {
+		this.sysVel.set(horizontalVector);
+	}
+
+	public void setSysAcc(HorizontalVector horizontalVector) {
+		this.sysAcc.set(horizontalVector);
+	}
+	
+	public ObjectProperty<HorizontalVector> sysVelProperty() {
+		return sysVel;
+	}
+
+	public ObjectProperty<HorizontalVector> sysAccProperty() {
+		return sysAcc;
+	}
+
 	public Simulation() {
-		this.obj = null;
 		this.sur = new Surface();
 		this.aForce = new AppliedForce(0);
 		this.fForce = new FrictionForce(0);
 	}
 	
 	public Simulation(MainObject mainObj, Surface sur, AppliedForce aForce) {
-		this.obj = mainObj;
+		this.obj.set(mainObj);
 		this.sur = sur;
 		this.aForce = aForce;
 		this.fForce = new FrictionForce(0, this);
 	}
 	
+	public ObjectProperty<MainObject> objProperty(){
+		return this.obj;
+	}
+	
 	public MainObject getObj() {
-		return obj;
+		return this.obj.get();
 	}
 	
 	public void setObject(MainObject obj) {
-		this.obj = obj;
+		this.obj.set(obj);
+		if (obj == null) {
+			this.sysAcc.set(new HorizontalVector(0));
+			this.sysVel.set(new HorizontalVector(0));
+		}
+		else {
+		this.sysAcc.set(obj.getAcc());
+		this.sysVel.set(obj.getVel());
+		}
 	}
 	
 	public Surface getSur() {

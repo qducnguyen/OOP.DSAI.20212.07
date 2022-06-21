@@ -6,10 +6,7 @@ import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -55,22 +52,10 @@ public class AnimationController {
     private ImageView backGroundMiddleDown;
 
     @FXML
-    Label posPathLabel;
-    
-    @FXML
-    Label posVelLabel;
-    
-    @FXML
     private ImageView backGroundRightDown;
-    
-    DoubleProperty pos  = new SimpleDoubleProperty(0);
-	DoubleProperty vel  = new SimpleDoubleProperty(0);
 
     @FXML
 	public void initialize()  {
-    	
-    	posPathLabel.textProperty().bind(pos.asString("Total Path: %.2f m"));
-    	posVelLabel.textProperty().bind(vel.asString("Current Velocity: %.2f m/s"));
     	
 		TranslateTransition translateTransition =
 				new TranslateTransition(Duration.millis(numDuration), backGroundRightUp);
@@ -109,15 +94,8 @@ public class AnimationController {
 				new ParallelTransition(parallelTransitionUp,parallelTransitionDown );
 
 		 
-		 parallelTransition.rateProperty().bind(vel.multiply(0.5));
-
-		timer = new GameAnimationTimer() {
-            @Override
-            public void tick(float secondsSinceLastFrame) {
-            	vel.set(secondsSinceLastFrame * acce + vel.get());
-            	pos.set(secondsSinceLastFrame  * vel.get() + pos.get());
-            }
-        };
+		 parallelTransition.setRate(0);
+		
 		
         // Responsive app
         backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
@@ -129,6 +107,24 @@ public class AnimationController {
     
     public void setSim(Simulation sim) {
 		this.simul = sim;
+		
+		timer = new GameAnimationTimer() {
+            @Override
+            public void tick(float secondsSinceLastFrame) {
+            	if(simul.getObj() != null) {
+        		simul.getObj().setAccValue(acce);
+            	simul.getObj().updateVel(secondsSinceLastFrame);}
+            	else {
+            		System.out.println("There is something wrong ...");
+            	}
+            }
+        };
+        
+        this.simul.sysVelProperty().addListener(
+        		(observable, oldValue, newValue) -> 
+        		{
+        			parallelTransition.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+        		});
 	}
 
 	public void startAmination() {
@@ -151,8 +147,6 @@ public class AnimationController {
 		parallelTransition.jumpTo(Duration.ZERO);
 		parallelTransition.stop();
 		timer.stop();
-		vel.set(0);
-		pos.set(0);
 	}
 	
 }

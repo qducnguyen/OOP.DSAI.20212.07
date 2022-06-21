@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -40,12 +39,6 @@
                   </ImageView>
                </children>
             </StackPane>
-            <Label fx:id="posVelLabel" text="Label" StackPane.alignment="TOP_CENTER">
-               <StackPane.margin>
-                  <Insets top="25.0" />
-               </StackPane.margin>
-            </Label>
-            <Label fx:id="posPathLabel" text="Label" StackPane.alignment="TOP_CENTER" />
          </children>
       </StackPane>
       <StackPane fx:id="downStackPane" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">

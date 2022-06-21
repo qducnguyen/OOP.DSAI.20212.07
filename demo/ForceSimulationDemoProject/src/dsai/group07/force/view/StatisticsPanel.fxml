@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
+   <children>
+      <Label fx:id="posLabel" text="Label" textFill="ORANGE" StackPane.alignment="CENTER_LEFT">
+         <StackPane.margin>
+            <Insets bottom="50.0" left="25.0" />
+         </StackPane.margin>
+      </Label>
+      <Label fx:id="velLabel" text="Label" textFill="ORANGE" StackPane.alignment="CENTER_LEFT">
+         <StackPane.margin>
+            <Insets left="25.0" top="25.0" />
+         </StackPane.margin>
+      </Label>
+   </children>
+</StackPane>

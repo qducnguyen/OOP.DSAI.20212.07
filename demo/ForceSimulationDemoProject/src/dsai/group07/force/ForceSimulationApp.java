@@ -5,6 +5,7 @@ import java.io.IOException;
 import dsai.group07.force.controller.AnimationController;
 import dsai.group07.force.controller.ObjectContainerController;
 import dsai.group07.force.controller.PauseResetPanelController;
+import dsai.group07.force.controller.StatisticsPanelController;
 import dsai.group07.force.model.Simulation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -109,6 +110,9 @@ public class ForceSimulationApp extends Application  {
 			
 			showRecCir();
 			
+			showStatisticsPanel();
+			
+			//This method is always at the last
 			showPauseResetPanel();
 		}
 		catch(IOException e) {
@@ -155,6 +159,24 @@ public class ForceSimulationApp extends Application  {
 		catch(IOException e) {
 				e.printStackTrace();
 			}
+	}
+	
+	private void showStatisticsPanel() {
+		try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
+		StackPane panel = (StackPane) loader.load();
+		
+		topStackPane.getChildren().add(panel);
+		
+		StatisticsPanelController staController = loader.getController();
+		
+		staController.setSimul(simul);
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void initSimulation() {
