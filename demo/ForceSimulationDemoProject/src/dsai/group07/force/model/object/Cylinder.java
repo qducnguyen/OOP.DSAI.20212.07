@@ -1,30 +1,112 @@
 package dsai.group07.force.model.object;
 
+import dsai.group07.force.model.vector.Force;
+import dsai.group07.force.model.vector.FrictionForce;
 import javafx.beans.property.DoubleProperty;
-import javafx.geometry.HorizontalDirection;
+import javafx.beans.property.SimpleDoubleProperty;
+//import javafx.geometry.HorizontalDirection;
 
 public class Cylinder extends MainObject implements Rotatable{
+
+	private DoubleProperty angle = new SimpleDoubleProperty();
+	private DoubleProperty angAcc = new SimpleDoubleProperty();
+	private DoubleProperty angVel = new SimpleDoubleProperty();
+	private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS);
+	public static final double MAX_RADIUS = 1.0;
 	
-	@Override
-	public DoubleProperty getAngAcc() {
-		// TODO Auto-generated method stub
-		return null;
+	public Cylinder() {
+		super();
 	}
 	
-	@Override
-	public DoubleProperty getAngVel() {
-		// TODO Auto-generated method stub
-		return null;
+	public Cylinder(double mass) throws ArithmeticException {
+		super(mass);
 	}
+
 	@Override
-	public void upAngAcc(HorizontalDirection fric) {
-		// TODO Auto-generated method stub
-		
+	public DoubleProperty angAccProperty() {
+		return angAcc;
 	}
+
 	@Override
-	public void upAngVel(HorizontalDirection fric) {
-		// TODO Auto-generated method stub
-		
+	public double getAngAcc() {
+		return angAcc.get();
+	}
+
+	@Override
+	public void setAngAcc(double angAcc) {
+		this.angAcc.setValue(angAcc);
+	}
+
+	@Override
+	public void updateAngAcc(Force force) throws Exception {
+		if (force instanceof FrictionForce) {
+			setAngAcc(force.getValue() / (0.5 * getMass() * getRadius() * getRadius()));
+		} else {
+			throw new Exception("No friction force, object just translates");
+		}
+	}
+
+	@Override
+	public DoubleProperty angVelProperty() {
+		return angVel;
+	}
+
+	@Override
+	public double getAngVel() {
+		return angVel.get();
+	}
+
+	@Override
+	public void setAngVel(double angVel) {
+		this.angVel.setValue(angVel);
+	}
+
+	@Override
+	public void updateAngVel(double angAcc, double t) {
+		setAngVel(getAngVel() + angAcc * t);
+	}
+
+	@Override
+	public DoubleProperty angleProperty() {
+		return angle;
+	}
+
+	@Override
+	public double getAngle() {
+		return angle.get();
+	}
+
+	@Override
+	public void setAngle(double angle) {
+		this.angle.setValue(angle);
+	}
+
+	@Override
+	public void updateAngle(double angVel, double t) {
+		setAngle(getAngle() + getAngVel() * t); 
+	}
+
+	@Override
+	public DoubleProperty radiusProperty() {
+		return radius;
+	}
+
+	@Override
+	public double getRadius() {
+		return radius.get();
+	}
+
+	@Override
+	public void setRadius(double radius) throws ArithmeticException {
+		if (radius <= 0) {
+			this.radius.setValue(0.001);
+			throw new ArithmeticException("The radius of object must be > 0 and <= " + MAX_RADIUS);
+		} else if (radius > MAX_RADIUS) {
+			this.radius.setValue(MAX_RADIUS);
+			throw new ArithmeticException("The radius of object must be > 0 and <= " + MAX_RADIUS);
+		} else {
+			this.radius.setValue(radius);
+		}
 	}
 }
 

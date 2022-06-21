@@ -7,24 +7,16 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class HorizontalVector {
 	
-	private BooleanProperty direction = new SimpleBooleanProperty(true);
-	private DoubleProperty value = new SimpleDoubleProperty(0.0);
+	protected BooleanProperty direction = new SimpleBooleanProperty(true);
+	protected DoubleProperty value = new SimpleDoubleProperty(0.0);
 	
 	public HorizontalVector(double value) {
 		this.setValue(value);
-	}
-	
-	public static final HorizontalVector sumTwoVector(HorizontalVector v1, HorizontalVector v2) {
-		HorizontalVector result = new HorizontalVector(v1.getValue() + v2.getValue());
-		result.updateValueDirection();
-		return result;
-		
 	}
 
 	public BooleanProperty directionProperty() {
 		return this.direction;
 	}
-	
 	
 	public boolean getDirection() {
 		return this.direction.get();
@@ -52,7 +44,7 @@ public class HorizontalVector {
 		return Math.abs(this.value.doubleValue());	
 	}
 	
-	private void updateValueDirection() {
+	protected void updateValueDirection() {
 		if(this.getValue() >= 0) {
 			this.direction.set(true);;
 		}
@@ -61,7 +53,7 @@ public class HorizontalVector {
 		}
 	}
 	
-	private void updateDirectionValue() {
+	protected void updateDirectionValue() {
 		double absValue = Math.abs(this.getValue());
 		if (this.getDirection()) {
 			this.value.set(absValue);

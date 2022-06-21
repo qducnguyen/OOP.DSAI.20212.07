@@ -64,7 +64,7 @@ public class ForceSimulationApp extends Application  {
 	private void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/dsai/group07/force/view/Rootlayout.fxml"));
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/RootLayout.fxml"));
 			rootLayout = (GridPane) loader.load();
 			
 			Scene scene = new Scene(rootLayout);
