@@ -11,7 +11,8 @@ public class ForceSimulationApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+		
+		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/ForceSimulationApp.fxml") );
 		Parent p = fxmlLoader.load();
 		
