@@ -1,6 +1,6 @@
 # Eclipse JavaFX
-*.classpath
-*.project
+.classpath
+.project
 
 
 # Compiled class file
