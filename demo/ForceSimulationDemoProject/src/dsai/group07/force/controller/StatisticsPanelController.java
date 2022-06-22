@@ -8,16 +8,35 @@ public class StatisticsPanelController {
 	
 	private Simulation simul;
 	
-	@FXML
-	Label velLabel;
-    
+
     @FXML
-    Label posLabel;
+    private Label posLabel;
+
+    @FXML
+    private Label accLabel;
+
+    @FXML
+    private Label velLabel;
+
+    @FXML
+    private Label aForceLabel;
+
+    @FXML
+    private Label fForceLabel;
+
+    @FXML
+    private Label sumForceLabel;
+    
+    
 	
 	@FXML
    	public void initialize()  {
+		 accLabel.setText("Current Accelerate: 0.00 m/s^2");
 		 velLabel.setText("Current Velocity : 0.00 m/s");
 		 posLabel.setText("Current Position : 0.00 m");
+		 aForceLabel.setText("Applied Force: 0 N");
+		 fForceLabel.setText("Friction Force: 0 N");
+		 sumForceLabel.setText("Sum Force: 0 N");
 	}
 	
 	public void setSimul(Simulation simul) {

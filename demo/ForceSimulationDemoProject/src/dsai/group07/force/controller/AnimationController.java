@@ -14,8 +14,8 @@ import javafx.util.Duration;
 public class AnimationController {
 	
 	private final int BACKGROUND_WIDTH = 2000;
-	private final float ratioTwoBackGround = 5.0f;
-	private final int numDuration = 40000;
+	private final float ratioTwoBackGround = 20.0f;
+	private final int numDuration = 120000;
 	private final double acce = 0.05;
 	
 
