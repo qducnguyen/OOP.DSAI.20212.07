@@ -112,7 +112,7 @@ public class AnimationController {
             @Override
             public void tick(float secondsSinceLastFrame) {
             	if(simul.getObj() != null) {
-        		simul.getObj().setAccValue(acce);
+        		simul.getObj().setAcc(acce);
             	simul.getObj().updateVel(secondsSinceLastFrame);}
             	else {
             		System.out.println("There is something wrong ...");

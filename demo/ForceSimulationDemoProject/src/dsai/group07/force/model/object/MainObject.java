@@ -40,6 +40,7 @@ public abstract class MainObject {
 		this.acc.setValue(acc);
 	}
 	
+	
 	public void setVel(double vel) {
 		this.vel.setValue(vel);
 	}
@@ -48,13 +49,13 @@ public abstract class MainObject {
 		setAcc(force.getValue() / getMass());
 	}
 	
-	public void updateVel(double a, double t) {
-		setVel(velProperty().getValue() + a * t);
+	public void updateVel(double t) {
+		setVel(velProperty().getValue() + this.accProperty().getValue() * t);
 	}
 	
 	public void applyForceInTime(Force force, double t) {
 		updateAcc(force);
-		updateVel(acc.getValue(), t);
+		updateVel(t);
 		updatePos(vel.getValue(), t);
 	}
 	

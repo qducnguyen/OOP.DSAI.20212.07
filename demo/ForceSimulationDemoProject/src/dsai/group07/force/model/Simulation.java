@@ -1,7 +1,5 @@
 package dsai.group07.force.model;
 
-import java.awt.Robot;
-
 import dsai.group07.force.model.object.MainObject;
 import dsai.group07.force.model.object.Rotatable;
 import dsai.group07.force.model.surface.Surface;
@@ -23,13 +21,9 @@ public class Simulation {
 	private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
-	private BooleanProperty isPause ;
-	private MainObject obj;
 	private Surface surface;
 	private Force aForce;
 	private Force fForce;
-	
-	
 	
 	
 	public void setSysVel(HorizontalVector horizontalVector) {
@@ -50,7 +44,6 @@ public class Simulation {
 
 	public Simulation() {
 
-		this.obj = null;
 		this.surface = new Surface();
 		this.aForce = new AppliedForce(0);
 		this.fForce = new FrictionForce(0);
@@ -78,8 +71,8 @@ public class Simulation {
 			this.sysVel.set(new HorizontalVector(0));
 		}
 		else {
-		this.sysAcc.set(obj.getAcc());
-		this.sysVel.set(obj.getVel());
+		this.sysAcc.set(obj.accProperty());
+		this.sysVel.set(obj.velProperty());
 		}
 	}
 	
@@ -151,8 +144,8 @@ public class Simulation {
 	}
 	
 	public void applyForceInTime(Force force, double t) {
-		obj.applyForceInTime(force, t);
-		if (obj instanceof Rotatable) {
+		obj.get().applyForceInTime(force, t);
+		if (obj.get() instanceof Rotatable) {
 			try {
 				((Rotatable) obj).applyForceInTimeRotate(force, t);
 			} catch (Exception e) {
