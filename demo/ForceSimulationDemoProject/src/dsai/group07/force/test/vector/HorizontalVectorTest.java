@@ -14,9 +14,9 @@ public class HorizontalVectorTest {
 		System.out.println(vec.getDirection());
 		
 		HorizontalVector vec2 = new HorizontalVector(3.0);
-		HorizontalVector result = HorizontalVector.sumTwoVector(vec, vec2);
-		System.out.println(result.getDirection());
-		System.out.println(result.getValue());
+		//HorizontalVector result = HorizontalVector.sumTwoVector(vec, vec2);
+		//System.out.println(result.getDirection());
+		//System.out.println(result.getValue());
 	}
 	
 }

@@ -2,53 +2,84 @@ package dsai.group07.force.model.object;
 
 import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.HorizontalVector;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.DoubleProperty;
 
 public abstract class MainObject {
-	private IntegerProperty mass = new SimpleIntegerProperty(0);
+	
+	private DoubleProperty mass = new SimpleDoubleProperty();
 	private HorizontalVector acc = new HorizontalVector(0.0);
 	private HorizontalVector vel = new HorizontalVector(0.0);
-	private DoubleProperty pos = new SimpleDoubleProperty(0.0);
+	private DoubleProperty pos = new SimpleDoubleProperty();
 	
-	public IntegerProperty massProperty() {
-		return this.mass;
+	public DoubleProperty massProperty() {
+		return mass;
 	}
 	
-	public int getMass() {
-		return this.mass.get();
+	public double getMass() {
+		return mass.get();
 	}
 	
-	public void setMass(int mass) {
-		this.mass.setValue(mass);
+	public void setMass(double mass) throws Exception {
+		if (mass <= 0) {
+			throw new Exception("Object's mass must be > 0");
+		} else {
+			this.mass.setValue(mass);
+		}
 	}
 
-	public HorizontalVector getAcc() {
+	public HorizontalVector accProperty() {
 		return acc;
 	}
 
-	public HorizontalVector getVel() {
+	public HorizontalVector velProperty() {
 		return vel;
 	}
 	
-	public void setAccValue(double acc) {
+	public void setAcc(double acc) {
 		this.acc.setValue(acc);
 	}
 	
-	public void updateVel(double t) {
-		double a = getAcc().getValue();
-		this.vel.setValue(getVel().getValue() + a * t);
-	};
+	public void setVel(double vel) {
+		this.vel.setValue(vel);
+	}
 	
 	public void updateAcc(Force force) {
-		this.acc.setValue(force.getValue() / getMass());
-	};
+		setAcc(force.getValue() / getMass());
+	}
+	
+	public void updateVel(double a, double t) {
+		setVel(velProperty().getValue() + a * t);
+	}
 	
 	public void applyForceInTime(Force force, double t) {
 		updateAcc(force);
-		updateVel(t);
+		updateVel(acc.getValue(), t);
+		updatePos(vel.getValue(), t);
+	}
+	
+	public DoubleProperty posProperty() {
+		return pos;
+	}
+	
+	public double getPos() {
+		return pos.get();
+	}
+	
+	public void setPos(double pos) {
+		this.pos.setValue(pos);
+	}
+	
+	public void updatePos(double v, double t) {
+		setPos(getPos() + v * t); 
+	}
+	
+	public MainObject() throws Exception {
+		setMass(0.001);
+	}
+	
+	public MainObject(double mass) throws Exception {
+		setMass(mass);
 	}
 
 }

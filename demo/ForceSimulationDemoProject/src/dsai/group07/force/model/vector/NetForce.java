@@ -13,11 +13,35 @@ public class NetForce extends Force {
 		super(value);
 		this.aForce = aForce;
 		this.fForce = fForce;
-		updateValue();
+		updateNetForce();
+		forcesListener();
 	}
 	
-	public void updateValue() {
-		//TODO: Use aForce and fForce to calculate netForce
+	public void updateNetForce() {
+		Force netForce = sumTwoForce(aForce, fForce);
+		setValue(netForce.getValue());
+	}
+	
+	public void forcesListener() {
+		try {
+			aForce.valueProperty().addListener(observable -> {
+				try {
+					updateNetForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			
+			fForce.valueProperty().addListener(observable -> {
+				try {
+					updateNetForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
