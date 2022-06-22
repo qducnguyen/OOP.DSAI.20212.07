@@ -131,6 +131,8 @@ public class ObjectContainerController {
     @FXML
    	public void initialize()  {
     	
+    	
+    	
         //Drag and drop
         
     	cir.setOnDragDetected(cirOnDragDectected);
@@ -183,8 +185,8 @@ public class ObjectContainerController {
         				rec.setOnDragDetected(recOnDragDectected);
         			}
         			else {
-        				cir.setOnDragDetected(null);
-        				rec.setOnDragDetected(null);
+            				rec.setOnDragDetected(null);
+        					cir.setOnDragDetected(null);
         			}
         		});
         
@@ -196,6 +198,19 @@ public class ObjectContainerController {
 		this.simul = simul;
 		
     	draggableCheckBox.selectedProperty().bind(this.simul.isStartProperty().not());
+    	
+    	this.simul.objProperty().addListener(
+    			(observable, oldValue, newValue) -> 
+    			{	
+    				if(newValue == null) {
+    					System.out.println("Null Object");
+    					
+    				}
+    				else {
+    					System.out.println(newValue.getClass());
+    				
+    				}
+    			});
 
 	}
 
