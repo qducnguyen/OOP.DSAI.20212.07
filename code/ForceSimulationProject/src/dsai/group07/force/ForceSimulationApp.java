@@ -25,8 +25,6 @@ public class ForceSimulationApp extends Application  {
 	
 	private Simulation simul;
 	
-	
-	
 	private Stage primaryStage;
 	private GridPane rootLayout;
 	
