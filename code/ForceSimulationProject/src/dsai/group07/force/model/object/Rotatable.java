@@ -2,7 +2,7 @@ package dsai.group07.force.model.object;
 
 import dsai.group07.force.model.vector.Force;
 import javafx.beans.property.DoubleProperty;
-//import javafx.geometry.HorizontalDirection;
+
 
 public interface Rotatable {
 	
@@ -27,6 +27,4 @@ public interface Rotatable {
 	
 	void applyForceInTimeRotate(Force force, double t) throws Exception;
 	
-	//void upAngAcc(HorizontalDirection fric);
-	//void upAngVel(HorizontalDirection fric);
 }

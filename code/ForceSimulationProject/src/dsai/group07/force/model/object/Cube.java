@@ -5,8 +5,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Cube extends MainObject {
 	
-	private DoubleProperty size = new SimpleDoubleProperty(MAX_SIZE);
+	
 	public static final double MAX_SIZE = 1.0;
+	private DoubleProperty size = new SimpleDoubleProperty(MAX_SIZE);
+	
 	
 	public Cube() throws Exception {
 		super();
@@ -17,10 +19,11 @@ public class Cube extends MainObject {
 	}
 	
 	public Cube(double mass, double size) throws Exception {
-		this(mass);
+		super(mass);
 		setSize(size);
 	}
 	
+	// Method for size in object
 	public DoubleProperty sizeProperty() {
 		return size;
 	}
@@ -33,10 +36,12 @@ public class Cube extends MainObject {
 		if (size <=  0) {
 			setSize(0.001);
 			throw new Exception("Cube's size must > 0 and <= " + MAX_SIZE);
-		} else if (size > MAX_SIZE) {
+		} 
+		else if (size > MAX_SIZE) {
 			setSize(MAX_SIZE);
 			throw new Exception("Cube's size must > 0 and <= " + MAX_SIZE);
-		} else {
+		} 
+		else {
 			this.size.setValue(size);
 		}
 	}

@@ -24,12 +24,10 @@ public class ForceSimulationApp extends Application  {
 	//Model
 	
 	private Simulation simul;
-	
-	
-	
+
 	private Stage primaryStage;
-	private GridPane rootLayout;
 	
+	private GridPane rootLayout;	
 	private StackPane topStackPane;
 	private StackPane downStackPane;
 	
@@ -56,9 +54,11 @@ public class ForceSimulationApp extends Application  {
 		showAnimation();
 		
 		showControlPane();
-		
-		
-		
+
+	}
+	
+	private void initSimulation() {
+		this.simul = new Simulation();
 	}
 	
 	
@@ -66,11 +66,11 @@ public class ForceSimulationApp extends Application  {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/RootLayout.fxml"));
-			rootLayout = (GridPane) loader.load();
+			this.rootLayout = (GridPane) loader.load();
 			
 			Scene scene = new Scene(rootLayout);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			this.primaryStage.setScene(scene);
+			this.primaryStage.show();
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -104,9 +104,9 @@ public class ForceSimulationApp extends Application  {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ControlPanel.fxml"));
-			controlPanel = (GridPane) loader.load();
+			this.controlPanel = (GridPane) loader.load();
 						
-			downStackPane.getChildren().add(controlPanel);
+			downStackPane.getChildren().add(this.controlPanel);
 			
 			showRecCir();
 			
@@ -120,18 +120,19 @@ public class ForceSimulationApp extends Application  {
 		}
 	}
 	
+	// This method use to show Rectangle and Circle Object
 	private void showRecCir() {
 		try {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectContainer.fxml"));
-		GridPane ObjectPanel = (GridPane) loader.load();
-		controlPanel.add(ObjectPanel, 0, 0);
-		
-		objCon = loader.getController();
-		
-		objCon.setSimul(simul);
-		objCon.setTopStackPane(topStackPane);
-		objCon.setDownStackPane(downStackPane);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectContainer.fxml"));
+			GridPane ObjectPanel = (GridPane) loader.load();
+			controlPanel.add(ObjectPanel, 0, 0);
+			
+			objCon = loader.getController();
+			
+			objCon.setSimul(simul);
+			objCon.setTopStackPane(topStackPane);
+			objCon.setDownStackPane(downStackPane);
 		
 		}
 		catch(IOException e) {
@@ -163,15 +164,15 @@ public class ForceSimulationApp extends Application  {
 	
 	private void showStatisticsPanel() {
 		try {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
-		StackPane panel = (StackPane) loader.load();
-		
-		topStackPane.getChildren().add(panel);
-		
-		StatisticsPanelController staController = loader.getController();
-		
-		staController.setSimul(simul);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
+			StackPane panel = (StackPane) loader.load();
+			
+			topStackPane.getChildren().add(panel);
+			
+			StatisticsPanelController staController = loader.getController();
+			
+			staController.setSimul(simul);
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -179,9 +180,6 @@ public class ForceSimulationApp extends Application  {
 		
 	}
 	
-	private void initSimulation() {
-		this.simul = new Simulation();
-	}
 	
 	public static void main(String[] args) {
 		launch(args);

@@ -2,13 +2,18 @@ package dsai.group07.force.model.vector;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.shape.SVGPath;
+
 
 public class HorizontalVector {
 	
 	protected BooleanProperty direction = new SimpleBooleanProperty(true);
 	protected DoubleProperty value = new SimpleDoubleProperty(0.0);
+//	protected ObjectProperty<SVGPath> svgPath = new SimpleObjectProperty<>(); // Declare to test
 	
 	public HorizontalVector(double value) {
 		this.setValue(value);
@@ -44,6 +49,7 @@ public class HorizontalVector {
 		return Math.abs(this.value.doubleValue());	
 	}
 	
+	// set direction for vector
 	protected void updateValueDirection() {
 		if(this.getValue() >= 0) {
 			this.direction.set(true);;
@@ -53,6 +59,8 @@ public class HorizontalVector {
 		}
 	}
 	
+	
+	// set the absolute value for the vector
 	protected void updateDirectionValue() {
 		double absValue = Math.abs(this.getValue());
 		if (this.getDirection()) {
@@ -63,3 +71,5 @@ public class HorizontalVector {
 		}
 	}
 }
+
+

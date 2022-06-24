@@ -97,7 +97,7 @@ public class AnimationController {
 		 parallelTransition.setRate(0);
 		
 		
-        // Responsive app
+        // Responsive application
         backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
         backGroundMiddleUp.fitHeightProperty().bind(topStackPane.heightProperty());
         backGroundRightDown.fitHeightProperty().bind(downStackPane.heightProperty());   
@@ -105,6 +105,8 @@ public class AnimationController {
     }
     
     
+    
+    // To do: Create listener for this method
     public void setSim(Simulation sim) {
 		this.simul = sim;
 		
@@ -112,8 +114,9 @@ public class AnimationController {
             @Override
             public void tick(float secondsSinceLastFrame) {
             	if(simul.getObj() != null) {
-        		simul.getObj().setAcc(acce);
-            	simul.getObj().updateVel(secondsSinceLastFrame);}
+	        		simul.getObj().setAcc(acce);
+	            	simul.getObj().updateVel(secondsSinceLastFrame);
+	            }
             	else {
             		System.out.println("There is something wrong ...");
             	}
@@ -121,12 +124,14 @@ public class AnimationController {
         };
         
         this.simul.sysVelProperty().addListener(
-        		(observable, oldValue, newValue) -> 
+        			(observable, oldValue, newValue) -> 
         		{
         			parallelTransition.rateProperty().bind(newValue.valueProperty().multiply(0.5));
         		});
 	}
 
+    
+    // Control start and pause, reset animation
 	public void startAmination() {
 		parallelTransition.play();
 		timer.start();

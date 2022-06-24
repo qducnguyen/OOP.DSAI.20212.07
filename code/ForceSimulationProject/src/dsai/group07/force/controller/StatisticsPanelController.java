@@ -42,12 +42,17 @@ public class StatisticsPanelController {
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
 		
-		this.simul.sysVelProperty().addListener(
-				(observable, oldValue, newValue) -> 
+		this.simul.sysVelProperty().addListener((observable, oldValue, newValue) -> 
 				{
 					velLabel.textProperty().bind(newValue.valueProperty().asString("Current Velocity : %.2f m/s"));
 					System.out.println(observable);
 				});
+		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) ->{
+					accLabel.textProperty().bind(newValue.valueProperty().asString("Current Acceleration: %.2f m/s"));
+					System.out.println(observable);
+				});
 		
 	}
+	
+	
 }

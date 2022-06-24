@@ -4,7 +4,7 @@ import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.FrictionForce;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-//import javafx.geometry.HorizontalDirection;
+
 
 public class Cylinder extends MainObject implements Rotatable{
 
@@ -41,7 +41,8 @@ public class Cylinder extends MainObject implements Rotatable{
 	public void updateAngAcc(Force force) throws Exception {
 		if (force instanceof FrictionForce) {
 			setAngAcc(force.getValue() / (0.5 * getMass() * getRadius() * getRadius()));
-		} else {
+		} 
+		else {
 			throw new Exception("No friction force, object just translates");
 		}
 	}
@@ -101,10 +102,12 @@ public class Cylinder extends MainObject implements Rotatable{
 		if (radius <= 0) {
 			this.radius.setValue(0.001);
 			throw new Exception("The radius of object must be > 0 and <= " + MAX_RADIUS);
-		} else if (radius > MAX_RADIUS) {
+		} 
+		else if (radius > MAX_RADIUS) {
 			this.radius.setValue(MAX_RADIUS);
 			throw new Exception("The radius of object must be > 0 and <= " + MAX_RADIUS);
-		} else {
+		} 
+		else {
 			this.radius.setValue(radius);
 		}
 	}

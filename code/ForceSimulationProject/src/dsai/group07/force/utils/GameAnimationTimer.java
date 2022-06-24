@@ -5,7 +5,7 @@ import javafx.animation.AnimationTimer;
 public abstract class GameAnimationTimer extends AnimationTimer {
 
     long pauseStart;
-//    long animationStart;
+    //long animationStart;
 
     long lastFrameTimeNanos;
 

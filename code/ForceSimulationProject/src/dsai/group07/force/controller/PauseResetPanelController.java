@@ -18,28 +18,33 @@ public class PauseResetPanelController {
     Button resetButton;
 	
 	@FXML
-   	public void initialize()  {
-		 
+   	public void initialize()  {}
+	
+	// Constructor
+	public void setObjController(ObjectContainerController objController) {
+		this.objController = objController;
+		
 	}
-	 
-	 public void setSimul(Simulation simul) {
-			this.simul = simul;
-			resetButton.disableProperty().bind(this.simul.isStartProperty().not());
+	
+	public void setSimul(Simulation simul) {
+		this.simul = simul;
+		// If the simulation process is already started then the resetButton is not disable
+		resetButton.disableProperty().bind(this.simul.isStartProperty().not());
 			
-			this.simul.objProperty().addListener(
-					(observable, oldValue, newValue) -> 
-					{
-						if(newValue == null) {
-							pauseButton.setDisable(true);
-						}
-						else {
-							pauseButton.setDisable(false);
-						}
-					});
-	 }
+		this.simul.objProperty().addListener(
+				(observable, oldValue, newValue) -> 
+				{
+					if(newValue == null) {
+						pauseButton.setDisable(true);
+					}
+					else {
+						pauseButton.setDisable(false);
+					}
+				});
+	}
 		
 	 
-	 
+	 // Set symbol for pauseButton
 	 public void setAnimationController(AnimationController animationController) {
 			this.animationController = animationController;
 			
@@ -51,12 +56,6 @@ public class PauseResetPanelController {
 					}
 				});
 		}
-	 
-	 
-	public void setObjController(ObjectContainerController objController) {
-		this.objController = objController;
-		
-	}
 
 	@FXML
 	public void resetButtonPressed() {
@@ -68,10 +67,13 @@ public class PauseResetPanelController {
 	
 	@FXML
 	public void pauseButtonPressed() {
+		// Case: When the simulation is running
 		if(this.animationController.getParallelTransition().getStatus() == Animation.Status.RUNNING ) {
 			this.animationController.pauseAnimation();
 		} 
+		// Case: When the simulation is stopping
 		else {
+			// If the simulation is not start now
 			if (!simul.getIsStart()) {
 				this.animationController.startAmination();
 				simul.setIsStart(true);

@@ -30,7 +30,7 @@ public class ObjectContainerController {
     private StackPane topStackPane;
     private StackPane downStackPane;
     
-    
+    // DataFormat like casting but use for javafx
 	private final DataFormat cirFormat = new DataFormat("dsai.group07.force.circle");
 	private final DataFormat recFormat = new DataFormat("dsai.group07.force.rec");
 	
@@ -43,6 +43,7 @@ public class ObjectContainerController {
     @FXML
     private Circle cir;
     
+    // Note: Think about it
     @FXML
     private CheckBox draggableCheckBox;
     
@@ -61,7 +62,7 @@ public class ObjectContainerController {
 	}
 
 	
-
+	// TODO: separate listener for this class
 	public void setTopStackPane(StackPane topStackPane) {
 		this.topStackPane = topStackPane;
 		
@@ -69,6 +70,7 @@ public class ObjectContainerController {
 	    	{
 	    		Dragboard db = event.getDragboard();
 	        	
+	    		// Drag and Drop Circle
 	            if (db.hasContent(cirFormat)) 
 	            {
 	            	StackPane.setAlignment(cir, Pos.BOTTOM_CENTER);
@@ -82,7 +84,8 @@ public class ObjectContainerController {
 	            	
 	            	try {
 						this.simul.setObject(new Cylinder());
-					} catch (Exception e) {
+					} 
+	            	catch (Exception e) {
 						e.printStackTrace();
 					}
 	            	
@@ -90,6 +93,7 @@ public class ObjectContainerController {
 	            	
 	            }          
 	            
+	            // Drag and drop rectangle
 	            else if (db.hasContent(recFormat)) {
 	            	
 	            	StackPane.setAlignment(rec, Pos.BOTTOM_CENTER);
@@ -114,11 +118,13 @@ public class ObjectContainerController {
 	 this.topStackPane.setOnDragOver(event -> 
         {
         	Dragboard db = event.getDragboard();
-    		if(db.hasContent(cirFormat) && cir.getParent()!= topStackPane) {
+    		if(db.hasContent(cirFormat) && this.cir.getParent()!= topStackPane) {
     			event.acceptTransferModes(TransferMode.MOVE);
     		}
-    		else if(db.hasContent(recFormat) && this.rec.getParent()!= topStackPane)
+    		else if(db.hasContent(recFormat) && this.rec.getParent()!= topStackPane) {
     			event.acceptTransferModes(TransferMode.MOVE);	
+    		}
+    			
         });
 	}
 
@@ -143,6 +149,7 @@ public class ObjectContainerController {
     	{
     		Dragboard db = event.getDragboard();
         	
+    		// Add circle 
             if (db.hasContent(cirFormat))
             {
             	//TODO: another view for drag and drop ...
@@ -154,6 +161,7 @@ public class ObjectContainerController {
             	event.setDropCompleted(true);
             }          
             
+            // Add rectangle
             else if (db.hasContent(recFormat))
             {
             	gridPaneObjectContainer.add(rec, 0 , 0);
@@ -177,7 +185,7 @@ public class ObjectContainerController {
         
         
         
-        draggableCheckBox.selectedProperty().addListener(
+        this.draggableCheckBox.selectedProperty().addListener(
         		(observable, oldValue, newValue) -> 
         		{
         			if (newValue) {
@@ -197,7 +205,7 @@ public class ObjectContainerController {
     public void setSimul(Simulation simul) {
 		this.simul = simul;
 		
-    	draggableCheckBox.selectedProperty().bind(this.simul.isStartProperty().not());
+    	this.draggableCheckBox.selectedProperty().bind(this.simul.isStartProperty().not());
     	
     	this.simul.objProperty().addListener(
     			(observable, oldValue, newValue) -> 
@@ -219,7 +227,7 @@ public class ObjectContainerController {
     	public EventDragDetected(DataFormat data) {
     		this.shapeFormat = data;
 		}
-    	
+    	// 23-6-2022
     	@Override
     	public void handle(MouseEvent event) {
     		Shape s = (Shape) event.getSource();

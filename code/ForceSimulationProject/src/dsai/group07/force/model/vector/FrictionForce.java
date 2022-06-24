@@ -28,6 +28,8 @@ public class FrictionForce extends Force {
 		surfaceListener();
 	}
 	
+	
+	// To do : Change listener to the controller class
 	public void surfaceListener() {
 		try {
 			surface.staCoefProperty().addListener(observable -> {
@@ -49,6 +51,7 @@ public class FrictionForce extends Force {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	public void objectListener() {
 		try {
@@ -72,6 +75,7 @@ public class FrictionForce extends Force {
 		}
 	}
 	
+	
 	public void aForceListener() {
 		try {
 			aForce.valueProperty().addListener(observable -> {
@@ -86,6 +90,7 @@ public class FrictionForce extends Force {
 		}
 	}
 	
+	
 	public void updateFrictionForce() {
 		double normalForce = g * mainObj.getMass();
 		
@@ -95,25 +100,30 @@ public class FrictionForce extends Force {
 				if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
 					mainObj.setVel(0);
 					setValue(-aForce.getValue());
-				} else {
+				} 
+				else {
 					// Object is moving, friction force should oppose object's velocity and = normalForce * kiCoef
 					double sign = -Math.signum(mainObj.velProperty().getValue());
 					setValue(sign * surface.getKiCoef() * normalForce); 
 				}
-			} else {
+			} 
+			else {
 				double sign = -Math.signum(mainObj.velProperty().getValue());
 				setValue(sign * surface.getKiCoef() * normalForce); 
 			}
-		} else if (mainObj instanceof Cylinder) {
+		} 
+		else if (mainObj instanceof Cylinder) {
 			if (aForce.getLength() <= 3 * normalForce * surface.getStaCoef()) {
 				if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
 					mainObj.setVel(0);
 					setValue(-aForce.getValue() / 3);
-				} else {
+				} 
+				else {
 					double sign = -Math.signum(mainObj.velProperty().getValue());
 					setValue(sign * surface.getKiCoef() * normalForce);
 				}
-			} else {
+			} 
+			else {
 				double sign = -Math.signum(mainObj.velProperty().getValue());
 				setValue(sign * surface.getKiCoef() * normalForce);
 			}

@@ -12,6 +12,16 @@ public abstract class MainObject {
 	private HorizontalVector vel = new HorizontalVector(0.0);
 	private DoubleProperty pos = new SimpleDoubleProperty();
 	
+	// Constructor
+	public MainObject() throws Exception {
+		setMass(0.001);
+	}
+	
+	public MainObject(double mass) throws Exception {
+		setMass(mass);
+	}
+	
+	// Method for Mass Property
 	public DoubleProperty massProperty() {
 		return mass;
 	}
@@ -27,38 +37,42 @@ public abstract class MainObject {
 			this.mass.setValue(mass);
 		}
 	}
-
+	
+	// Method for acceleration property
 	public HorizontalVector accProperty() {
 		return acc;
-	}
-
-	public HorizontalVector velProperty() {
-		return vel;
 	}
 	
 	public void setAcc(double acc) {
 		this.acc.setValue(acc);
 	}
 	
+	public void updateAcc(Force force) {
+		setAcc(force.getValue() / getMass());
+	}
+	
+	public double getAcc() {
+		return this.acc.getValue();
+	}
+	
+	// Method for velocity property
+	public HorizontalVector velProperty() {
+		return vel;
+	}
 	
 	public void setVel(double vel) {
 		this.vel.setValue(vel);
 	}
 	
-	public void updateAcc(Force force) {
-		setAcc(force.getValue() / getMass());
+	public double getVel() {
+		return this.vel.getValue();
 	}
 	
 	public void updateVel(double t) {
-		setVel(velProperty().getValue() + this.accProperty().getValue() * t);
+		setVel(this.getVel() + this.getAcc() * t);
 	}
 	
-	public void applyForceInTime(Force force, double t) {
-		updateAcc(force);
-		updateVel(t);
-		updatePos(vel.getValue(), t);
-	}
-	
+	// Method for position property
 	public DoubleProperty posProperty() {
 		return pos;
 	}
@@ -75,12 +89,11 @@ public abstract class MainObject {
 		setPos(getPos() + v * t); 
 	}
 	
-	public MainObject() throws Exception {
-		setMass(0.001);
+	
+	public void applyForceInTime(Force force, double v) {
+		updateAcc(force);
+		updateVel(v);
+		updatePos(vel.getValue(), v);
 	}
 	
-	public MainObject(double mass) throws Exception {
-		setMass(mass);
-	}
-
 }

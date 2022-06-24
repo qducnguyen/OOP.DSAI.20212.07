@@ -19,9 +19,12 @@ public class NetForce extends Force {
 	
 	public void updateNetForce() {
 		Force netForce = sumTwoForce(aForce, fForce);
+		// Set value of this netForce, class netForce inherit value from its base class
 		setValue(netForce.getValue());
+		
 	}
 	
+	// To do: Convert Listener to controller
 	public void forcesListener() {
 		try {
 			aForce.valueProperty().addListener(observable -> {

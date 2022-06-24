@@ -15,47 +15,58 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class Simulation {
 	
-	
+	// Start and Pause boolean
 	private BooleanProperty isStart = new SimpleBooleanProperty(false); 
 	private BooleanProperty isPause = new SimpleBooleanProperty(true);
 	private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
 	private Surface surface;
-	private Force aForce;
-	private Force fForce;
+	private Force appliedForce;
+	private Force fritionForce;
 	
-	
-	public void setSysVel(HorizontalVector horizontalVector) {
-		this.sysVel.set(horizontalVector);
-	}
-
-	public void setSysAcc(HorizontalVector horizontalVector) {
-		this.sysAcc.set(horizontalVector);
-	}
-	
-	public ObjectProperty<HorizontalVector> sysVelProperty() {
-		return sysVel;
-	}
-
-	public ObjectProperty<HorizontalVector> sysAccProperty() {
-		return sysAcc;
-	}
-
+	// Constructor
 	public Simulation() {
 
 		this.surface = new Surface();
-		this.aForce = new AppliedForce(0);
-		this.fForce = new FrictionForce(0);
+		this.appliedForce = new AppliedForce(0);
+		this.fritionForce = new FrictionForce(0);
 	}
 	
 	public Simulation(MainObject mainObj, Surface surface, AppliedForce aForce) {
 		this.obj.set(mainObj);
 		this.surface = surface;
-		this.aForce = aForce;
-		this.fForce = new FrictionForce(0, surface, mainObj, aForce);
+		this.appliedForce = aForce;
+		this.fritionForce = new FrictionForce(0, surface, mainObj, aForce);
 	}
 	
+	// Method for System Velocity
+	public void setSysVel(HorizontalVector horizontalVector) {
+		this.sysVel.set(horizontalVector);
+	}
+
+	public ObjectProperty<HorizontalVector> sysVelProperty() {
+		return sysVel;
+	}
+	
+	public HorizontalVector getSysVel() {
+		return this.sysAcc.get();
+	}
+		
+	// Method for System Acceleration
+	public void setSysAcc(HorizontalVector horizontalVector) {
+		this.sysAcc.set(horizontalVector);
+	}
+
+	public ObjectProperty<HorizontalVector> sysAccProperty() {
+		return sysAcc;
+	}
+	
+	public HorizontalVector getSysAcc() {
+		return this.sysAcc.get();
+	}
+	
+	// Method for object
 	public ObjectProperty<MainObject> objProperty(){
 		return this.obj;
 	}
@@ -71,8 +82,8 @@ public class Simulation {
 			this.sysVel.set(new HorizontalVector(0));
 		}
 		else {
-		this.sysAcc.set(obj.accProperty());
-		this.sysVel.set(obj.velProperty());
+			this.sysAcc.set(obj.accProperty());
+			this.sysVel.set(obj.velProperty());
 		}
 	}
 	
@@ -80,22 +91,23 @@ public class Simulation {
 		return surface;
 	}
 	
-	public Force getaForce() {
-		return aForce;
+	public Force getAppliedForce() {
+		return appliedForce;
 	}
 
-	public void setaForce(double aForce) {
-		this.aForce.setValue(aForce);
+	public void setAppliedForce(double aForce) {
+		this.appliedForce.setValue(aForce);
 	}
 
-	public Force getfForce() {
-		return fForce;
+	public Force getFrictionForce() {
+		return appliedForce;
 	}
 	
 	public Force getNetForce() {
-		return new NetForce(0, aForce, fForce);
+		return new NetForce(0, appliedForce, fritionForce);
 	}
 	
+	// Method for start boolean in system
 	public BooleanProperty isStartProperty() {
 		return this.isStart;
 	}
@@ -118,11 +130,12 @@ public class Simulation {
 	
 	public void restart() {
 		setIsStart(false);
-		aForce.setValue(0);
-		fForce.setValue(0);
+		appliedForce.setValue(0);
+		fritionForce.setValue(0);
 		setObject(null);
 	}
 	
+	// Method for pause boolean in system
 	public BooleanProperty isPauseProperty() {
 		return isPause;
 	}
@@ -135,7 +148,8 @@ public class Simulation {
 		this.isPause.set(isPause);;
 	}
 
-	public void getObjAcc() {
+	// To do: check this method
+	public void setObjAcc() {
 		getObj().updateAcc(getNetForce());
 	}
 	
