@@ -22,7 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-public class ObjectContainerController {
+public class ObjectPanelController {
 
 	
     private Simulation simul;

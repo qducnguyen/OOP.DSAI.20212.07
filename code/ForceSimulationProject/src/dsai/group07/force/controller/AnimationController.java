@@ -1,7 +1,7 @@
 package dsai.group07.force.controller;
 
+import dsai.group07.force.controller.utils.GameAnimationTimer;
 import dsai.group07.force.model.Simulation;
-import dsai.group07.force.utils.GameAnimationTimer;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;

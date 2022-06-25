@@ -3,7 +3,7 @@ package dsai.group07.force;
 import java.io.IOException;
 
 import dsai.group07.force.controller.AnimationController;
-import dsai.group07.force.controller.ObjectContainerController;
+import dsai.group07.force.controller.ObjectPanelController;
 import dsai.group07.force.controller.PauseResetPanelController;
 import dsai.group07.force.controller.StatisticsPanelController;
 import dsai.group07.force.model.Simulation;
@@ -34,7 +34,7 @@ public class ForceSimulationApp extends Application  {
 	
 	private GridPane controlPanel;
 	private AnimationController con;
-	private ObjectContainerController objCon;
+	private ObjectPanelController objCon;
 	
 	
 	@Override
@@ -57,6 +57,9 @@ public class ForceSimulationApp extends Application  {
 		
 		
 		
+		
+		
+		
 	}
 	
 	
@@ -64,8 +67,8 @@ public class ForceSimulationApp extends Application  {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/RootLayout.fxml"));
-			rootLayout = (GridPane) loader.load();
 			
+			rootLayout = (GridPane) loader.load();
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -121,7 +124,7 @@ public class ForceSimulationApp extends Application  {
 	private void showRecCir() {
 		try {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectContainer.fxml"));
+		loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectPanel.fxml"));
 		GridPane ObjectPanel = (GridPane) loader.load();
 		controlPanel.add(ObjectPanel, 0, 0);
 		

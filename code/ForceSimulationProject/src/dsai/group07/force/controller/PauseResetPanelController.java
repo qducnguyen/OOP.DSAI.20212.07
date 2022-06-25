@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 public class PauseResetPanelController {
 	private Simulation simul;
 	private AnimationController animationController;
-	private ObjectContainerController objController;
+	private ObjectPanelController objController;
 	
 
 	@FXML
@@ -53,7 +53,7 @@ public class PauseResetPanelController {
 		}
 	 
 	 
-	public void setObjController(ObjectContainerController objController) {
+	public void setObjController(ObjectPanelController objController) {
 		this.objController = objController;
 		
 	}
