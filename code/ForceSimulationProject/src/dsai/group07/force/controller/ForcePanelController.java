@@ -1,5 +1,5 @@
 package dsai.group07.force.controller;
 
-public class RootLayoutController {
+public class ForcePanelController {
 
 }

@@ -1,0 +1,96 @@
+package dsai.group07.force.controller;
+
+import java.io.IOException;
+
+import dsai.group07.force.model.Simulation;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+
+public class ControlPanelController {
+	
+	private Simulation simul;
+	private ObjectPanelController objController;
+	private StatisticsPanelController staController;
+	private StackPane topStackPane;
+	private StackPane downStackPane;
+	
+	@FXML
+	private GridPane controlPanelGridPane;
+	
+	
+	@FXML
+   	public void initialize()  {
+		
+    }
+	
+	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
+		setSimul(simul);
+		setTopStackPane(topStackPane);
+		setDownStackPane(downStackPane);
+		showObjectPanel();
+		showStatisticsPanel();
+	}
+	
+	
+	
+	public void setTopStackPane(StackPane topStackPane) {
+		this.topStackPane = topStackPane;
+	}
+	
+	public void setDownStackPane(StackPane downStackPane) {
+		this.downStackPane = downStackPane;
+	}
+	
+	public void setSimul(Simulation simul) {
+		this.simul = simul;
+		
+	}
+	
+	public ObjectPanelController getObjController() {
+		return objController;
+	}
+
+	public GridPane getControlPanelGridPane() {
+		return controlPanelGridPane;
+	}
+
+	private void showObjectPanel() {
+		try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectPanel.fxml"));
+		GridPane ObjectPanel = (GridPane) loader.load();
+		controlPanelGridPane.add(ObjectPanel, 0, 0);
+		
+		objController = loader.getController();
+		
+		objController.setSimul(simul);
+		objController.setTopStackPane(topStackPane);
+		objController.setDownStackPane(downStackPane);
+		
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void showStatisticsPanel() {
+		try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
+		StackPane panel = (StackPane) loader.load();
+		
+		topStackPane.getChildren().add(panel);
+		
+		staController = loader.getController();
+		
+		staController.setSimul(simul);
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+}
