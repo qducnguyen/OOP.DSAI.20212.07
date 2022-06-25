@@ -3,10 +3,12 @@ package dsai.group07.force.controller;
 import java.io.IOException;
 
 import dsai.group07.force.model.Simulation;
+import javafx.animation.Animation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -27,6 +29,12 @@ public class ForceSimulationAppController {
     private GridPane rootLayout;
 	
 	@FXML
+	private Button pauseButton;
+
+    @FXML
+    private Button resetButton;
+
+	@FXML
    	public void initialize()  {
     	
     }
@@ -36,7 +44,8 @@ public class ForceSimulationAppController {
 		setSimul(simul);
 		showAnimation();
 		showControlPane();
-		showPauseResetPanel();
+		setUpPauseResetPanel();
+		
 	}
 	
 	
@@ -44,6 +53,7 @@ public class ForceSimulationAppController {
 		this.simul = simul;
 	}
 	
+    
 	private void showAnimation() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -88,24 +98,64 @@ public class ForceSimulationAppController {
 		}
 	}
 	
-	private void showPauseResetPanel() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/dsai/group07/force/view/PauseResetPanel.fxml"));
-			AnchorPane panel = (AnchorPane) loader.load();
-			StackPane.setAlignment(panel, Pos.BOTTOM_RIGHT);
+	private void setUpPauseResetPanel() {
+		
+		StackPane.setAlignment(pauseButton, Pos.BOTTOM_RIGHT);
+		StackPane.setAlignment(resetButton, Pos.BOTTOM_RIGHT);
+		
+		StackPane.setMargin(pauseButton, new Insets(0, 100, 50, 0) );
+		StackPane.setMargin(resetButton, new Insets(0, 25 ,50,0) );
+
+		topStackPane.getChildren().add(pauseButton);
+		topStackPane.getChildren().add(resetButton);
+		
+		resetButton.disableProperty().bind(this.simul.isStartProperty().not());
 			
-			topStackPane.getChildren().add(panel);
-			
-			PauseResetPanelController resController = loader.getController();
-			
-			resController.setSimul(simul);
-			resController.setAnimationController(aniController);
-			resController.setObjController(objController);
-			
+		this.simul.objProperty().addListener(
+				(observable, oldValue, newValue) -> 
+				{
+					if(newValue == null) {
+						pauseButton.setDisable(true);
+					}
+					else {
+						pauseButton.setDisable(false);
+					}
+				});
+		
+		this.aniController.getParallelTransition().statusProperty().addListener((obs, oldValue, newValue) -> {
+			if( newValue == Animation.Status.RUNNING ) {
+				pauseButton.setText( "||" );
+			} else {
+				pauseButton.setText( ">" );
 			}
-		catch(IOException e) {
-				e.printStackTrace();
-			}
+		});
+		
+		
 	}
+	
+	
+	@FXML
+	public void resetButtonPressed() {
+		this.aniController.resetAnimation();
+		this.simul.restart();
+		this.objController.resetObjectPosition();
+	}
+	
+	
+	@FXML
+	public void pauseButtonPressed() {
+		if(this.aniController.getParallelTransition().getStatus() == Animation.Status.RUNNING ) {
+			this.aniController.pauseAnimation();
+		} 
+		else {
+			if (!simul.getIsStart()) {
+				this.aniController.startAmination();
+				simul.setIsStart(true);
+			}
+			else {
+				this.aniController.continueAnimation();
+			}
+		}
+	}
+		
 }

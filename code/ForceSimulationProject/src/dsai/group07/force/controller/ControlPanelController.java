@@ -83,7 +83,7 @@ public class ControlPanelController {
 		
 		topStackPane.getChildren().add(panel);
 		
-		 staController = loader.getController();
+		staController = loader.getController();
 		
 		staController.setSimul(simul);
 		}

@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class ForceSimulationApp extends Application  {
-	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
@@ -22,12 +21,13 @@ public class ForceSimulationApp extends Application  {
 		primaryStage.setMinWidth(650);
 
 		
-		Simulation simul = new Simulation();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/dsai/group07/force/view/RootLayout.fxml"));
 		Parent rootLayout = loader.load();
 		
 		ForceSimulationAppController appController = loader.getController();
+		
+		Simulation simul = new Simulation();
 		appController.init(simul);
 		
 		Scene scene = new Scene(rootLayout);
