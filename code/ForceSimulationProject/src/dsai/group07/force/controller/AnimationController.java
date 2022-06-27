@@ -16,7 +16,6 @@ public class AnimationController {
 	private final int BACKGROUND_WIDTH = 2000;
 	private final float ratioTwoBackGround = 20.0f;
 	private final int numDuration = 120000;
-	private final double acce = 0.05;
 	
 
 	private GameAnimationTimer timer;
@@ -97,7 +96,7 @@ public class AnimationController {
 		 parallelTransition.setRate(0);
 		
 		
-        // Responsive app
+        // Responsive Background (Binding two parts to scene)
         backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
         backGroundMiddleUp.fitHeightProperty().bind(topStackPane.heightProperty());
         backGroundRightDown.fitHeightProperty().bind(downStackPane.heightProperty());   
@@ -112,7 +111,6 @@ public class AnimationController {
             @Override
             public void tick(float secondsSinceLastFrame) {
             	if(simul.getObj() != null) {
-        		simul.getObj().setAcc(acce);
             	simul.getObj().updateVel(secondsSinceLastFrame);}
             	else {
             		System.out.println("There is something wrong ...");
@@ -120,11 +118,15 @@ public class AnimationController {
             }
         };
         
+        
+        //Binding rateProperty --> sysVel
         this.simul.sysVelProperty().addListener(
         		(observable, oldValue, newValue) -> 
         		{
         			parallelTransition.rateProperty().bind(newValue.valueProperty().multiply(0.5));
         		});
+        
+        
 	}
 
 	public void startAmination() {

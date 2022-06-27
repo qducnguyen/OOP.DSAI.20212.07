@@ -240,8 +240,6 @@ public class ObjectPanelController {
     }
     
 	public void resetObjectPosition() {
-		topStackPane.getChildren().remove(rec);
-		topStackPane.getChildren().remove(cir);
 		gridPaneObjectContainer.getChildren().clear();
 		gridPaneObjectContainer.add(rec, 0 ,0);
 		gridPaneObjectContainer.add(cir, 1 ,0);
