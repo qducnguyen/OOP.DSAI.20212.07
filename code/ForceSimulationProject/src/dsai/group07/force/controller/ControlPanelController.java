@@ -15,6 +15,7 @@ public class ControlPanelController {
 	private StatisticsPanelController staController;
 	private StackPane topStackPane;
 	private StackPane downStackPane;
+	private VectorController vectorController;
 	
 	@FXML
 	private GridPane controlPanelGridPane;
@@ -31,6 +32,7 @@ public class ControlPanelController {
 		setDownStackPane(downStackPane);
 		showObjectPanel();
 		showStatisticsPanel();
+		this.showVector();
 	}
 	
 	
@@ -93,4 +95,21 @@ public class ControlPanelController {
 		
 	}
 	
+	private void showVector() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/Vector.fxml"));
+			GridPane panel = (GridPane) loader.load();
+			
+			this.topStackPane.getChildren().add(panel);
+			
+			this.vectorController = loader.getController();
+			this.vectorController.setsim(simul);
+			
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
