@@ -14,12 +14,12 @@ public class Surface {
 	
 	public Surface(double staCoef) throws Exception {
 		setStaCoef(staCoef);
-		setKiCoefVal(staCoef / 2);
+		setKiCoef(staCoef / 2);
 	}
 	
 	public Surface(double staCoef, double kiCoef) throws Exception {
 		setStaCoef(staCoef);
-		setKiCoefVal(kiCoef);
+		setKiCoef(kiCoef);
 	}
 	
 	public DoubleProperty staCoefProperty() {
@@ -59,7 +59,7 @@ public class Surface {
 		}
 	}
 	
-	public void setKiCoefVal(double kiCoef) throws Exception {
+	public void setKiCoef(double kiCoef) throws Exception {
 		if (kiCoef < 0) {
             this.kiCoef.setValue(0);
 			throw new Exception("Kinetic friction coefficient must be >= 0 and <= " + MAX_STA_COEF);
