@@ -1,7 +1,9 @@
 package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Cylinder;
 import dsai.group07.force.model.vector.FrictionForce;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -31,33 +33,56 @@ public class ForcePanelController {
 		// null, auto start the simulation when value != 0
 		// TODO: Unfocus forceTextField when click outside the textfield
 
-		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
-
-			this.simul.getObj().updateAcc(this.simul.getaForce());
-			fForceListener();
-			netForceListener();
-
-			if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0) { // newValue.doubleValue() != 0: Prevent
-																				// auto start when force == 0}
-				this.simul.setIsStart(true);
-			}
-
-			forceTextField.getParent().requestFocus();
-
-		});
-
-		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue == null) {
-				forceTextField.setDisable(true);
-				forceTextField.setText("0");
-			} else {
-				forceTextField.setDisable(false);
-				this.simul.setObject(newValue);
-				fForceListener();
-				netForceListener();
-			}
-		});
-
+		
+		this.simul.getaForce().valueProperty().addListener(
+				(observable, oldValue, newValue) -> 
+				{
+					
+					this.simul.getObj().updateAcc(this.simul.getaForce());
+          fForceListener();
+			    netForceListener();
+					
+					//TODO: update in general
+					if (simul.getObj() instanceof Cylinder) {
+						// BUG: .......
+						try {
+							((Cylinder)this.simul.getObj()).updateAngAcc(this.simul.getaForce());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
+					
+					if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0)  // newValue.doubleValue() != 0: Prevent auto start when force == 0
+          { 
+						this.simul.start();
+					}
+					else if (this.simul.getIsPause()) {
+						this.simul.conti();
+					}
+					
+					
+					forceTextField.getParent().requestFocus();
+					
+				}
+					);
+		
+		this.simul.objProperty().addListener(
+				(observable, oldValue, newValue) -> {
+					if(newValue == null) {
+						forceTextField.setDisable(true);
+						forceTextField.setText("0");
+					}
+					else {
+            forceTextField.setDisable(false);
+            this.simul.setObject(newValue);
+            fForceListener();
+            netForceListener();
+					}
+				}
+				);
+		
+	
 		// Unfocus forceTextField
 		forceTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
 			if (!newValue) {
