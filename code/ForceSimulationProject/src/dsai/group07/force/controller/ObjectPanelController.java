@@ -5,6 +5,7 @@ package dsai.group07.force.controller;
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.model.vector.FrictionForce;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -203,13 +204,17 @@ public class ObjectPanelController {
     			{	
     				if(newValue == null) {
     					System.out.println("Null Object");
-    					
+        		    	this.simul.getaForce().setValue(0);
     				}
     				else {
     					System.out.println(newValue.getClass());
-    				
+    					this.simul.setObject(newValue);
+    					((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
+        		    	objectListener();
     				}
+    				
     			});
+
     	
     	
     	//Draggable bind to this.simul.isStartProperty()
@@ -259,5 +264,26 @@ public class ObjectPanelController {
 		gridPaneObjectContainer.add(cir, 1 ,0);
 	}
     
+	public void objectListener() {
+		try {
+			this.simul.getObj().massProperty().addListener(observable -> {
+				try {
+					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			
+			this.simul.getObj().velProperty().valueProperty().addListener(observable -> {
+				try {
+					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
