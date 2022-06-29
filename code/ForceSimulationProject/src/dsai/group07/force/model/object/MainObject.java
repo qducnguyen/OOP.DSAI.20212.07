@@ -76,7 +76,7 @@ public abstract class MainObject {
 	}
 	
 	public MainObject() throws Exception {
-		setMass(0.001);
+		setMass(12); // 12
 	}
 	
 	public MainObject(double mass) throws Exception {

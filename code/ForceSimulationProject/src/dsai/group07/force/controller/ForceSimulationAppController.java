@@ -36,7 +36,6 @@ public class ForceSimulationAppController {
 
 	@FXML
    	public void initialize()  {
-    	
     }
     
 	
@@ -44,7 +43,8 @@ public class ForceSimulationAppController {
 		setSimul(simul);
 		showAnimation();
 		showControlPane();
-		setUpPauseResetPanel();
+		setUpPauseResetOperation();
+
 		
 	}
 	
@@ -98,7 +98,7 @@ public class ForceSimulationAppController {
 		}
 	}
 	
-	private void setUpPauseResetPanel() {
+	private void setUpPauseResetOperation() {
 		
 		StackPane.setAlignment(pauseButton, Pos.BOTTOM_RIGHT);
 		StackPane.setAlignment(resetButton, Pos.BOTTOM_RIGHT);
@@ -109,8 +109,13 @@ public class ForceSimulationAppController {
 		topStackPane.getChildren().add(pauseButton);
 		topStackPane.getChildren().add(resetButton);
 		
+		
+		
+		//Bind resetButton vs isStartProperty
 		resetButton.disableProperty().bind(this.simul.isStartProperty().not());
 			
+		
+		// Null object --> Disable pause Button
 		this.simul.objProperty().addListener(
 				(observable, oldValue, newValue) -> 
 				{
@@ -122,6 +127,9 @@ public class ForceSimulationAppController {
 					}
 				});
 		
+		
+		
+		// Status of ParallelTransition(AnimationController) --> pauseButton Text
 		this.aniController.getParallelTransition().statusProperty().addListener((obs, oldValue, newValue) -> {
 			if( newValue == Animation.Status.RUNNING ) {
 				pauseButton.setText( "||" );
@@ -130,6 +138,28 @@ public class ForceSimulationAppController {
 			}
 		});
 		
+		
+		//TODO: Just pause, start through model
+		
+		this.simul.isStartProperty().addListener(
+				(observable, oldValue, newValue) -> {
+					if(newValue) {
+						this.aniController.startAmination();
+						
+						simul.setIsPause(false);
+						
+					}
+				});
+		
+		this.simul.isPauseProperty().addListener(
+				(observable, oldValue, newValue) -> {
+					if(!newValue) {
+						this.aniController.continueAnimation();
+					}
+					else {
+						this.aniController.pauseAnimation();
+					}
+				});
 		
 	}
 	
@@ -145,15 +175,16 @@ public class ForceSimulationAppController {
 	@FXML
 	public void pauseButtonPressed() {
 		if(this.aniController.getParallelTransition().getStatus() == Animation.Status.RUNNING ) {
-			this.aniController.pauseAnimation();
+			simul.setIsPause(true);
 		} 
 		else {
 			if (!simul.getIsStart()) {
-				this.aniController.startAmination();
+//				this.aniController.startAmination();
 				simul.setIsStart(true);
 			}
 			else {
-				this.aniController.continueAnimation();
+//				this.aniController.continueAnimation();
+				simul.setIsPause(false);
 			}
 		}
 	}

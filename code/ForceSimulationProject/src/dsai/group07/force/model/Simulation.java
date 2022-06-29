@@ -15,9 +15,9 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class Simulation {
 	
-	
 	private BooleanProperty isStart = new SimpleBooleanProperty(false); 
 	private BooleanProperty isPause = new SimpleBooleanProperty(true);
+	// isStart = false --> isPause always true but the opposite is not true.
 	private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
@@ -26,6 +26,20 @@ public class Simulation {
 	private Force fForce;
 	
 	
+	public Simulation() {
+	
+		this.surface = new Surface();
+		this.aForce = new AppliedForce(0);
+		this.fForce = new FrictionForce(0);
+	}
+
+	public Simulation(MainObject mainObj, Surface surface, AppliedForce aForce) {
+		this.obj.set(mainObj);
+		this.surface = surface;
+		this.aForce = aForce;
+		this.fForce = new FrictionForce(0, surface, mainObj, aForce);
+	}
+
 	public void setSysVel(HorizontalVector horizontalVector) {
 		this.sysVel.set(horizontalVector);
 	}
@@ -42,28 +56,10 @@ public class Simulation {
 		return sysAcc;
 	}
 
-	public Simulation() {
-
-		this.surface = new Surface();
-		this.aForce = new AppliedForce(0);
-		this.fForce = new FrictionForce(0);
-	}
-	
-	public Simulation(MainObject mainObj, Surface surface, AppliedForce aForce) {
-		this.obj.set(mainObj);
-		this.surface = surface;
-		this.aForce = aForce;
-		this.fForce = new FrictionForce(0, surface, mainObj, aForce);
-	}
-	
 	public ObjectProperty<MainObject> objProperty(){
 		return this.obj;
 	}
-	
-	public MainObject getObj() {
-		return this.obj.get();
-	}
-	
+
 	public void setObject(MainObject obj) {
 		this.obj.set(obj);
 		if (obj == null) {
@@ -75,7 +71,35 @@ public class Simulation {
 		this.sysVel.set(obj.velProperty());
 		}
 	}
-	
+
+	public MainObject getObj() {
+		return this.obj.get();
+	}
+
+	public BooleanProperty isPauseProperty() {
+		return isPause;
+	}
+
+	public boolean getIsPause() {
+		return isPause.get();
+	}
+
+	public void setIsPause(boolean isPause) {
+		this.isPause.set(isPause);;
+	}
+
+	public BooleanProperty isStartProperty() {
+		return this.isStart;
+	}
+
+	public boolean getIsStart() {
+		return this.isStart.get();
+	}
+
+	public void setIsStart(boolean isStart) {
+		this.isStart.set(isStart);
+	}
+
 	public Surface getSur() {
 		return surface;
 	}
@@ -96,45 +120,28 @@ public class Simulation {
 		return new NetForce(0, aForce, fForce);
 	}
 	
-	public BooleanProperty isStartProperty() {
-		return this.isStart;
-	}
 	
-	public void setIsStart(boolean isStart) {
-		this.isStart.set(isStart);
-	}
-	
-	public boolean getIsStart() {
-		return this.isStart.get();
-	}
-	
-	public void pause() {
-		setIsStart(false);
-	}
-	
-	public void cont() {
+	public void start() {
 		setIsStart(true);
+		setIsPause(false);
+	}
+	
+	public void pause(){
+		setIsPause(true);
+	}
+	
+	public void conti() {
+		setIsPause(false);
 	}
 	
 	public void restart() {
 		setIsStart(false);
+		setIsPause(true);
 		aForce.setValue(0);
 		fForce.setValue(0);
 		setObject(null);
 	}
 	
-	public BooleanProperty isPauseProperty() {
-		return isPause;
-	}
-	
-	public boolean getIsPause() {
-		return isPause.get();
-	}
-
-	public void setIsPause(boolean isPause) {
-		this.isPause.set(isPause);;
-	}
-
 	public void getObjAcc() {
 		getObj().updateAcc(getNetForce());
 	}
