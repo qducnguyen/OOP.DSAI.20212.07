@@ -93,20 +93,8 @@ public class AnimationController {
 				new ParallelTransition( translateTransition3, translateTransition4 );
 		parallelTransitionDown.setCycleCount(Animation.INDEFINITE);
 		
-		
-//		 parallelTransition = new ParallelTransition(parallelTransitionUp, parallelTransitionDown);
-//		parallelTransition.setCycleCount(Animation.INDEFINITE);
-//			parallelTransitionUp.setRate(10);
-
-//		parallelTransition.play();
-//		parallelTransitionUp.play();
-//		parallelTransitionDown.play();
-//		 parallelTransition.setRate(-3);
 		parallelTransitionUp.setRate(0.0);
 		parallelTransitionDown.setRate(0.0);
-//		 parallelTransition.setRate(20);
-
-//		parallelTransitionDown.play();
 		 
 
 		
@@ -175,7 +163,6 @@ public class AnimationController {
 	}
 	
     public void continueAnimation() {
-//    	parallelTransition.play();
 		parallelTransitionUp.play();
 		parallelTransitionDown.play();
     	timer.play();
