@@ -25,7 +25,6 @@ public class Simulation {
 	private Force aForce;
 	private Force fForce;
 	
-	
 	public void setSysVel(HorizontalVector horizontalVector) {
 		this.sysVel.set(horizontalVector);
 	}

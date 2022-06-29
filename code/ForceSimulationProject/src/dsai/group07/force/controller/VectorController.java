@@ -6,12 +6,14 @@ import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.MainObject;
 import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.NetForce;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.transform.Rotate;
 
 public class VectorController {
 	private Simulation simul;
@@ -40,21 +42,32 @@ public class VectorController {
 	@FXML
 	TextField aForceTextField;
 	
+	Rotate flipRotation = new Rotate(180, Rotate.Y_AXIS);
 	
-	private SimpleDoubleProperty frictionForceAngleRotate = new SimpleDoubleProperty(0);
-	private SimpleDoubleProperty appliedForceAngleRotate = new SimpleDoubleProperty(0);
-	private SimpleDoubleProperty totalForceAngleRotate = new SimpleDoubleProperty(0);
+	// TODO: Fix rotate vector
+//	private SimpleDoubleProperty frictionForceAngleRotate = new SimpleDoubleProperty(0);
+//	private SimpleDoubleProperty appliedForceAngleRotate = new SimpleDoubleProperty(0);
+//	private SimpleDoubleProperty totalForceAngleRotate = new SimpleDoubleProperty(0);
+	
+	private double preFrictionForce = 1;
+	private double preAppliedForce = 1;
+	private double preTotalForce = 1;
+	
+	private double  appliedForceX;
+	private double frictionForceX;
 	
 	private Force fForceSimul;
 	private Force aForceSimul;
 	private Force totalForceSimul;
 	
-	private MainObject objectTest;
-	
 	
 	public void setsim(Simulation simul) {
+		
 		this.simul = simul;
-		this.objectTest = this.simul.getObj();
+		
+		
+		this.appliedForceX = this.aForceVector.getX();
+		this.frictionForceX = this.fForceVector.getX();
 		
 		this.fForceSimul = this.simul.getfForce();
 		this.aForceSimul = this.simul.getaForce();
@@ -62,53 +75,58 @@ public class VectorController {
 		
 		this.fForceVector.visibleProperty().bind(this.fFroceCheckBox.selectedProperty());
 		this.fForceVector.fitWidthProperty().bind(this.fForceSimul.getLengthProperty());
-		this.fForceVector.rotateProperty().bind(this.frictionForceAngleRotate);
+//		this.fForceVector.rotateProperty().bind(this.frictionForceAngleRotate);
+		this.fForceVector.setSmooth(true);
 		
 		this.aForceVector.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
 		this.aForceVector.fitWidthProperty().bind(this.aForceSimul.getLengthProperty());
-		this.aForceVector.rotateProperty().bind(this.appliedForceAngleRotate);
+//		this.aForceVector.rotateProperty().bind(this.appliedForceAngleRotate);
+		this.aForceVector.setSmooth(true);
+		
 		
 		this.totalForce.visibleProperty().bind(this.netForceCheckBox.selectedProperty());
 		this.totalForce.fitWidthProperty().bind(this.totalForceSimul.getLengthProperty());
-		this.totalForce.rotateProperty().bind(this.totalForceAngleRotate);
+//		this.totalForce.rotateProperty().bind(this.totalForceAngleRotate);
 	}
-	
 	@FXML
 	public void fForceRotate() {
-		this.fForceSimul.setValue(Double.parseDouble(this.fFroceTextField.getText()));
+		double tmpFriction = this.getValueTextField(this.fFroceTextField);
+		this.fForceSimul.setValue(tmpFriction);
+		double tmpTotal = this.simul.getNetForce().getValue();
 		
-		if (this.totalForceSimul.getValue() >= 0) {
-			this.totalForceAngleRotate.set(0);
-		}
-		else {
-			this.totalForceAngleRotate.set(180);
+		if (tmpFriction*this.preFrictionForce < 0) {
+			this.fForceVector.getTransforms().add(flipRotation);
 		}
 		
-		if (this.fForceSimul.getValue() >= 0) {
-			this.frictionForceAngleRotate.set(0);
+		if (tmpTotal*this.preTotalForce < 0) {
+			this.totalForce.getTransforms().add(flipRotation);
 		}
-		else {
-			
-			this.frictionForceAngleRotate.set(180);
-		}
+		
+
+		this.preFrictionForce = tmpFriction;
+		this.preTotalForce = tmpTotal;
 	}
 	
 	@FXML
 	public void aForceRotate() {
-		this.aForceSimul.setValue(Double.parseDouble(this.aForceTextField.getText()));
+		double tmpAppliedForce = this.getValueTextField(this.aForceTextField);
+		this.aForceSimul.setValue(this.getValueTextField(this.aForceTextField));
+		double tmpTotal = this.simul.getNetForce().getValue();
 		
-		if (this.totalForceSimul.getValue() >= 0) {
-			this.totalForceAngleRotate.set(0);
-		}
-		else {
-			this.totalForceAngleRotate.set(180);
+		if (tmpTotal * this.preTotalForce < 0) {
+			this.totalForce.getTransforms().add(flipRotation);
 		}
 		
-		if (this.aForceSimul.getValue() >= 0) {
-			this.appliedForceAngleRotate.set(0);
+		if (tmpAppliedForce *this.preAppliedForce < 0) {
+			this.aForceVector.getTransforms().add(flipRotation);
 		}
-		else {
-			this.appliedForceAngleRotate.set(180);
-		}
+		this.preAppliedForce = tmpAppliedForce;
+		this.preTotalForce = tmpTotal;
+	}
+	
+	public double getValueTextField(TextField textField) {
+		String value = textField.getText();
+		return Double.parseDouble(value);
+		
 	}
 }

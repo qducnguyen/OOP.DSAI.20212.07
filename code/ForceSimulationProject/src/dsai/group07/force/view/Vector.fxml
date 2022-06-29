@@ -22,7 +22,7 @@
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
          <children>
-            <ImageView fx:id="fForceVector" fitHeight="44.0" fitWidth="173.0" pickOnBounds="true" visible="false" StackPane.alignment="CENTER_LEFT">
+            <ImageView fx:id="fForceVector" fitHeight="23.0" fitWidth="173.0" pickOnBounds="true" visible="false" StackPane.alignment="CENTER_LEFT">
                <image>
                   <Image url="@../../../../../resources/images/vector.png" />
                </image>
@@ -37,7 +37,7 @@
       </StackPane>
       <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <ImageView fx:id="aForceVector" fitHeight="44.0" fitWidth="173.0" pickOnBounds="true" visible="false" StackPane.alignment="CENTER_LEFT">
+            <ImageView fx:id="aForceVector" fitHeight="23.0" fitWidth="173.0" pickOnBounds="true" visible="false" StackPane.alignment="CENTER_LEFT">
                <image>
                   <Image url="@../../../../../resources/images/vector.png" />
                </image>
@@ -57,7 +57,7 @@
       </StackPane>
       <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <ImageView fx:id="totalForce" fitHeight="44.0" fitWidth="173.0" pickOnBounds="true" visible="false">
+            <ImageView fx:id="totalForce" fitHeight="23.0" fitWidth="173.0" pickOnBounds="true" visible="false" StackPane.alignment="CENTER_LEFT">
                <image>
                   <Image url="@../../../../../resources/images/vector.png" />
                </image>

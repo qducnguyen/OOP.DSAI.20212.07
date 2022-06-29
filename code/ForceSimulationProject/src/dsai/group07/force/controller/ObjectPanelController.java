@@ -52,7 +52,7 @@ public class ObjectPanelController {
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
 		
-    	//TODO: more binding for circle
+    	System.out.println("Test down Stack Pane");
 
     	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
     	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
