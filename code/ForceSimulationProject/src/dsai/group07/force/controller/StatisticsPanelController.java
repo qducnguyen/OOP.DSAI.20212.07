@@ -56,11 +56,15 @@ public class StatisticsPanelController {
 				(observable, oldValue, newValue) -> {
 					accLabel.textProperty().bind(newValue.valueProperty().asString("Current Accelerate : %.2f m/s^2;"));
 				});
-		if (this.simul.getObj() != null) {
-			ObservableStringValue posString = Bindings.createStringBinding(() -> 
-			"Current Position : " + this.simul.getObj().getPos() + " m", this.simul.getObj().posProperty());
-			posLabel.textProperty().bind(posString);
-		} 
+		
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				this.simul.setObject(newValue);
+				ObservableStringValue posString = Bindings.createStringBinding(() -> 
+				"Current Position : " + this.simul.getObj().getPos() + " m", this.simul.getObj().posProperty());
+				posLabel.textProperty().bind(posString);
+			} 
+		});
 
 		ObservableStringValue aForceString = Bindings.createStringBinding(() -> 
 		"Current Applied Force : " + this.simul.getaForce().getValue() + " N", this.simul.getaForce().valueProperty());
