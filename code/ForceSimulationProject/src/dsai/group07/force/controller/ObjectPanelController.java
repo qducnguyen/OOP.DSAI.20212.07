@@ -10,7 +10,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.CheckBox;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
@@ -44,8 +43,8 @@ public class ObjectPanelController {
     @FXML
     private Circle cir;
     
-    @FXML
-    private CheckBox draggableCheckBox;
+//    @FXML
+//    private CheckBox draggableCheckBox;
     
     
 
@@ -178,19 +177,19 @@ public class ObjectPanelController {
         
         
         
-        draggableCheckBox.selectedProperty().addListener(
-        		(observable, oldValue, newValue) -> 
-        		{
-        			if (newValue) {
-        				cir.setOnDragDetected(cirOnDragDectected);
-        				rec.setOnDragDetected(recOnDragDectected);
-        			}
-        			else {
-            				rec.setOnDragDetected(null);
-        					cir.setOnDragDetected(null);
-        			}
-        		});
-        
+//        draggableCheckBox.selectedProperty().addListener(
+//        		(observable, oldValue, newValue) -> 
+//        		{
+//        			if (newValue) {
+//        				cir.setOnDragDetected(cirOnDragDectected);
+//        				rec.setOnDragDetected(recOnDragDectected);
+//        			}
+//        			else {
+//            				rec.setOnDragDetected(null);
+//        					cir.setOnDragDetected(null);
+//        			}
+//        		});
+//        
                 
     }
     
@@ -198,7 +197,7 @@ public class ObjectPanelController {
     public void setSimul(Simulation simul) {
 		this.simul = simul;
 		
-    	draggableCheckBox.selectedProperty().bind(this.simul.isStartProperty().not());
+//    	draggableCheckBox.selectedProperty().bind(this.simul.isStartProperty().not());
     	
     	this.simul.objProperty().addListener(
     			(observable, oldValue, newValue) -> 
@@ -215,6 +214,23 @@ public class ObjectPanelController {
     				}
     				
     			});
+
+    	
+    	
+    	//Draggable bind to this.simul.isStartProperty()
+    	this.simul.isStartProperty().addListener(
+    			(observable, oldValue, newValue) -> 
+    			{
+    				if (newValue) {
+    					rec.setOnDragDetected(null);
+    					cir.setOnDragDetected(null);
+    				}
+    				else {
+    					cir.setOnDragDetected(cirOnDragDectected);
+        				rec.setOnDragDetected(recOnDragDectected);
+    				}
+    			});
+
 	}
 
 	private class EventDragDetected implements EventHandler<MouseEvent>{
