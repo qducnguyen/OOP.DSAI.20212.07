@@ -112,12 +112,14 @@ public class AnimationController {
             public void tick(float secondsSinceLastFrame) {
             	if(simul.getObj() != null) {
             	simul.applyForceInTime(sim.getNetForce(), secondsSinceLastFrame);
+            	/* Only used for testing
         		System.out.println("aForce " + simul.getaForce().getValue());
         		System.out.println("fForce " + simul.getfForce().getValue());
         		System.out.println("netForce " + simul.getNetForce().getValue());
         		System.out.println("Pos " + simul.getObj().getPos());
         		System.out.println("vel " + simul.getObj().velProperty().getValue());
         		System.out.println("acc " + simul.getObj().accProperty().getValue());
+        		*/
             	}
             	else {
             		System.out.println("There is something wrong ...");

@@ -24,7 +24,7 @@ public class FrictionForce extends Force {
 		this.aForce = aForce;
 		updateFrictionForce();
 	}
-	
+	/* Only used for testing model
 	public void surfaceListener() {
 		try {
 			surface.staCoefProperty().addListener(observable -> {
@@ -81,7 +81,7 @@ public class FrictionForce extends Force {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public void updateFrictionForce() {
 		if (mainObj != null) {
@@ -120,16 +120,8 @@ public class FrictionForce extends Force {
 		} 
 	}
 
-	public Surface getSurface() {
-		return surface;
-	}
-
 	public void setMainObj(MainObject obj) {
 		this.mainObj = obj;
-	}
-
-	public AppliedForce getaForce() {
-		return aForce;
 	}
 
 }

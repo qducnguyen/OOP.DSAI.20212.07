@@ -2,7 +2,6 @@ package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.vector.FrictionForce;
-import dsai.group07.force.model.vector.NetForce;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
