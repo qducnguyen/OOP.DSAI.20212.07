@@ -2,6 +2,7 @@ package dsai.group07.force.controller;
 
 import dsai.group07.force.controller.utils.GameAnimationTimer;
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Cylinder;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
@@ -111,7 +112,12 @@ public class AnimationController {
             @Override
             public void tick(float secondsSinceLastFrame) {
             	if(simul.getObj() != null) {
-            	simul.getObj().updateVel(secondsSinceLastFrame);}
+            		simul.getObj().updateVel(secondsSinceLastFrame);
+            		//TODO: just update..
+            		if(simul.getObj() instanceof Cylinder) {
+            			((Cylinder)simul.getObj()).updateAngVel(((Cylinder)simul.getObj()).accProperty().getValue(), secondsSinceLastFrame);
+            		}
+            	}
             	else {
             		System.out.println("There is something wrong ...");
             	}

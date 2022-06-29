@@ -9,6 +9,27 @@
 
 <StackPane alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
    <children>
+      <Label fx:id="angLabel" text="Label" textFill="ORANGE">
+         <StackPane.margin>
+            <Insets left="25.0" top="-120.0" />
+         </StackPane.margin>
+      </Label>
+      <Label fx:id="angAccLabel" text="Label" textFill="ORANGE">
+         <opaqueInsets>
+            <Insets left="25.0" top="-80.0" />
+         </opaqueInsets>
+         <StackPane.margin>
+            <Insets left="25.0" top="-80.0" />
+         </StackPane.margin>
+      </Label>
+      <Label fx:id="angVelLabel" text="Label" textFill="ORANGE">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <StackPane.margin>
+            <Insets left="25.0" top="-40.0" />
+         </StackPane.margin>
+      </Label>
       <Label fx:id="posLabel" text="Label" textFill="ORANGE">
          <StackPane.margin>
             <Insets left="25.0" />

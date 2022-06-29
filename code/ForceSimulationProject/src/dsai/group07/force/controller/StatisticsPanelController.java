@@ -1,6 +1,7 @@
 package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Rotatable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -8,7 +9,15 @@ public class StatisticsPanelController {
 	
 	private Simulation simul;
 	
+    @FXML
+    private Label angLabel;
 
+    @FXML
+    private Label angAccLabel;
+
+    @FXML
+    private Label angVelLabel;
+    
     @FXML
     private Label posLabel;
 
@@ -31,6 +40,16 @@ public class StatisticsPanelController {
 	
 	@FXML
    	public void initialize()  {
+		
+		
+		 angLabel.setText("Current Angle Position  : 0.00 *");
+		 angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
+		 angVelLabel.setText("Current Angular Velocity: 0.00 * /s");
+		 
+		 //Default 3 Label above are invisible.
+		 setVisibleThreeAngLabels(false);
+		 
+		 
 		 accLabel.setText("Current Accelerate: 0.00 m/s^2");
 		 velLabel.setText("Current Velocity : 0.00 m/s");
 		 posLabel.setText("Current Position : 0.00 m");
@@ -49,5 +68,30 @@ public class StatisticsPanelController {
 					System.out.println(observable);
 				});
 		
+		this.simul.sysAccProperty().addListener(
+				(observable, oldValue, newValue) ->
+				{
+					accLabel.textProperty().bind(newValue.valueProperty().asString("Current Accelerate: %.2f m/s^2"));
+				}
+				);
+		
+		this.simul.objProperty().addListener(
+				(observable, oldValue, newValue) -> 
+				{
+					if(newValue instanceof Rotatable) {
+						 setVisibleThreeAngLabels(true);
+					}
+					else {
+						setVisibleThreeAngLabels(false);
+					}
+				}
+				);
+		
+	}
+	
+	private void setVisibleThreeAngLabels(boolean isVi) {
+		 angLabel.setVisible(isVi);
+		 angAccLabel.setVisible(isVi);
+		 angVelLabel.setVisible(isVi);
 	}
 }

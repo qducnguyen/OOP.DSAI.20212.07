@@ -1,6 +1,7 @@
 package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Cylinder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -35,6 +36,17 @@ public class ForcePanelController {
 				{
 					
 					this.simul.getObj().updateAcc(this.simul.getaForce());
+					
+					//TODO: update in general
+					if (simul.getObj() instanceof Cylinder) {
+						// BUG: .......
+						try {
+							((Cylinder)this.simul.getObj()).updateAngAcc(this.simul.getaForce());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
 					
 					if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0) { // newValue.doubleValue() != 0: Prevent auto start when force == 0}
 						this.simul.setIsStart(true);

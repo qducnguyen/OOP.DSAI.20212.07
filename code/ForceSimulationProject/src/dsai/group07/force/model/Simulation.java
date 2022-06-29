@@ -9,8 +9,10 @@ import dsai.group07.force.model.vector.FrictionForce;
 import dsai.group07.force.model.vector.HorizontalVector;
 import dsai.group07.force.model.vector.NetForce;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Simulation {
@@ -21,6 +23,10 @@ public class Simulation {
 	private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
+	private DoubleProperty sysAngAcc = new SimpleDoubleProperty(0);
+	private DoubleProperty sysAngVel = new SimpleDoubleProperty(0);
+	
+	
 	private Surface surface;
 	private Force aForce;
 	private Force fForce;
@@ -55,6 +61,22 @@ public class Simulation {
 	public ObjectProperty<HorizontalVector> sysAccProperty() {
 		return sysAcc;
 	}
+	
+	public DoubleProperty getSysAngAcc() {
+		return sysAngAcc;
+	}
+
+	public void setSysAngAcc(double sysAngAcc) {
+		this.sysAngAcc.set(sysAngAcc);
+	}
+
+	public DoubleProperty getSysAngVel() {
+		return sysAngVel;
+	}
+
+	public void setSysAngVel(double sysAngVel) {
+		this.sysAngVel.set(sysAngVel);
+	}
 
 	public ObjectProperty<MainObject> objProperty(){
 		return this.obj;
@@ -67,8 +89,8 @@ public class Simulation {
 			this.sysVel.set(new HorizontalVector(0));
 		}
 		else {
-		this.sysAcc.set(obj.accProperty());
-		this.sysVel.set(obj.velProperty());
+			this.sysAcc.set(obj.accProperty());
+			this.sysVel.set(obj.velProperty());
 		}
 	}
 
