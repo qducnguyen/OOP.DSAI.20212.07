@@ -32,7 +32,7 @@ public class ControlPanelController {
 		setDownStackPane(downStackPane);
 		showObjectPanel();
 		showStatisticsPanel();
-		this.showVector();
+		showVector();
 	}
 	
 	

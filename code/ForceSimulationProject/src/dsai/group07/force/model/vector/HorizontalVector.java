@@ -9,6 +9,7 @@ public class HorizontalVector {
 	
 	protected BooleanProperty direction = new SimpleBooleanProperty(true);
 	protected DoubleProperty value = new SimpleDoubleProperty(0.0);
+	protected DoubleProperty length = new SimpleDoubleProperty(0.0);
 	
 	public HorizontalVector(double value) {
 		this.setValue(value);
@@ -37,11 +38,16 @@ public class HorizontalVector {
 	
 	public void setValue(double value) {
 		this.value.set(value);
+		this.length.set(Math.abs(value));
 		updateValueDirection();
 	}
 	
 	public double getLength() {
-		return Math.abs(this.value.doubleValue());	
+		return this.length.get();
+	}
+	
+	public DoubleProperty getLengthProperty() {
+		return this.length;
 	}
 	
 	protected void updateValueDirection() {

@@ -20,19 +20,48 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <StackPane prefHeight="150.0" prefWidth="200.0">
+      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
          <children>
-            <ImageView fx:id="netForceVector" fitHeight="44.0" fitWidth="173.0" pickOnBounds="true" visible="false" StackPane.alignment="CENTER_RIGHT">
+            <ImageView fx:id="fForceVector" fitHeight="44.0" fitWidth="173.0" pickOnBounds="true" visible="false" StackPane.alignment="CENTER_LEFT">
                <image>
                   <Image url="@../../../../../resources/images/vector.png" />
                </image>
             </ImageView>
-            <CheckBox fx:id="netForceCheck" alignment="CENTER_RIGHT" mnemonicParsing="false" text="CheckBox" StackPane.alignment="CENTER_LEFT" />
          </children>
       </StackPane>
-      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
+      <StackPane prefHeight="150.0" prefWidth="200.0">
          <children>
-            <TextField fx:id="netForceTextField" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#vectorRotate" scaleShape="false" StackPane.alignment="CENTER_RIGHT" />
+            <TextField fx:id="fFroceTextField" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#fForceRotate" prefHeight="31.0" prefWidth="56.0" scaleShape="false" StackPane.alignment="CENTER_RIGHT" />
+            <CheckBox fx:id="fFroceCheckBox" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Friction Force" StackPane.alignment="CENTER_LEFT" />
+         </children>
+      </StackPane>
+      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <ImageView fx:id="aForceVector" fitHeight="44.0" fitWidth="173.0" pickOnBounds="true" visible="false" StackPane.alignment="CENTER_LEFT">
+               <image>
+                  <Image url="@../../../../../resources/images/vector.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <children>
+            <TextField fx:id="aForceTextField" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#aForceRotate" prefHeight="31.0" prefWidth="56.0" scaleShape="false" StackPane.alignment="CENTER_RIGHT" />
+            <CheckBox fx:id="aForceCheckBox" mnemonicParsing="false" text="Applied Force" StackPane.alignment="CENTER_LEFT" />
+         </children>
+      </StackPane>
+      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <children>
+            <CheckBox fx:id="netForceCheckBox" mnemonicParsing="false" text="Net Force" StackPane.alignment="CENTER_LEFT" />
+         </children>
+      </StackPane>
+      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <ImageView fx:id="totalForce" fitHeight="44.0" fitWidth="173.0" pickOnBounds="true" visible="false">
+               <image>
+                  <Image url="@../../../../../resources/images/vector.png" />
+               </image>
+            </ImageView>
          </children>
       </StackPane>
    </children>

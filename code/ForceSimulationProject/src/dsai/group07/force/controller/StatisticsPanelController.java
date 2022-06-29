@@ -48,6 +48,8 @@ public class StatisticsPanelController {
 					velLabel.textProperty().bind(newValue.valueProperty().asString("Current Velocity : %.2f m/s"));
 					System.out.println(observable);
 				});
+		this.fForceLabel.textProperty().bind(this.simul.getfForce().valueProperty().asString("Current friction force: %.2f s/s"));
+		this.aForceLabel.textProperty().bind(this.simul.getaForce().valueProperty().asString("Current applied force: %.2f m/s"));
 		this.sumForceLabel.textProperty().bind(this.simul.getNetForce().valueProperty().asString("Current total force: %.2f m/s"));
 		
 	}
