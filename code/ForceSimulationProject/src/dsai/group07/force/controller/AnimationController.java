@@ -2,10 +2,12 @@ package dsai.group07.force.controller;
 
 import dsai.group07.force.controller.utils.GameAnimationTimer;
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Cylinder;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -21,12 +23,14 @@ public class AnimationController {
 	private GameAnimationTimer timer;
 	private Simulation simul;
 
-	private ParallelTransition parallelTransition;
-	
-	public ParallelTransition getParallelTransition() {
-		return parallelTransition;
-	}
+//	private ParallelTransition parallelTransition;
+	private ParallelTransition parallelTransitionUp;
+	private ParallelTransition parallelTransitionDown;
 
+	public ParallelTransition getParallelTransitionUp() {
+		return this.parallelTransitionUp;
+	}
+	
 	@FXML
 	private StackPane topStackPane;
 	
@@ -81,19 +85,30 @@ public class AnimationController {
 		translateTransition4.setToX(-1 * BACKGROUND_WIDTH);
 		translateTransition4.setInterpolator(Interpolator.LINEAR);
 
-		ParallelTransition parallelTransitionUp = 
+		 parallelTransitionUp = 
 				new ParallelTransition( translateTransition,  translateTransition2 );
 		parallelTransitionUp.setCycleCount(Animation.INDEFINITE);
-		
-		ParallelTransition parallelTransitionDown = 
+
+		 parallelTransitionDown = 
 				new ParallelTransition( translateTransition3, translateTransition4 );
 		parallelTransitionDown.setCycleCount(Animation.INDEFINITE);
 		
-		 parallelTransition =
-				new ParallelTransition(parallelTransitionUp,parallelTransitionDown );
+		
+//		 parallelTransition = new ParallelTransition(parallelTransitionUp, parallelTransitionDown);
+//		parallelTransition.setCycleCount(Animation.INDEFINITE);
+//			parallelTransitionUp.setRate(10);
 
+//		parallelTransition.play();
+//		parallelTransitionUp.play();
+//		parallelTransitionDown.play();
+//		 parallelTransition.setRate(-3);
+		parallelTransitionUp.setRate(0.0);
+		parallelTransitionDown.setRate(0.0);
+//		 parallelTransition.setRate(20);
+
+//		parallelTransitionDown.play();
 		 
-		 parallelTransition.setRate(0);
+
 		
 		
         // Responsive Background (Binding two parts to scene)
@@ -111,7 +126,15 @@ public class AnimationController {
             @Override
             public void tick(float secondsSinceLastFrame) {
             	if(simul.getObj() != null) {
-            	simul.applyForceInTime(sim.getNetForce(), secondsSinceLastFrame);
+            
+            // 1
+            simul.getObj().updateVel(secondsSinceLastFrame);
+            simul.applyForceInTime(sim.getNetForce(), secondsSinceLastFrame);
+            		//TODO: just update..
+            		if(simul.getObj() instanceof Cylinder) {
+            			((Cylinder)simul.getObj()).updateAngVel(((Cylinder)simul.getObj()).accProperty().getValue(), secondsSinceLastFrame);
+            		}
+
             	/* Only used for testing
         		System.out.println("aForce " + simul.getaForce().getValue());
         		System.out.println("fForce " + simul.getfForce().getValue());
@@ -120,6 +143,7 @@ public class AnimationController {
         		System.out.println("vel " + simul.getObj().velProperty().getValue());
         		System.out.println("acc " + simul.getObj().accProperty().getValue());
         		*/
+            
             	}
             	else {
             		System.out.println("There is something wrong ...");
@@ -132,31 +156,44 @@ public class AnimationController {
         this.simul.sysVelProperty().addListener(
         		(observable, oldValue, newValue) -> 
         		{
-        			parallelTransition.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+        			parallelTransitionUp.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+        			parallelTransitionDown.rateProperty().bind(newValue.valueProperty().multiply(0.5));
         		});
-        
+//        
+//        parallelTransition.rateProperty().addListener(
+//        		(observable, oldValue, newValue) -> {
+//        			System.out.println(newValue);
+//        		});
         
 	}
 
 	public void startAmination() {
-		parallelTransition.play();
+		parallelTransitionUp.play();
+		parallelTransitionDown.play();
+		
 		timer.start();
 	}
 	
     public void continueAnimation() {
-    	parallelTransition.play();
+//    	parallelTransition.play();
+		parallelTransitionUp.play();
+		parallelTransitionDown.play();
     	timer.play();
     }
     
     
 	public void pauseAnimation() {
-		parallelTransition.pause();
+		parallelTransitionUp.pause();
+		parallelTransitionDown.pause();
+//		parallelTransition.setRate(10e-4);
 		timer.pause();
 	}
 	
 	public void resetAnimation() {
-		parallelTransition.jumpTo(Duration.ZERO);
-		parallelTransition.stop();
+		parallelTransitionUp.jumpTo(Duration.ZERO);
+		parallelTransitionUp.stop();
+		parallelTransitionDown.jumpTo(Duration.ZERO);
+		parallelTransitionDown.stop();
 		timer.stop();
 	}
 	
