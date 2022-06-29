@@ -272,14 +272,13 @@ public class ObjectPanelController {
         setUpCircleRotation();
 	}
     
-    
 	public void resetObjectPosition() {
 		gridPaneObjectContainer.getChildren().clear();
 		gridPaneObjectContainer.add(rec, 0 ,0);
 		gridPaneObjectContainer.add(cir, 1 ,0);
 	}
+
     
-	
 	private void setUpCircleRotation() {
 		final int DURATION_ROTATE = 3;
 		final double DEFAULT_ROTATE_VEL = 20;
@@ -337,13 +336,6 @@ public class ObjectPanelController {
     	}
     	
     }
-
-    
-	public void resetObjectPosition() {
-		gridPaneObjectContainer.getChildren().clear();
-		gridPaneObjectContainer.add(rec, 0 ,0);
-		gridPaneObjectContainer.add(cir, 1 ,0);
-	}
     
 	public void objectListener() {
 		try {

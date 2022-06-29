@@ -84,17 +84,11 @@ public class StatisticsPanelController {
 				}
 				);
 		
-	}
-	
-	private void setVisibleThreeAngLabels(boolean isVi) {
-		 angLabel.setVisible(isVi);
-		 angAccLabel.setVisible(isVi);
-		 angVelLabel.setVisible(isVi);
-     
-     		this.simul.sysAccProperty().addListener(
+		this.simul.sysAccProperty().addListener(
 				(observable, oldValue, newValue) -> {
 					accLabel.textProperty().bind(newValue.valueProperty().asString("Current Accelerate : %.2f m/s^2;"));
 				});
+		
 		if (this.simul.getObj() != null) {
 			ObservableStringValue posString = Bindings.createStringBinding(() -> 
 			"Current Position : " + this.simul.getObj().getPos() + " m", this.simul.getObj().posProperty());
@@ -104,14 +98,42 @@ public class StatisticsPanelController {
 		ObservableStringValue aForceString = Bindings.createStringBinding(() -> 
 		"Current Applied Force : " + this.simul.getaForce().getValue() + " N", this.simul.getaForce().valueProperty());
 		aForceLabel.textProperty().bind(aForceString);
-		
+
 		ObservableStringValue fForceString = Bindings.createStringBinding(() -> 
 		"Current Friction Force : " + this.simul.getfForce().getValue() + " N", this.simul.getfForce().valueProperty());
 		fForceLabel.textProperty().bind(fForceString);
-		
+
 		//System.out.println(this.simul.getNetForce().getValue());
 		ObservableStringValue netForceString = Bindings.createStringBinding(() -> 
 		"Current Net Force : " + this.simul.getNetForce().getValue() + " N", this.simul.getNetForce().valueProperty());
 		sumForceLabel.textProperty().bind(netForceString);
+	};
+	
+	private void setVisibleThreeAngLabels(boolean isVi) {
+		angLabel.setVisible(isVi);
+		 angAccLabel.setVisible(isVi);
+		 angVelLabel.setVisible(isVi);
 	}
+	
 }
+		
+//		if (this.simul.getObj() != null) {
+//			ObservableStringValue posString = Bindings.createStringBinding(() -> 
+//			"Current Position : " + this.simul.getObj().getPos() + " m", this.simul.getObj().posProperty());
+//			posLabel.textProperty().bind(posString);
+//		} 
+//
+//		ObservableStringValue aForceString = Bindings.createStringBinding(() -> 
+//		"Current Applied Force : " + this.simul.getaForce().getValue() + " N", this.simul.getaForce().valueProperty());
+//		aForceLabel.textProperty().bind(aForceString);
+//		
+//		ObservableStringValue fForceString = Bindings.createStringBinding(() -> 
+//		"Current Friction Force : " + this.simul.getfForce().getValue() + " N", this.simul.getfForce().valueProperty());
+//		fForceLabel.textProperty().bind(fForceString);
+//		
+//		//System.out.println(this.simul.getNetForce().getValue());
+//		ObservableStringValue netForceString = Bindings.createStringBinding(() -> 
+//		"Current Net Force : " + this.simul.getNetForce().getValue() + " N", this.simul.getNetForce().valueProperty());
+//		sumForceLabel.textProperty().bind(netForceString);
+
+
