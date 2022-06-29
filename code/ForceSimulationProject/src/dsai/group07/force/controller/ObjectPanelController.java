@@ -8,6 +8,7 @@ import dsai.group07.force.model.object.Cylinder;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import dsai.group07.force.model.vector.FrictionForce;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -215,7 +216,7 @@ public class ObjectPanelController {
     			{	
     				if(newValue == null) {
     					System.out.println("Null Object");
-    					
+        		    	this.simul.getaForce().setValue(0);
     				}
     				else if (newValue instanceof Cylinder){
     					System.out.println("Cylinder Time.......");
@@ -225,10 +226,13 @@ public class ObjectPanelController {
     				{
     					System.out.println("Cube Time......");
     					System.out.println(newValue.getClass());
-    				
-    				
+			this.simul.setObject(newValue);
+    					((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
+        		    	objectListener();
     				}
+    				
     			});
+
     	
     	
     	//Draggable bind to this.simul.isStartProperty()
@@ -334,5 +338,33 @@ public class ObjectPanelController {
     	
     }
 
+    
+	public void resetObjectPosition() {
+		gridPaneObjectContainer.getChildren().clear();
+		gridPaneObjectContainer.add(rec, 0 ,0);
+		gridPaneObjectContainer.add(cir, 1 ,0);
+	}
+    
+	public void objectListener() {
+		try {
+			this.simul.getObj().massProperty().addListener(observable -> {
+				try {
+					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			
+			this.simul.getObj().velProperty().valueProperty().addListener(observable -> {
+				try {
+					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
