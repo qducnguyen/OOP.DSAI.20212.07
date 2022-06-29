@@ -7,6 +7,7 @@ import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -85,16 +86,27 @@ public class AnimationController {
 		ParallelTransition parallelTransitionUp = 
 				new ParallelTransition( translateTransition,  translateTransition2 );
 		parallelTransitionUp.setCycleCount(Animation.INDEFINITE);
-		
+
 		ParallelTransition parallelTransitionDown = 
 				new ParallelTransition( translateTransition3, translateTransition4 );
 		parallelTransitionDown.setCycleCount(Animation.INDEFINITE);
 		
-		 parallelTransition =
-				new ParallelTransition(parallelTransitionUp,parallelTransitionDown );
+		
+//		 parallelTransition = new ParallelTransition(parallelTransitionUp, parallelTransitionDown);
+//		parallelTransition.setCycleCount(Animation.INDEFINITE);
+//			parallelTransitionUp.setRate(10);
 
+//		parallelTransition.play();
+		parallelTransitionUp.play();
+		parallelTransitionDown.play();
+//		 parallelTransition.setRate(-3);
+		parallelTransitionUp.setRate(-3);
+		parallelTransitionDown.setRate(-3);
+//		 parallelTransition.setRate(20);
+
+//		parallelTransitionDown.play();
 		 
-		 parallelTransition.setRate(0);
+
 		
 		
         // Responsive Background (Binding two parts to scene)
@@ -129,25 +141,36 @@ public class AnimationController {
         this.simul.sysVelProperty().addListener(
         		(observable, oldValue, newValue) -> 
         		{
-        			parallelTransition.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+//        			parallelTransition.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+//        			parallelTransition.rateProperty().bind(
+//        					Bindings.when(newValue.valueProperty().lessThan(0.01))
+//        						.then(-2)
+//        						.otherwise(newValue.valueProperty().multiply(0.5))
+//        					newValue.valueProperty().multiply(0.5)
+//        					);
         		});
-        
+//        
+//        parallelTransition.rateProperty().addListener(
+//        		(observable, oldValue, newValue) -> {
+//        			System.out.println(newValue);
+//        		});
         
 	}
 
 	public void startAmination() {
-		parallelTransition.play();
+//		parallelTransition.play();
 		timer.start();
 	}
 	
     public void continueAnimation() {
-    	parallelTransition.play();
+//    	parallelTransition.play();
     	timer.play();
     }
     
     
 	public void pauseAnimation() {
 		parallelTransition.pause();
+//		parallelTransition.setRate(10e-4);
 		timer.pause();
 	}
 	

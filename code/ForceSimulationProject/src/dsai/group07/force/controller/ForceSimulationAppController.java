@@ -129,16 +129,6 @@ public class ForceSimulationAppController {
 		
 		
 		
-		// Status of ParallelTransition(AnimationController) --> pauseButton Text
-		this.aniController.getParallelTransition().statusProperty().addListener((obs, oldValue, newValue) -> {
-			if( newValue == Animation.Status.RUNNING ) {
-				pauseButton.setText( "||" );
-			} else {
-				pauseButton.setText( ">" );
-			}
-		});
-		
-		
 		//TODO: Just pause, start through model
 		
 		this.simul.isStartProperty().addListener(
@@ -146,7 +136,7 @@ public class ForceSimulationAppController {
 					if(newValue) {
 						this.aniController.startAmination();
 						
-						simul.setIsPause(false);
+//						simul.setIsPause(false);
 						
 					}
 				});
@@ -154,9 +144,11 @@ public class ForceSimulationAppController {
 		this.simul.isPauseProperty().addListener(
 				(observable, oldValue, newValue) -> {
 					if(!newValue) {
+						pauseButton.setText("||");
 						this.aniController.continueAnimation();
 					}
 					else {
+						pauseButton.setText(">");
 						this.aniController.pauseAnimation();
 					}
 				});
