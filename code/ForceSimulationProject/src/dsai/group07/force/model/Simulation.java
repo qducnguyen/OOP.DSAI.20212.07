@@ -7,7 +7,6 @@ import dsai.group07.force.model.vector.AppliedForce;
 import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.FrictionForce;
 import dsai.group07.force.model.vector.HorizontalVector;
-import dsai.group07.force.model.vector.NetForce;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -21,13 +20,13 @@ public class Simulation {
 	private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
+	private Force netForce = new Force(0);
 	private Surface surface;
 	private Force aForce;
 	private Force fForce;
 	
 	
 	public Simulation() {
-	
 		this.surface = new Surface();
 		this.aForce = new AppliedForce(0);
 		this.fForce = new FrictionForce(0);
@@ -38,6 +37,7 @@ public class Simulation {
 		this.surface = surface;
 		this.aForce = aForce;
 		this.fForce = new FrictionForce(0, surface, mainObj, aForce);
+		updateNetForce();
 	}
 
 	public void setSysVel(HorizontalVector horizontalVector) {
@@ -85,7 +85,7 @@ public class Simulation {
 	}
 
 	public void setIsPause(boolean isPause) {
-		this.isPause.set(isPause);;
+		this.isPause.set(isPause);
 	}
 
 	public BooleanProperty isStartProperty() {
@@ -116,10 +116,14 @@ public class Simulation {
 		return fForce;
 	}
 	
-	public Force getNetForce() {
-		return new NetForce(0, aForce, fForce);
-	}
+	//public void updateNetForce() {
+	//	Force newNetForce = Force.sumTwoForce(aForce, fForce);
+	//	this.netForce.set(newNetForce);
+	//}
 	
+	public Force getNetForce() {
+		return netForce;
+	}
 	
 	public void start() {
 		setIsStart(true);
@@ -148,6 +152,11 @@ public class Simulation {
 	
 	public HorizontalVector getObjVel() {
 		return getObj().velProperty();
+	}
+	
+	public void updateNetForce() {
+		Force newNerForce = Force.sumTwoForce(aForce, fForce);
+		netForce.setValue(newNerForce.getValue());
 	}
 	
 	public void applyForceInTime(Force force, double t) {

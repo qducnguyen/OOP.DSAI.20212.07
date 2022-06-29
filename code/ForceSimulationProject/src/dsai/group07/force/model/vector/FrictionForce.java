@@ -23,9 +23,6 @@ public class FrictionForce extends Force {
 		this.mainObj = mainObj;
 		this.aForce = aForce;
 		updateFrictionForce();
-		objectListener();
-		aForceListener();
-		surfaceListener();
 	}
 	
 	public void surfaceListener() {
@@ -87,37 +84,52 @@ public class FrictionForce extends Force {
 	}
 	
 	public void updateFrictionForce() {
-		double normalForce = g * mainObj.getMass();
-		
-		if (mainObj instanceof Cube) {
-			// Object is motionless, friction force should oppose applied force and = applied force
-			if (aForce.getLength() <= normalForce * surface.getStaCoef()) {
-				if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
-					mainObj.setVel(0);
-					setValue(-aForce.getValue());
-				} else {
-					// Object is moving, friction force should oppose object's velocity and = normalForce * kiCoef
-					double sign = -Math.signum(mainObj.velProperty().getValue());
-					setValue(sign * surface.getKiCoef() * normalForce); 
-				}
-			} else {
-				double sign = -Math.signum(mainObj.velProperty().getValue());
-				setValue(sign * surface.getKiCoef() * normalForce); 
-			}
-		} else if (mainObj instanceof Cylinder) {
-			if (aForce.getLength() <= 3 * normalForce * surface.getStaCoef()) {
-				if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
-					mainObj.setVel(0);
-					setValue(-aForce.getValue() / 3);
+		if (mainObj != null) {
+			double normalForce = g * mainObj.getMass();
+			
+			if (mainObj instanceof Cube) {
+				// Object is motionless, friction force should oppose applied force and = applied force
+				if (aForce.getLength() <= normalForce * surface.getStaCoef()) {
+					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
+						mainObj.setVel(0);
+						setValue(-aForce.getValue());
+						//System.out.println(getValue());
+					} else {
+						// Object is moving, friction force should oppose object's velocity and = normalForce * kiCoef
+						double sign = -Math.signum(mainObj.velProperty().getValue());
+						setValue(sign * surface.getKiCoef() * normalForce); 
+					}
 				} else {
 					double sign = -Math.signum(mainObj.velProperty().getValue());
 					setValue(sign * surface.getKiCoef() * normalForce);
 				}
-			} else {
-				double sign = -Math.signum(mainObj.velProperty().getValue());
-				setValue(sign * surface.getKiCoef() * normalForce);
+			} else if (mainObj instanceof Cylinder) {
+				if (aForce.getLength() <= 3 * normalForce * surface.getStaCoef()) {
+					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
+						mainObj.setVel(0);
+						setValue(-aForce.getValue() / 3);
+					} else {
+						double sign = -Math.signum(mainObj.velProperty().getValue());
+						setValue(sign * surface.getKiCoef() * normalForce);
+					}
+				} else {
+					double sign = -Math.signum(mainObj.velProperty().getValue());
+					setValue(sign * surface.getKiCoef() * normalForce);
+				}
 			}
-		}
+		} 
+	}
+
+	public Surface getSurface() {
+		return surface;
+	}
+
+	public void setMainObj(MainObject obj) {
+		this.mainObj = obj;
+	}
+
+	public AppliedForce getaForce() {
+		return aForce;
 	}
 
 }

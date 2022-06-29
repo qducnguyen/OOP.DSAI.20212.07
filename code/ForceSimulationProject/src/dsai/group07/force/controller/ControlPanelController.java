@@ -14,6 +14,7 @@ public class ControlPanelController {
 	private ObjectPanelController objController;
 	private StatisticsPanelController staController;
 	private ForcePanelController forceController;
+	private SurfacePanelController surfaceController;
 	private StackPane topStackPane;
 	private StackPane downStackPane;
 	
@@ -32,6 +33,7 @@ public class ControlPanelController {
 		setDownStackPane(downStackPane);
 		showObjectPanel();
 		showForcePanel();
+		showSurfacePanel();
 		showStatisticsPanel();
 	}
 	
@@ -113,5 +115,20 @@ public class ControlPanelController {
 		}
 	}
 	
+	private void showSurfacePanel() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/SurfacePanel.fxml"));
+			GridPane surfacePanel = (GridPane) loader.load();
+			
+			controlPanelGridPane.add(surfacePanel, 2, 0);
+			
+			surfaceController = loader.getController();
+
+			surfaceController.setSimul(simul);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
