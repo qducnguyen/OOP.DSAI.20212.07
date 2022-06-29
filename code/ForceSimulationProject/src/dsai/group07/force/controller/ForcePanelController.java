@@ -49,8 +49,12 @@ public class ForcePanelController {
 					
 					
 					if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0) { // newValue.doubleValue() != 0: Prevent auto start when force == 0}
-						this.simul.setIsStart(true);
+						this.simul.start();
 					}
+					else if (this.simul.getIsPause()) {
+						this.simul.conti();
+					}
+					
 					
 					forceTextField.getParent().requestFocus();
 					

@@ -23,12 +23,14 @@ public class AnimationController {
 	private GameAnimationTimer timer;
 	private Simulation simul;
 
-	private ParallelTransition parallelTransition;
-	
-	public ParallelTransition getParallelTransition() {
-		return parallelTransition;
-	}
+//	private ParallelTransition parallelTransition;
+	private ParallelTransition parallelTransitionUp;
+	private ParallelTransition parallelTransitionDown;
 
+	public ParallelTransition getParallelTransitionUp() {
+		return this.parallelTransitionUp;
+	}
+	
 	@FXML
 	private StackPane topStackPane;
 	
@@ -83,11 +85,11 @@ public class AnimationController {
 		translateTransition4.setToX(-1 * BACKGROUND_WIDTH);
 		translateTransition4.setInterpolator(Interpolator.LINEAR);
 
-		ParallelTransition parallelTransitionUp = 
+		 parallelTransitionUp = 
 				new ParallelTransition( translateTransition,  translateTransition2 );
 		parallelTransitionUp.setCycleCount(Animation.INDEFINITE);
 
-		ParallelTransition parallelTransitionDown = 
+		 parallelTransitionDown = 
 				new ParallelTransition( translateTransition3, translateTransition4 );
 		parallelTransitionDown.setCycleCount(Animation.INDEFINITE);
 		
@@ -97,11 +99,11 @@ public class AnimationController {
 //			parallelTransitionUp.setRate(10);
 
 //		parallelTransition.play();
-		parallelTransitionUp.play();
-		parallelTransitionDown.play();
+//		parallelTransitionUp.play();
+//		parallelTransitionDown.play();
 //		 parallelTransition.setRate(-3);
-		parallelTransitionUp.setRate(-3);
-		parallelTransitionDown.setRate(-3);
+		parallelTransitionUp.setRate(0.0);
+		parallelTransitionDown.setRate(0.0);
 //		 parallelTransition.setRate(20);
 
 //		parallelTransitionDown.play();
@@ -141,13 +143,8 @@ public class AnimationController {
         this.simul.sysVelProperty().addListener(
         		(observable, oldValue, newValue) -> 
         		{
-//        			parallelTransition.rateProperty().bind(newValue.valueProperty().multiply(0.5));
-//        			parallelTransition.rateProperty().bind(
-//        					Bindings.when(newValue.valueProperty().lessThan(0.01))
-//        						.then(-2)
-//        						.otherwise(newValue.valueProperty().multiply(0.5))
-//        					newValue.valueProperty().multiply(0.5)
-//        					);
+        			parallelTransitionUp.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+        			parallelTransitionDown.rateProperty().bind(newValue.valueProperty().multiply(0.5));
         		});
 //        
 //        parallelTransition.rateProperty().addListener(
@@ -158,25 +155,32 @@ public class AnimationController {
 	}
 
 	public void startAmination() {
-//		parallelTransition.play();
+		parallelTransitionUp.play();
+		parallelTransitionDown.play();
+		
 		timer.start();
 	}
 	
     public void continueAnimation() {
 //    	parallelTransition.play();
+		parallelTransitionUp.play();
+		parallelTransitionDown.play();
     	timer.play();
     }
     
     
 	public void pauseAnimation() {
-		parallelTransition.pause();
+		parallelTransitionUp.pause();
+		parallelTransitionDown.pause();
 //		parallelTransition.setRate(10e-4);
 		timer.pause();
 	}
 	
 	public void resetAnimation() {
-		parallelTransition.jumpTo(Duration.ZERO);
-		parallelTransition.stop();
+		parallelTransitionUp.jumpTo(Duration.ZERO);
+		parallelTransitionUp.stop();
+		parallelTransitionDown.jumpTo(Duration.ZERO);
+		parallelTransitionDown.stop();
 		timer.stop();
 	}
 	
