@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="dsai.group07.force.controller.ForcePanelController">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
+<StackPane fx:id="forcePanel" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.ForcePanelController">
+   <children>
+      <TextField fx:id="forceTextField" alignment="CENTER" onAction="#forceTextFieldOnAction" text="0" StackPane.alignment="CENTER" />
+   </children>
+</StackPane>

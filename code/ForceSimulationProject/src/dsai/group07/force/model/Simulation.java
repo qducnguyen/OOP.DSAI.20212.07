@@ -7,24 +7,44 @@ import dsai.group07.force.model.vector.AppliedForce;
 import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.FrictionForce;
 import dsai.group07.force.model.vector.HorizontalVector;
-import dsai.group07.force.model.vector.NetForce;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Simulation {
 	
-	
 	private BooleanProperty isStart = new SimpleBooleanProperty(false); 
 	private BooleanProperty isPause = new SimpleBooleanProperty(true);
+	// isStart = false --> isPause always true but the opposite is not true.
 	private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
+	private DoubleProperty sysAngAcc = new SimpleDoubleProperty(0);
+	private DoubleProperty sysAngVel = new SimpleDoubleProperty(0);
+	private Force netForce = new Force(0);
+
 	private Surface surface;
 	private Force aForce;
 	private Force fForce;
 	
+
+	public Simulation() {
+		this.surface = new Surface();
+		this.aForce = new AppliedForce(0);
+		this.fForce = new FrictionForce(0);
+	}
+
+	public Simulation(MainObject mainObj, Surface surface, AppliedForce aForce) {
+		this.obj.set(mainObj);
+		this.surface = surface;
+		this.aForce = aForce;
+		this.fForce = new FrictionForce(0, surface, mainObj, aForce);
+		updateNetForce();
+	}
+
 	public void setSysVel(HorizontalVector horizontalVector) {
 		this.sysVel.set(horizontalVector);
 	}
@@ -40,29 +60,27 @@ public class Simulation {
 	public ObjectProperty<HorizontalVector> sysAccProperty() {
 		return sysAcc;
 	}
-
-	public Simulation() {
-
-		this.surface = new Surface();
-		this.aForce = new AppliedForce(0);
-		this.fForce = new FrictionForce(0);
-	}
 	
-	public Simulation(MainObject mainObj, Surface surface, AppliedForce aForce) {
-		this.obj.set(mainObj);
-		this.surface = surface;
-		this.aForce = aForce;
-		this.fForce = new FrictionForce(0, surface, mainObj, aForce);
+	public DoubleProperty getSysAngAcc() {
+		return sysAngAcc;
 	}
-	
+
+	public void setSysAngAcc(double sysAngAcc) {
+		this.sysAngAcc.set(sysAngAcc);
+	}
+
+	public DoubleProperty getSysAngVel() {
+		return sysAngVel;
+	}
+
+	public void setSysAngVel(double sysAngVel) {
+		this.sysAngVel.set(sysAngVel);
+	}
+
 	public ObjectProperty<MainObject> objProperty(){
 		return this.obj;
 	}
-	
-	public MainObject getObj() {
-		return this.obj.get();
-	}
-	
+
 	public void setObject(MainObject obj) {
 		this.obj.set(obj);
 		if (obj == null) {
@@ -70,11 +88,39 @@ public class Simulation {
 			this.sysVel.set(new HorizontalVector(0));
 		}
 		else {
-		this.sysAcc.set(obj.accProperty());
-		this.sysVel.set(obj.velProperty());
+			this.sysAcc.set(obj.accProperty());
+			this.sysVel.set(obj.velProperty());
 		}
 	}
-	
+
+	public MainObject getObj() {
+		return this.obj.get();
+	}
+
+	public BooleanProperty isPauseProperty() {
+		return isPause;
+	}
+
+	public boolean getIsPause() {
+		return isPause.get();
+	}
+
+	public void setIsPause(boolean isPause) {
+		this.isPause.set(isPause);
+	}
+
+	public BooleanProperty isStartProperty() {
+		return this.isStart;
+	}
+
+	public boolean getIsStart() {
+		return this.isStart.get();
+	}
+
+	public void setIsStart(boolean isStart) {
+		this.isStart.set(isStart);
+	}
+
 	public Surface getSur() {
 		return surface;
 	}
@@ -91,55 +137,47 @@ public class Simulation {
 		return fForce;
 	}
 	
+	//public void updateNetForce() {
+	//	Force newNetForce = Force.sumTwoForce(aForce, fForce);
+	//	this.netForce.set(newNetForce);
+	//}
+	
 	public Force getNetForce() {
-		return new NetForce(0, aForce, fForce);
+		return netForce;
 	}
 	
-	public BooleanProperty isStartProperty() {
-		return this.isStart;
-	}
-	
-	public void setIsStart(boolean isStart) {
-		this.isStart.set(isStart);
-	}
-	
-	public boolean getIsStart() {
-		return this.isStart.get();
-	}
-	
-	public void pause() {
-		setIsStart(false);
-	}
-	
-	public void cont() {
+	public void start() {
 		setIsStart(true);
+		setIsPause(false);
+	}
+	
+	public void pause(){
+		setIsPause(true);
+	}
+	
+	public void conti() {
+		setIsPause(false);
 	}
 	
 	public void restart() {
 		setIsStart(false);
+		setIsPause(true);
 		aForce.setValue(0);
 		fForce.setValue(0);
 		setObject(null);
 	}
 	
-	public BooleanProperty isPauseProperty() {
-		return isPause;
-	}
-	
-	public boolean getIsPause() {
-		return isPause.get();
-	}
-
-	public void setIsPause(boolean isPause) {
-		this.isPause.set(isPause);;
-	}
-
 	public void getObjAcc() {
 		getObj().updateAcc(getNetForce());
 	}
 	
 	public HorizontalVector getObjVel() {
 		return getObj().velProperty();
+	}
+	
+	public void updateNetForce() {
+		Force newNerForce = Force.sumTwoForce(aForce, fForce);
+		netForce.setValue(newNerForce.getValue());
 	}
 	
 	public void applyForceInTime(Force force, double t) {

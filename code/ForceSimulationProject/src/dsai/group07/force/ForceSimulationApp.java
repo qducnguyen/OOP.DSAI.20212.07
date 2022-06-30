@@ -2,6 +2,8 @@ package dsai.group07.force;
 
 import dsai.group07.force.controller.ForceSimulationAppController;
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.surface.Surface;
+import dsai.group07.force.model.vector.AppliedForce;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +29,7 @@ public class ForceSimulationApp extends Application  {
 		
 		ForceSimulationAppController appController = loader.getController();
 		
-		Simulation simul = new Simulation();
+		Simulation simul = new Simulation(null, new Surface(), new AppliedForce(0));
 		appController.init(simul);
 		
 		Scene scene = new Scene(rootLayout);

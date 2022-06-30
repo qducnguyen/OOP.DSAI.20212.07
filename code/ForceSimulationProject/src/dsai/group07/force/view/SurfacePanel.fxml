@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="dsai.group07.force.controller.SurfacePanelController">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
+<GridPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.SurfacePanelController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Static Friction Coef" GridPane.halignment="CENTER" />
+      <Label text="Kinetic Friction Coef" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Slider fx:id="staticCoefSlider" blockIncrement="0.001" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="239.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" />
+      <Slider fx:id="kineticCoefSlider" blockIncrement="0.001" majorTickUnit="0.1" max="1.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="staticCoefTextField" GridPane.columnIndex="2" />
+      <TextField fx:id="kineticCoefTextField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+   </children>
+</GridPane>
