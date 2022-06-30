@@ -2,7 +2,6 @@ package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Rotatable;
-import dsai.group07.force.model.vector.HorizontalVector;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;
@@ -117,23 +116,3 @@ public class StatisticsPanelController {
 	
 }
 		
-//		if (this.simul.getObj() != null) {
-//			ObservableStringValue posString = Bindings.createStringBinding(() -> 
-//			"Current Position : " + this.simul.getObj().getPos() + " m", this.simul.getObj().posProperty());
-//			posLabel.textProperty().bind(posString);
-//		} 
-//
-//		ObservableStringValue aForceString = Bindings.createStringBinding(() -> 
-//		"Current Applied Force : " + this.simul.getaForce().getValue() + " N", this.simul.getaForce().valueProperty());
-//		aForceLabel.textProperty().bind(aForceString);
-//		
-//		ObservableStringValue fForceString = Bindings.createStringBinding(() -> 
-//		"Current Friction Force : " + this.simul.getfForce().getValue() + " N", this.simul.getfForce().valueProperty());
-//		fForceLabel.textProperty().bind(fForceString);
-//		
-//		//System.out.println(this.simul.getNetForce().getValue());
-//		ObservableStringValue netForceString = Bindings.createStringBinding(() -> 
-//		"Current Net Force : " + this.simul.getNetForce().getValue() + " N", this.simul.getNetForce().valueProperty());
-//		sumForceLabel.textProperty().bind(netForceString);
-
-
