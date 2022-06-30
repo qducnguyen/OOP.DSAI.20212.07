@@ -2,7 +2,6 @@ package dsai.group07.force;
 
 import dsai.group07.force.controller.ForceSimulationAppController;
 import dsai.group07.force.model.Simulation;
-import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.surface.Surface;
 import dsai.group07.force.model.vector.AppliedForce;
 import javafx.application.Application;

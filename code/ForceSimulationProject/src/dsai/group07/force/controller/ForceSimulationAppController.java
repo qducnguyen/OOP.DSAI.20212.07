@@ -167,16 +167,13 @@ public class ForceSimulationAppController {
 	@FXML
 	public void pauseButtonPressed() {
 		if(this.aniController.getParallelTransitionUp().getStatus() == Animation.Status.RUNNING ) {
-			System.out.println("heelo");
 			simul.pause();
 		} 
 		else {
 			if (!simul.getIsStart()) {
-//				this.aniController.startAmination();
 				simul.start();
 			}
 			else {
-//				this.aniController.continueAnimation();
 				simul.conti();
 			}
 		}
