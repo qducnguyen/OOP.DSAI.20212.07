@@ -1,5 +1,6 @@
 package dsai.group07.force.model;
 
+import dsai.group07.force.model.object.Cylinder;
 import dsai.group07.force.model.object.MainObject;
 import dsai.group07.force.model.object.Rotatable;
 import dsai.group07.force.model.surface.Surface;
@@ -184,7 +185,7 @@ public class Simulation {
 		obj.get().applyForceInTime(force, t);
 		if (obj.get() instanceof Rotatable) {
 			try {
-				((Rotatable) obj).applyForceInTimeRotate(force, t);
+				((Rotatable) obj.get()).applyForceInTimeRotate(force, t);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

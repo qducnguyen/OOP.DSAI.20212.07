@@ -50,7 +50,13 @@ public abstract class MainObject {
 	}
 	
 	public void updateVel(double t) {
-		setVel(velProperty().getValue() + this.accProperty().getValue() * t);
+		double oldVel = velProperty().getValue();
+		double newVel = oldVel + accProperty().getValue() * t;
+		if (oldVel * newVel < 0) {
+			setVel(0);
+		} else {
+			setVel(newVel);
+		}
 	}
 	
 	public void applyForceInTime(Force force, double t) {
