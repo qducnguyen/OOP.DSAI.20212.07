@@ -38,6 +38,7 @@ public class ModelTest {
 		
     	simul.applyForceInTime(10);
     	
+    	System.out.println("Kg " + mainObj.getMass() );
 		System.out.println("aForce " + simul.getaForce().getValue());
 		System.out.println("fForce " + simul.getfForce().getValue());
 		System.out.println("netForce " + simul.getNetForce().getValue());

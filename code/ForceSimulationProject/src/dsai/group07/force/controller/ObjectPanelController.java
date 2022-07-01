@@ -224,14 +224,14 @@ public class ObjectPanelController {
     					System.out.println(newValue.getClass());
     					((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
     					//this.simul.getSysAngAcc().bind(((Cylinder) newValue).angAccProperty());
-        		    	objectListener();
+//        		    	objectListener();
     				}
     				else
     				{
     					System.out.println("Cube Time......");
     					System.out.println(newValue.getClass());
     					((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
-        		    	objectListener();
+//        		    	objectListener();
     				}
     				
     			});

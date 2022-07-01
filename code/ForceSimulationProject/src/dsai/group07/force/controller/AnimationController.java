@@ -118,20 +118,20 @@ public class AnimationController {
             		//System.out.println(((FrictionForce) simul.getfForce()).getMainObj().getMass());
             		// 1
             		simul.applyForceInTime(secondsSinceLastFrame);
-            		
-            		System.out.println("aForce " + simul.getaForce().getValue());
-            		System.out.println("fForce " + simul.getfForce().getValue());
-            		System.out.println("netForce " + simul.getNetForce().getValue());
-            		
-            		System.out.println("acc " + simul.getObj().accProperty().getValue());
-            		System.out.println("vel " + simul.getObj().velProperty().getValue());
-            		System.out.println("Pos " + simul.getObj().getPos());
-            		
-            		if (simul.getObj() instanceof Cylinder) {
-                		System.out.println("AngAcc " + ((Cylinder) simul.getObj()).getAngAcc());
-                		System.out.println("AngVel " + ((Cylinder) simul.getObj()).getAngVel());
-                		System.out.println("Angle " + ((Cylinder) simul.getObj()).getAngle());
-            		}
+//            		
+//            		System.out.println("aForce " + simul.getaForce().getValue());
+//            		System.out.println("fForce " + simul.getfForce().getValue());
+//            		System.out.println("netForce " + simul.getNetForce().getValue());
+//            		
+//            		System.out.println("acc " + simul.getObj().accProperty().getValue());
+//            		System.out.println("vel " + simul.getObj().velProperty().getValue());
+//            		System.out.println("Pos " + simul.getObj().getPos());
+//            		
+//            		if (simul.getObj() instanceof Cylinder) {
+//                		System.out.println("AngAcc " + ((Cylinder) simul.getObj()).getAngAcc());
+//                		System.out.println("AngVel " + ((Cylinder) simul.getObj()).getAngVel());
+//                		System.out.println("Angle " + ((Cylinder) simul.getObj()).getAngle());
+//            		}
             	}
             	else {
             		System.out.println("There is something wrong ...");
@@ -143,16 +143,16 @@ public class AnimationController {
         //Binding rateProperty --> sysVel
         this.simul.sysVelProperty().addListener(
         		(observable, oldValue, newValue) -> 
-        		{
-        			parallelTransitionUp.rateProperty().bind(newValue.valueProperty().multiply(0.5));
-        			parallelTransitionDown.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+        		{	
+        			parallelTransitionUp.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 10e-4)).then(10e-5).otherwise(newValue.valueProperty().multiply(0.5)));
+        			parallelTransitionDown.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 10e-4)).then(10e-5).otherwise(newValue.valueProperty().multiply(0.5)));
+//        			parallelTransitionDown.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+//        			parallelTransitionUp.rateProperty().bind(newValue.valueProperty().multiply(0.5));
         		});
 //        
-//        parallelTransition.rateProperty().addListener(
-//        		(observable, oldValue, newValue) -> {
-//        			System.out.println(newValue);
-//        		});
-        
+//        parallelTransitionUp.rateProperty().addListener((observable, oldValue, newValue) -> {
+//        	System.out.println(newValue.doubleValue());
+//        });
 	}
 
 	public void startAmination() {
@@ -172,7 +172,8 @@ public class AnimationController {
 	public void pauseAnimation() {
 		parallelTransitionUp.pause();
 		parallelTransitionDown.pause();
-//		parallelTransition.setRate(10e-4);
+//		parallelTransitionUp.setRate(10e-4);
+//		parallelTransitionDown.setRate(10e-4);
 		timer.pause();
 	}
 	

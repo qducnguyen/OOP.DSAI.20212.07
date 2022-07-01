@@ -11,7 +11,7 @@ public class FrictionForce extends Force {
 	private MainObject mainObj;
 	private AppliedForce aForce;
 	public static final double g = 10;
-	public static final double VEL_THRESHOLD = 1e-5;
+	public static final double VEL_THRESHOLD = 10e-5;
 
 	public FrictionForce(double value) {
 		super(value);
@@ -86,14 +86,18 @@ public class FrictionForce extends Force {
 	public void updateFrictionForce() {
 		if (mainObj != null) {
 			double normalForce = g * mainObj.getMass();
-			
 			if (mainObj instanceof Cube) {
 				// Object is motionless, friction force should oppose applied force and = applied force
+				System.out.println("AAAAA");
 				if (aForce.getLength() <= normalForce * surface.getStaCoef()) {
+					System.out.println("BBBB");
+					System.out.println(mainObj.velProperty().getLength());
 					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
+						System.out.println("CCC");
 						mainObj.setVel(0);
-						setValue(-aForce.getValue());
+						setValue( -aForce.getValue());
 					} else {
+
 						// Object is moving, friction force should oppose object's velocity and = normalForce * kiCoef
 						double sign = -Math.signum(mainObj.velProperty().getValue());
 						setValue(sign * surface.getKiCoef() * normalForce); 
@@ -109,27 +113,39 @@ public class FrictionForce extends Force {
 					}
 				}
 			} else if (mainObj instanceof Cylinder) {
+//				System.out.println("AAAAA");
+//				System.out.println(3 * normalForce * surface.getStaCoef());
 				if (aForce.getLength() <= 3 * normalForce * surface.getStaCoef()) {
-					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
-						mainObj.setVel(0);
-						setValue(-aForce.getValue() / 3);
-					} else {
+					System.out.println("BBBB");
+					System.out.println(mainObj.velProperty().getLength());
+					
+//					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
+//						System.out.println("CCC");
+//						mainObj.setVel(0);
+//						double result = -aForce.getValue()  / 3;
+//						setValue(result); 
+					
+					double sign = -Math.signum(mainObj.velProperty().getValue());
+					if (sign == 0) {
+						sign = -Math.signum(aForce.getValue());
+					}
+					setValue(sign * aForce.getLength()  / 3);
+					}
+				else {
+//					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
+//						mainObj.setVel(0);
+//						double sign = -Math.signum(this.aForce.getValue());
+//						setValue(sign * surface.getKiCoef() * normalForce);
+//					} else {
 						double sign = -Math.signum(mainObj.velProperty().getValue());
 						setValue(sign * surface.getKiCoef() * normalForce);
-					}
-				} else {
-					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
-						mainObj.setVel(0);
-						double sign = -Math.signum(this.aForce.getValue());
-						setValue(sign * surface.getKiCoef() * normalForce);
-					} else {
-						double sign = -Math.signum(mainObj.velProperty().getValue());
-						setValue(sign * surface.getKiCoef() * normalForce);
-					}
+						
+//					}
 				}
+				} 
 			}
 		} 
-	}
+	
 
 	public void setMainObj(MainObject obj) {
 		this.mainObj = obj;
