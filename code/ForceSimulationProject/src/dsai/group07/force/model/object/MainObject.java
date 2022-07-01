@@ -50,13 +50,20 @@ public abstract class MainObject {
 	}
 	
 	public void updateVel(double t) {
-		setVel(velProperty().getValue() + this.accProperty().getValue() * t);
+		double oldVel = velProperty().getValue();
+		double newVel = oldVel + accProperty().getValue() * t;
+		if (oldVel * newVel < 0) {
+			setVel(0);
+		} else {
+			setVel(newVel);
+		}
 	}
 	
 	public void applyForceInTime(Force force, double t) {
+		double oldVel = velProperty().getValue();
 		updateAcc(force);
 		updateVel(t);
-		updatePos(vel.getValue(), t);
+		updatePos(oldVel, t);
 	}
 	
 	public DoubleProperty posProperty() {
@@ -71,8 +78,8 @@ public abstract class MainObject {
 		this.pos.setValue(pos);
 	}
 	
-	public void updatePos(double v, double t) {
-		setPos(getPos() + v * t); 
+	public void updatePos(double oldVel, double t) {
+		setPos(getPos() + oldVel * t + 0.5 * accProperty().getValue() * t * t); 
 	}
 	
 	public MainObject() throws Exception {
