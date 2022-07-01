@@ -214,10 +214,10 @@ public class ObjectPanelController {
     			//TODO: unbind getSysAngAcc ..
     			(observable, oldValue, newValue) -> 
     			{	
-					this.simul.setObject(newValue);
+//					this.simul.setObject(newValue);
     				if(newValue == null) {
     					System.out.println("Null Object");
-        		    	this.simul.getaForce().setValue(0);
+//        		    	this.simul.getaForce().setValue(0);
     				}
     				else if (newValue instanceof Cylinder) {
     					System.out.println("Cylinder Time.......");
@@ -246,30 +246,28 @@ public class ObjectPanelController {
     					rec.setOnDragDetected(null);
     					cir.setOnDragDetected(null);
     					
-    					if(cir.getParent() == topStackPane) {
-    						this.startAmination();
-    					}
+    					
     				}
     				else {
     					cir.setOnDragDetected(cirOnDragDectected);
         				rec.setOnDragDetected(recOnDragDectected);
         				
-        				this.resetAnimation();
+        				
     				}
     			});
     	
-    	this.simul.isPauseProperty().addListener(
-    			(observable, oldValue, newValue) -> 
-    			{
-    				if(newValue) {
-    					this.pauseAnimation();
-    				}
-    				else {
-    					if (cir.getParent() == topStackPane) {
-    						this.continueAnimation();
-    					}
-    				}
-    			});
+//    	this.simul.isPauseProperty().addListener(
+//    			(observable, oldValue, newValue) -> 
+//    			{
+//    				if(newValue) {
+//    					this.pauseCirAnimation();
+//    				}
+//    				else {
+//    					if (cir.getParent() == topStackPane) {
+//    						this.continueCirAnimation();
+//    					}
+//    				}
+//    			});
     	
     	 //Circle Rotation
         setUpCircleRotation();
@@ -290,27 +288,45 @@ public class ObjectPanelController {
 		this.cirRotate.setInterpolator(Interpolator.LINEAR);
 		this.cirRotate.setCycleCount(Animation.INDEFINITE);
 		
+		this.cirRotate.setRate(0.0);
 		
-		//Binding
-		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(1 / DEFAULT_ROTATE_VEL));
+		this.simul.objProperty().addListener(
+				(observable, oldValue, newValue) -> 
+				{
+					if (newValue instanceof Cylinder) {
+						this.simul.getSysAngAcc().bind(((Cylinder) newValue).angAccProperty());
+						this.simul.getSysAngVel().bind(((Cylinder) newValue).angVelProperty());
+					}
+				});
+		
+		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(-0.5)); // Change later
+		
 	}
 	
-	public void startAmination() {
+	public void startCirAmination() {
+		if(cirRotate != null) {
 		cirRotate.play();
+		}
 	}
 	
-    public void continueAnimation() {
+    public void continueCirAnimation() {
+    	if(cirRotate != null) {
     	cirRotate.play();
+    	}
     }
     
     
-	public void pauseAnimation() {
+	public void pauseCirAnimation() {
+		if(cirRotate != null) {
 		cirRotate.pause();
+		}
 	}
 	
-	public void resetAnimation() {
+	public void resetCirAnimation() {
+		if(cirRotate != null) {
 		cirRotate.jumpTo(Duration.ZERO);
 		cirRotate.stop();
+		}
 	}
 	
 	
