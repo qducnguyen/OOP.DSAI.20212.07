@@ -135,6 +135,7 @@ public class ForceSimulationAppController {
 				(observable, oldValue, newValue) -> {
 					if(newValue) {
 						this.aniController.startAmination();
+						this.objController.startCirAmination();
 						
 //						simul.setIsPause(false);
 						
@@ -146,10 +147,12 @@ public class ForceSimulationAppController {
 					if(!newValue) {
 						pauseButton.setText("||");
 						this.aniController.continueAnimation();
+						this.objController.continueCirAnimation();
 					}
 					else {
 						pauseButton.setText(">");
 						this.aniController.pauseAnimation();
+						this.objController.pauseCirAnimation();
 					}
 				});
 		
@@ -161,6 +164,7 @@ public class ForceSimulationAppController {
 		this.aniController.resetAnimation();
 		this.simul.restart();
 		this.objController.resetObjectPosition();
+		this.objController.resetCirAnimation();
 	}
 	
 	
@@ -168,13 +172,16 @@ public class ForceSimulationAppController {
 	public void pauseButtonPressed() {
 		if(this.aniController.getParallelTransitionUp().getStatus() == Animation.Status.RUNNING ) {
 			simul.pause();
+			this.objController.pauseCirAnimation();
 		} 
 		else {
 			if (!simul.getIsStart()) {
 				simul.start();
+				this.objController.startCirAmination();
 			}
 			else {
 				simul.conti();
+				this.objController.continueCirAnimation();
 			}
 		}
 	}
