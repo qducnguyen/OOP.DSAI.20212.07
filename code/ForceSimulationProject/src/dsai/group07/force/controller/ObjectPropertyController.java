@@ -51,6 +51,7 @@ public class ObjectPropertyController {
 		String lengthString = this.lengthTextField.getText();
 		
 		if (isNumber(lengthString) && isNumber(massString)) {
+			
 			double temp = Double.parseDouble(lengthString);
 			if (temp <= 0 || temp > this.max_Value) {
 				JOptionPane.showMessageDialog(null, 
@@ -61,12 +62,14 @@ public class ObjectPropertyController {
 			}
 			
 			else {
-				
+				System.out.println("Object Property Controller: " + this.simul.getObj());
+				System.out.println("Check boolean: "+  (this.simul.getObj() instanceof Cylinder));
 				if (this.simul.getObj() instanceof Cylinder) {
 					
 					System.out.println("Object Property Controller: " + (Cylinder)this.simul.getObj());
 					((Cylinder) this.simul.getObj()).setRadius(temp);
 					this.simul.getObj().setMass(Double.parseDouble(massString));
+					System.out.println("Object Property Controller: " + ((Cylinder)this.simul.getObj()).getRadius());
 				}
 				
 				else if (this.simul.getObj() instanceof Cube) {

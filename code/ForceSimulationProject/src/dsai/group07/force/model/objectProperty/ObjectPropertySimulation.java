@@ -17,6 +17,10 @@ public class ObjectPropertySimulation extends Application{
 		this.simul = simul;
 	}
 	
+	public Simulation getSimulation() {
+		return this.simul;
+	}
+	
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
