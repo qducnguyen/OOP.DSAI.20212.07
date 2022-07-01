@@ -5,6 +5,7 @@ package dsai.group07.force.controller;
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.model.objectProperty.ObjectPropertySimulation;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -26,6 +27,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class ObjectPanelController {
@@ -114,6 +116,22 @@ public class ObjectPanelController {
 	            	
 	            	event.setDropCompleted(true);
 	            	
+	            }
+	            ObjectPropertySimulation op = new ObjectPropertySimulation(this.simul);
+	            try {
+					op.start(new Stage());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            if (this.simul.getObj() instanceof Cylinder) {
+	            	System.out.println("Object Panel Controller" + this.simul.getObj());
+	            	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(((Cylinder) this.simul.getObj()).getRadius()));
+	            }
+	            else if (this.simul.getObj() instanceof Cube) {
+	            	
+	            	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(((Cube) this.simul.getObj()).getSize() * 2));
+	            	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(((Cube) this.simul.getObj()).getSize() * 2));
 	            }
 		});
 		 
