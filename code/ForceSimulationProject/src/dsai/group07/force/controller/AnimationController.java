@@ -3,6 +3,7 @@ package dsai.group07.force.controller;
 import dsai.group07.force.controller.utils.GameAnimationTimer;
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.model.vector.FrictionForce;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
@@ -113,25 +114,24 @@ public class AnimationController {
 		timer = new GameAnimationTimer() {
             @Override
             public void tick(float secondsSinceLastFrame) {
-            	if(simul.getObj() != null) {
-            
-            // 1
-            simul.getObj().updateVel(secondsSinceLastFrame);
-            simul.applyForceInTime(sim.getNetForce(), secondsSinceLastFrame);
-            		//TODO: just update..
-            		if(simul.getObj() instanceof Cylinder) {
-            			((Cylinder)simul.getObj()).updateAngVel(((Cylinder)simul.getObj()).accProperty().getValue(), secondsSinceLastFrame);
+            	if(simul != null) {
+            		//System.out.println(((FrictionForce) simul.getfForce()).getMainObj().getMass());
+            		// 1
+            		simul.applyForceInTime(secondsSinceLastFrame);
+            		
+            		System.out.println("aForce " + simul.getaForce().getValue());
+            		System.out.println("fForce " + simul.getfForce().getValue());
+            		System.out.println("netForce " + simul.getNetForce().getValue());
+            		
+            		System.out.println("acc " + simul.getObj().accProperty().getValue());
+            		System.out.println("vel " + simul.getObj().velProperty().getValue());
+            		System.out.println("Pos " + simul.getObj().getPos());
+            		
+            		if (simul.getObj() instanceof Cylinder) {
+                		System.out.println("AngAcc " + ((Cylinder) simul.getObj()).getAngAcc());
+                		System.out.println("AngVel " + ((Cylinder) simul.getObj()).getAngVel());
+                		System.out.println("Angle " + ((Cylinder) simul.getObj()).getAngle());
             		}
-
-            	/* Only used for testing
-        		System.out.println("aForce " + simul.getaForce().getValue());
-        		System.out.println("fForce " + simul.getfForce().getValue());
-        		System.out.println("netForce " + simul.getNetForce().getValue());
-        		System.out.println("Pos " + simul.getObj().getPos());
-        		System.out.println("vel " + simul.getObj().velProperty().getValue());
-        		System.out.println("acc " + simul.getObj().accProperty().getValue());
-        		*/
-            
             	}
             	else {
             		System.out.println("There is something wrong ...");

@@ -11,7 +11,7 @@ public class FrictionForce extends Force {
 	private MainObject mainObj;
 	private AppliedForce aForce;
 	public static final double g = 10;
-	public static final double VEL_THRESHOLD = 0.001;
+	public static final double VEL_THRESHOLD = 1e-5;
 
 	public FrictionForce(double value) {
 		super(value);
@@ -93,15 +93,20 @@ public class FrictionForce extends Force {
 					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
 						mainObj.setVel(0);
 						setValue(-aForce.getValue());
-						//System.out.println(getValue());
 					} else {
 						// Object is moving, friction force should oppose object's velocity and = normalForce * kiCoef
 						double sign = -Math.signum(mainObj.velProperty().getValue());
 						setValue(sign * surface.getKiCoef() * normalForce); 
 					}
 				} else {
-					double sign = -Math.signum(mainObj.velProperty().getValue());
-					setValue(sign * surface.getKiCoef() * normalForce);
+					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
+						mainObj.setVel(0);
+						double sign = -Math.signum(this.aForce.getValue());
+						setValue(sign * surface.getKiCoef() * normalForce);
+					} else {
+						double sign = -Math.signum(mainObj.velProperty().getValue());
+						setValue(sign * surface.getKiCoef() * normalForce);
+					}
 				}
 			} else if (mainObj instanceof Cylinder) {
 				if (aForce.getLength() <= 3 * normalForce * surface.getStaCoef()) {
@@ -113,8 +118,14 @@ public class FrictionForce extends Force {
 						setValue(sign * surface.getKiCoef() * normalForce);
 					}
 				} else {
-					double sign = -Math.signum(mainObj.velProperty().getValue());
-					setValue(sign * surface.getKiCoef() * normalForce);
+					if (mainObj.velProperty().getLength() <= VEL_THRESHOLD) {
+						mainObj.setVel(0);
+						double sign = -Math.signum(this.aForce.getValue());
+						setValue(sign * surface.getKiCoef() * normalForce);
+					} else {
+						double sign = -Math.signum(mainObj.velProperty().getValue());
+						setValue(sign * surface.getKiCoef() * normalForce);
+					}
 				}
 			}
 		} 

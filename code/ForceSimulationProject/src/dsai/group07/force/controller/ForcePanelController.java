@@ -38,49 +38,53 @@ public class ForcePanelController {
 				(observable, oldValue, newValue) -> 
 				{
 					
-					this.simul.getObj().updateAcc(this.simul.getaForce());
-          fForceListener();
-			    netForceListener();
+					fForceListener();
+					netForceListener();
+					/*
+					this.simul.getObj().updateAcc(this.simul.getNetForce());
 					
 					//TODO: update in general
 					if (simul.getObj() instanceof Cylinder) {
 						// BUG: .......
 						try {
-							((Cylinder)this.simul.getObj()).updateAngAcc(this.simul.getaForce());
+							((Cylinder) this.simul.getObj()).updateAngAcc(this.simul.getfForce());
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
+					*/
 					
 					
 					if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0)  // newValue.doubleValue() != 0: Prevent auto start when force == 0
-          { 
+						{ 
 						this.simul.start();
 					}
 					else if (this.simul.getIsPause()) {
 						this.simul.conti();
 					}
-					
+		
 					
 					forceTextField.getParent().requestFocus();
 					
 				}
-					);
+			);
 		
 		this.simul.objProperty().addListener(
 				(observable, oldValue, newValue) -> {
+		            this.simul.setObject(newValue);
 					if(newValue == null) {
 						forceTextField.setDisable(true);
 						forceTextField.setText("0");
+						this.simul.setaForce(0);
 					}
 					else {
-            forceTextField.setDisable(false);
-            this.simul.setObject(newValue);
-            fForceListener();
-            netForceListener();
+			            forceTextField.setDisable(false);
+			            ((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
+			            fForceListener();
+			            netForceListener();
 					}
 				}
-				);
+			);
 		
 	
 		// Unfocus forceTextField
@@ -104,6 +108,26 @@ public class ForcePanelController {
 	public void fForceListener() {
 		try {
 			this.simul.getaForce().valueProperty().addListener(observable -> {
+				try {
+					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			this.simul.getObj().massProperty().addListener(observable -> {
+				try {
+					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			
+			this.simul.getObj().velProperty().valueProperty().addListener(observable -> {
 				try {
 					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 				} catch (Exception e) {

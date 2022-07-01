@@ -214,19 +214,22 @@ public class ObjectPanelController {
     			//TODO: unbind getSysAngAcc ..
     			(observable, oldValue, newValue) -> 
     			{	
+					this.simul.setObject(newValue);
     				if(newValue == null) {
     					System.out.println("Null Object");
         		    	this.simul.getaForce().setValue(0);
     				}
-    				else if (newValue instanceof Cylinder){
+    				else if (newValue instanceof Cylinder) {
     					System.out.println("Cylinder Time.......");
-    					this.simul.getSysAngAcc().bind(((Cylinder) newValue).angAccProperty());
+    					System.out.println(newValue.getClass());
+    					((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
+    					//this.simul.getSysAngAcc().bind(((Cylinder) newValue).angAccProperty());
+        		    	objectListener();
     				}
     				else
     				{
     					System.out.println("Cube Time......");
     					System.out.println(newValue.getClass());
-			this.simul.setObject(newValue);
     					((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
         		    	objectListener();
     				}
