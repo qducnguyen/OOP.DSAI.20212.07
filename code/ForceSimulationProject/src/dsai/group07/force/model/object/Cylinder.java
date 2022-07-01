@@ -40,7 +40,7 @@ public class Cylinder extends MainObject implements Rotatable{
 	@Override
 	public void updateAngAcc(Force force) throws Exception {
 		if (force instanceof FrictionForce) {
-			setAngAcc(force.getValue() / (0.5 * getMass() * getRadius() * getRadius()));
+			setAngAcc(-force.getValue() / (0.5 * getMass() * getRadius() * getRadius()));
 		} else {
 			throw new Exception("No friction force, object just translates");
 		}

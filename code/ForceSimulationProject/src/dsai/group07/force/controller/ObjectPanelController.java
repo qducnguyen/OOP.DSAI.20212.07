@@ -5,10 +5,10 @@ package dsai.group07.force.controller;
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.model.vector.FrictionForce;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
-import dsai.group07.force.model.vector.FrictionForce;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -282,7 +282,7 @@ public class ObjectPanelController {
     
 	private void setUpCircleRotation() {
 		final int DURATION_ROTATE = 3;
-		final double DEFAULT_ROTATE_VEL = 20;
+		final double DEFAULT_ROTATE_VEL = 10;
 		this.cirRotate = new RotateTransition(Duration.seconds(DURATION_ROTATE), cir);
 		this.cirRotate.setByAngle(360);
 		this.cirRotate.setInterpolator(Interpolator.LINEAR);
@@ -299,7 +299,7 @@ public class ObjectPanelController {
 					}
 				});
 		
-		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(-0.5)); // Change later
+		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(1 / DEFAULT_ROTATE_VEL)); // Change later
 		
 	}
 	
