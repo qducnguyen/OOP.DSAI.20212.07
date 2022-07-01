@@ -171,11 +171,9 @@ public class ForceSimulationAppController {
 		} 
 		else {
 			if (!simul.getIsStart()) {
-//				this.aniController.startAmination();
 				simul.start();
 			}
 			else {
-//				this.aniController.continueAnimation();
 				simul.conti();
 			}
 		}

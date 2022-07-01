@@ -8,7 +8,6 @@ import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -179,8 +178,8 @@ public class AnimationController {
 	
 	public void resetAnimation() {
 		parallelTransitionUp.jumpTo(Duration.ZERO);
-		parallelTransitionUp.stop();
 		parallelTransitionDown.jumpTo(Duration.ZERO);
+		parallelTransitionUp.stop();
 		parallelTransitionDown.stop();
 		timer.stop();
 	}
