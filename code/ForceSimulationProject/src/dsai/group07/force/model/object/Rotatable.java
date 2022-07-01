@@ -14,12 +14,12 @@ public interface Rotatable {
 	DoubleProperty angVelProperty();
 	double getAngVel();
 	void setAngVel(double angVel);
-	void updateAngVel(double angAcc, double t);
+	void updateAngVel(double t);
 	
 	DoubleProperty angleProperty();
 	double getAngle();
 	void setAngle(double angle);
-	void updateAngle(double angVel, double t);
+	void updateAngle(double oldAngVel, double t);
 	
 	DoubleProperty radiusProperty();
 	double getRadius();

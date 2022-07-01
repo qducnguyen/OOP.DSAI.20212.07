@@ -62,8 +62,8 @@ public class Cylinder extends MainObject implements Rotatable{
 	}
 
 	@Override
-	public void updateAngVel(double angAcc, double t) {
-		setAngVel(getAngVel() + angAcc * t);
+	public void updateAngVel(double t) {
+		setAngVel(getAngVel() + getAngAcc() * t);
 	}
 
 	@Override
@@ -82,8 +82,8 @@ public class Cylinder extends MainObject implements Rotatable{
 	}
 
 	@Override
-	public void updateAngle(double angVel, double t) {
-		setAngle(getAngle() + getAngVel() * t); 
+	public void updateAngle(double oldAngVel, double t) {
+		setAngle(getAngle() + oldAngVel * t + 0.5 * getAngAcc() * t * t); 
 	}
 
 	@Override
@@ -111,9 +111,10 @@ public class Cylinder extends MainObject implements Rotatable{
 
 	@Override
 	public void applyForceInTimeRotate(Force force, double t) throws Exception {
+		double oldAngVel = getAngVel();
 		updateAngAcc(force);
-		updateAngVel(angAcc.get(), t);
-		updateAngle(angVel.get(), t);
+		updateAngVel(t);
+		updateAngle(oldAngVel, t);
 	}
 }
 

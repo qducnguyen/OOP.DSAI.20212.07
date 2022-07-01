@@ -180,11 +180,11 @@ public class Simulation {
 		netForce.setValue(newNerForce.getValue());
 	}
 	
-	public void applyForceInTime(Force force, double t) {
-		obj.get().applyForceInTime(force, t);
+	public void applyForceInTime(double t) {
+		obj.get().applyForceInTime(getNetForce(), t);
 		if (obj.get() instanceof Rotatable) {
 			try {
-				((Rotatable) obj).applyForceInTimeRotate(force, t);
+				((Rotatable) obj.get()).applyForceInTimeRotate(getfForce(), t);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

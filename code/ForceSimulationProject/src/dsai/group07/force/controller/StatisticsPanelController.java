@@ -1,6 +1,7 @@
 package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Cylinder;
 import dsai.group07.force.model.object.Rotatable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableStringValue;
@@ -46,7 +47,7 @@ public class StatisticsPanelController {
 		
 		 angLabel.setText("Current Angle Position  : 0.00 *");
 		 angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
-		 angVelLabel.setText("Current Angular Velocity: 0.00 * /s");
+		 angVelLabel.setText("Current Angular Velocity: 0.00 */s");
 		 
 		 //Default 3 Label above are invisible.
 		 setVisibleThreeAngLabels(false);
@@ -88,11 +89,30 @@ public class StatisticsPanelController {
 					accLabel.textProperty().bind(newValue.valueProperty().asString("Current Accelerate : %.2f m/s^2;"));
 				});
 		
-		if (this.simul.getObj() != null) {
-			ObservableStringValue posString = Bindings.createStringBinding(() -> 
-			"Current Position : " + this.simul.getObj().getPos() + " m", this.simul.getObj().posProperty());
-			posLabel.textProperty().bind(posString);
-		} 
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				this.simul.setObject(newValue);
+				
+				ObservableStringValue posString = Bindings.createStringBinding(() -> 
+				"Current Position : " + this.simul.getObj().getPos() + " m", this.simul.getObj().posProperty());
+				posLabel.textProperty().bind(posString);
+				
+				if (newValue instanceof Cylinder) {
+					
+					ObservableStringValue angPosString = Bindings.createStringBinding(() -> 
+					"Current Angle : " + ((Cylinder) this.simul.getObj()).getAngle() + " *", ((Cylinder) this.simul.getObj()).angleProperty());
+					angLabel.textProperty().bind(angPosString);
+					
+					ObservableStringValue angVelString = Bindings.createStringBinding(() -> 
+					"Current Angular Velocity : " + ((Cylinder) this.simul.getObj()).getAngVel() + " */s", ((Cylinder) this.simul.getObj()).angVelProperty());
+					angVelLabel.textProperty().bind(angVelString);
+					
+					ObservableStringValue angAccString = Bindings.createStringBinding(() -> 
+					"Current Angular Accelerate : " + ((Cylinder) this.simul.getObj()).getAngAcc() + " */s^2", ((Cylinder) this.simul.getObj()).angAccProperty());
+					angAccLabel.textProperty().bind(angAccString);
+				}
+			} 
+		});
 
 		ObservableStringValue aForceString = Bindings.createStringBinding(() -> 
 		"Current Applied Force : " + this.simul.getaForce().getValue() + " N", this.simul.getaForce().valueProperty());
@@ -115,4 +135,3 @@ public class StatisticsPanelController {
 	}
 	
 }
-		
