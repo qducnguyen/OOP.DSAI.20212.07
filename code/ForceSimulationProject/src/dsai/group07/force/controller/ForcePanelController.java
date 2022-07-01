@@ -1,9 +1,7 @@
 package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
-import dsai.group07.force.model.object.Cylinder;
 import dsai.group07.force.model.vector.FrictionForce;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
