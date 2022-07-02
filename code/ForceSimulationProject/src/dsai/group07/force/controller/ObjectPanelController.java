@@ -304,13 +304,13 @@ public class ObjectPanelController {
 	}
 	
 	public void startCirAmination() {
-		if(cirRotate != null) {
+		if(cirRotate != null && this.simul.getObj() instanceof Cylinder) {
 		cirRotate.play();
 		}
 	}
 	
     public void continueCirAnimation() {
-    	if(cirRotate != null) {
+    	if(cirRotate != null && this.simul.getObj() instanceof Cylinder) {
     	cirRotate.play();
     	}
     }
