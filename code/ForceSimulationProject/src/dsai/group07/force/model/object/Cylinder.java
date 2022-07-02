@@ -21,6 +21,11 @@ public class Cylinder extends MainObject implements Rotatable{
 	public Cylinder(double mass) throws Exception {
 		super(mass);
 	}
+	
+	public Cylinder(double mass, double radius ) throws Exception {
+		this(mass);
+		setRadius(radius);
+	}
 
 	@Override
 	public DoubleProperty angAccProperty() {

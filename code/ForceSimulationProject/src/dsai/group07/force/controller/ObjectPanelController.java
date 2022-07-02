@@ -2,23 +2,28 @@ package dsai.group07.force.controller;
 
 
 
+import java.util.Optional;
+
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
-import dsai.group07.force.model.objectProperty.ObjectPropertySimulation;
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
-import javafx.beans.value.ObservableNumberValue;
-import dsai.group07.force.model.vector.FrictionForce;
 import dsai.group07.force.model.vector.FrictionForce;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -32,8 +37,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 public class ObjectPanelController {
 
@@ -57,10 +63,6 @@ public class ObjectPanelController {
     @FXML
     private Circle cir;
     
-//    @FXML
-//    private CheckBox draggableCheckBox;
-    ObjectPropertySimulation op;
-
 
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
@@ -94,20 +96,8 @@ public class ObjectPanelController {
 	            	topStackPane.getChildren().add(cir);
 	            	
 	            	try {
-						this.simul.setObject(new Cylinder());
-						op = new ObjectPropertySimulation(this.simul);
-//						System.out.println("Object Panel Controller: " + this.simul.getObj());
-
-//		            	System.out.println("Object Panel Controller: " + ((Cylinder)this.simul.getObj()).getRadius());
-
-		            	((Cylinder)this.simul.getObj()).radiusProperty().addListener(
-		            				(observable, oldValue, newValue) -> {
-		            					double tmp = (double) newValue;
-		            					System.out.println(newValue.getClass());
-		            					System.out.println("Test final: " + newValue);
-		            					cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(tmp));
-		            				}
-		            			);
+	            		// For Cylinder
+	            		cylinderInput();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -127,17 +117,8 @@ public class ObjectPanelController {
 	            	topStackPane.getChildren().add(rec);
 	            	
 	            	try {
-						this.simul.setObject(new Cube());
-						op = new ObjectPropertySimulation(this.simul);
-						((Cube)this.simul.getObj()).sizeProperty().addListener(
-	            				(observable, oldValue, newValue) -> {
-	            					double tmp = (double) newValue;
-	            					System.out.println(newValue.getClass());
-	            					System.out.println("Test final: " + newValue);
-	            					rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(tmp));
-	            					rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(tmp));
-	            				}
-	            			);
+	            		// When object is a Cube
+	            		cubeInput();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -145,24 +126,6 @@ public class ObjectPanelController {
 	            	event.setDropCompleted(true);
 	            	
 	            }
-	            op = new ObjectPropertySimulation(this.simul);
-	            try {
-					op.start(new Stage());
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-//	            if (this.simul.getObj() instanceof Cylinder) {
-//	            	System.out.println("Object Panel Controller: " + this.simul.getObj());
-//	            	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(((Cylinder) this.simul.getObj()).getRadius()));
-//	            	System.out.println("Object Panel Controller: " + ((Cylinder)this.simul.getObj()).getRadius());
-//	            }
-//	            else if (this.simul.getObj() instanceof Cube) {
-//	            	
-//	            	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(((Cube) this.simul.getObj()).getSize() * 2));
-//	            	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(((Cube) this.simul.getObj()).getSize() * 2));
-//	            }
-//	            cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 		});
 		 
 	 this.topStackPane.setOnDragOver(event -> 
@@ -180,8 +143,6 @@ public class ObjectPanelController {
 
 	 
 	}
-
-	
 
 
 	private EventDragDetected cirOnDragDectected = new EventDragDetected(cirFormat) ;
@@ -289,20 +250,6 @@ public class ObjectPanelController {
     				}
     			});
     	
-//    	this.simul.isPauseProperty().addListener(
-//    			(observable, oldValue, newValue) -> 
-//    			{
-//    				if(newValue) {
-//    					this.pauseCirAnimation();
-//    				}
-//    				else {
-//    					if (cir.getParent() == topStackPane) {
-//    						this.continueCirAnimation();
-//    					}
-//    				}
-//    			});
-    	
-    	 //Circle Rotation
         setUpCircleRotation();
 	}
     
@@ -411,4 +358,129 @@ public class ObjectPanelController {
 		}
 	}
 	
+	private void cubeInput() {
+		
+		//TODO: INPUT VALIDATION
+		
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.initStyle(StageStyle.UNDECORATED);
+
+
+		
+		dialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
+
+		
+		// Enable/Disable OKE Button 
+		Node OKEButton = dialog.getDialogPane().lookupButton(ButtonType.OK);
+		OKEButton.setDisable(true);
+
+		dialog.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+			OKEButton.setDisable(newValue.trim().isEmpty());
+		});
+		
+		
+		
+		dialog.setTitle("Input Setting For Cube");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Enter mass:  ");
+		
+		Platform.runLater( 
+				() -> 
+				{
+					Optional<String> result = dialog.showAndWait();
+					if (result.isPresent()){
+            			//Text validation
+						double massCube = Double.parseDouble(result.get());
+						
+						try {
+							this.simul.setObject(new Cube(massCube));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+            		}
+				}); 
+		
+	Platform.runLater(() -> dialog.getEditor().requestFocus());
+
+	}
+	
+	private void cylinderInput() {
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
+
+		dialog.initStyle(StageStyle.UNDECORATED);
+
+		
+		
+		dialog.setTitle("Input Setting For Cylinder");
+		dialog.setHeaderText(null);
+		
+		ButtonType OKEType = new ButtonType("OK", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().add(OKEType);
+		
+		
+		
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+
+		TextField cylinderMass = new TextField();
+//		cylinderMass.setPromptText("12");
+		TextField cylinderRadius = new TextField();
+//		cylinderRadius.setPromptText("10");
+
+		
+		// Enable/Disable OKE Button 
+		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
+		OKEButton.setDisable(true);
+
+		cylinderMass.textProperty().addListener((observable, oldValue, newValue) -> {
+		OKEButton.setDisable(newValue.trim().isEmpty());
+		});
+		
+		cylinderRadius.textProperty().addListener((observable, oldValue, newValue) -> {
+			OKEButton.setDisable(newValue.trim().isEmpty());
+		});
+		
+		
+		grid.add(new Label("Cylinder Mass:"), 0, 0);
+		grid.add(cylinderMass, 1, 0);
+		grid.add(new Label("Cylinder Radius:"), 0, 1);
+		grid.add(cylinderRadius, 1, 1);
+
+		
+		dialog.getDialogPane().setContent(grid);
+
+		
+		dialog.setResultConverter(dialogButton -> {
+		    if (dialogButton == OKEType) {
+		        return new Pair<>(cylinderMass.getText(), cylinderRadius.getText());
+		    }
+		    return null;
+		    
+		});
+		Platform.runLater( 
+				() -> 
+				{
+					Optional<Pair<String, String>> result = dialog.showAndWait();
+					
+					result.ifPresent(
+							t -> 
+							{
+								try {
+									this.simul.setObject(new Cylinder(Double.parseDouble(t.getKey()), Double.parseDouble(t.getValue())));
+								} catch (NumberFormatException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							});
+				}); 
+		
+		Platform.runLater(() -> cylinderMass.requestFocus());	
+	}
 }
