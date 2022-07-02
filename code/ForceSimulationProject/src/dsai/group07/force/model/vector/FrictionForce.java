@@ -11,7 +11,7 @@ public class FrictionForce extends Force {
 	private MainObject mainObj;
 	private AppliedForce aForce;
 	public static final double g = 10;
-	//public static final double VEL_THRESHOLD = 0.001;
+	public static final double VEL_THRESHOLD = 0.001;
 
 	public FrictionForce(double value) {
 		super(value);
@@ -101,8 +101,8 @@ public class FrictionForce extends Force {
 			}
 			
 			if (mainObj instanceof Cube) {
-				if (aForceValue <= surface.getStaCoef() * normalForce && aForceValue > 0) {
-					setValue(direction * aForceValue);
+				if (aForceValue <= surface.getStaCoef() * normalForce && mainObj.velProperty().getLength() < VEL_THRESHOLD) {
+					setValue(-aForce.getValue());
 				} else {
 					setValue(direction * surface.getKiCoef() * normalForce);
 				}

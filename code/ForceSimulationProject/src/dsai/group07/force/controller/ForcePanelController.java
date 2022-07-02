@@ -53,20 +53,6 @@ public class ForcePanelController {
 //					
 //					fForceListener();
 //					netForceListener();
-					/*
-					this.simul.getObj().updateAcc(this.simul.getNetForce());
-					
-					//TODO: update in general
-					if (simul.getObj() instanceof Cylinder) {
-						// BUG: .......
-						try {
-							((Cylinder) this.simul.getObj()).updateAngAcc(this.simul.getfForce());
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					*/
-					
 					
 					if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0)  // newValue.doubleValue() != 0: Prevent auto start when force == 0
 					{ 		

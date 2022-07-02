@@ -113,17 +113,16 @@ public class AnimationController {
             @Override
             public void tick(float secondsSinceLastFrame) {
             	if(simul != null) {
-            		//System.out.println(((FrictionForce) simul.getfForce()).getMainObj().getMass());
             		// 1
             		simul.applyForceInTime(secondsSinceLastFrame);
+            		
+            		System.out.println("aForce " + simul.getaForce().getValue());
+            		System.out.println("fForce " + simul.getfForce().getValue());
+            		System.out.println("netForce " + simul.getNetForce().getValue());
 //            		
-//            		System.out.println("aForce " + simul.getaForce().getValue());
-//            		System.out.println("fForce " + simul.getfForce().getValue());
-//            		System.out.println("netForce " + simul.getNetForce().getValue());
-//            		
-//            		System.out.println("acc " + simul.getObj().accProperty().getValue());
-//            		System.out.println("vel " + simul.getObj().velProperty().getValue());
-//            		System.out.println("Pos " + simul.getObj().getPos());
+            		System.out.println("acc " + simul.getObj().accProperty().getValue());
+            		System.out.println("vel " + simul.getObj().velProperty().getValue());
+            		System.out.println("Pos " + simul.getObj().getPos());
 //            		
 //            		if (simul.getObj() instanceof Cylinder) {
 //                		System.out.println("AngAcc " + ((Cylinder) simul.getObj()).getAngAcc());
