@@ -363,10 +363,8 @@ public class ObjectPanelController {
 		//TODO: INPUT VALIDATION
 		
 		TextInputDialog dialog = new TextInputDialog();
-		dialog.initStyle(StageStyle.UNDECORATED);
-
-
 		
+		dialog.initStyle(StageStyle.UNDECORATED);
 		dialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
 
 		
