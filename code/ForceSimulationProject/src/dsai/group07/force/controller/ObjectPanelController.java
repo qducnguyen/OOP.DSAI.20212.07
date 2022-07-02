@@ -25,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
@@ -63,6 +64,8 @@ public class ObjectPanelController {
     @FXML
     private Circle cir;
     
+    @FXML
+    private ImageView totalVector;
 
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
@@ -72,6 +75,7 @@ public class ObjectPanelController {
     	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
     	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
     	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+    	totalVector.setVisible(false);
     	
 	}
 
@@ -87,7 +91,11 @@ public class ObjectPanelController {
 	            if (db.hasContent(cirFormat)) 
 	            {
 	            	StackPane.setAlignment(cir, Pos.BOTTOM_CENTER);
-	            	
+	            	System.out.println(cir.getCenterX());
+	            	System.out.println(cir.getLayoutX());
+	            	System.out.println(cir.getScaleX());
+	            	System.out.println(cir.getTranslateX());
+
 	            	//TODO: another view for drag and drop ...
 	            	if (topStackPane.getChildren().contains(rec)) {
 	            		gridPaneObjectContainer.add(rec, 0, 0);
@@ -98,6 +106,9 @@ public class ObjectPanelController {
 	            	try {
 	            		// For Cylinder
 	            		cylinderInput();
+	            		topStackPane.getChildren().add(totalVector);
+		            	totalVector.xProperty().bind(this.topStackPane.widthProperty().multiply(0.5).add(this.cir.getRadius()));
+		            	totalVector.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

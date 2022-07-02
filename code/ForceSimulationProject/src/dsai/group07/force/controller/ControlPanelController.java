@@ -5,6 +5,7 @@ import java.io.IOException;
 import dsai.group07.force.model.Simulation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -130,5 +131,8 @@ public class ControlPanelController {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
 	
 }

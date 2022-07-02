@@ -35,6 +35,8 @@ public class ForceSimulationApp extends Application  {
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		System.out.println(primaryStage.getHeight());
+		System.out.println(primaryStage.getWidth());
 		
 		
 	}
