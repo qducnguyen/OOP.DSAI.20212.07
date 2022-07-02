@@ -358,99 +358,130 @@ public class ObjectPanelController {
 		}
 	}
 	
-	private void cubeInput() {
-		
-		//TODO: INPUT VALIDATION
-		
-		TextInputDialog dialog = new TextInputDialog();
+	private void  cubeInput() {
+		// Pair<String, String> : as a dictionary in python -> return result
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		
 		dialog.initStyle(StageStyle.UNDECORATED);
-		dialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
-
 		
-		// Enable/Disable OKE Button 
-		Node OKEButton = dialog.getDialogPane().lookupButton(ButtonType.OK);
+		dialog.setTitle("Input Property for Cube");
+		dialog.setHeaderText("Cube property");
+		
+		// Create a new button type: OKEType, set text of that button to "OK"
+		ButtonType OKEType = new ButtonType("OK", ButtonData.OK_DONE);
+		
+		// add Button OK to dialog
+		dialog.getDialogPane().getButtonTypes().add(OKEType);
+		
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+		
+		TextField cubeMass = new TextField();
+		cubeMass.setPromptText("Input mass for cube");
+		TextField cubeSide = new TextField();
+		cubeSide.setPromptText("Input Side-length for cube");
+		
+		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
 		OKEButton.setDisable(true);
-
-		dialog.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+		
+		grid.add(new Label("Cube Mass: "), 0, 0);
+		grid.add(cubeMass, 1, 0);
+		grid.add(new Label("Cylinder Side: "), 0, 1);
+		grid.add(cubeSide, 1, 1);
+		
+		// Set the disable property of the OKEButton
+		cubeMass.textProperty().addListener((observable, oldValue, newValue) -> {
+			OKEButton.setDisable(newValue.trim().isEmpty());
+		});
+		cubeSide.textProperty().addListener((observable, oldValue, newValue) -> {
 			OKEButton.setDisable(newValue.trim().isEmpty());
 		});
 		
+		dialog.getDialogPane().setContent(grid);
 		
-		
-		dialog.setTitle("Input Setting For Cube");
-		dialog.setHeaderText(null);
-		dialog.setContentText("Enter mass:  ");
+		dialog.setResultConverter(dialogButton -> {
+			if (dialogButton == OKEType)  {
+		        return new Pair<>(cubeMass.getText(), cubeSide.getText());
+			}
+			return null;
+		    
+		});
 		
 		Platform.runLater( 
 				() -> 
 				{
-					Optional<String> result = dialog.showAndWait();
-					if (result.isPresent()){
-            			//Text validation
-						double massCube = Double.parseDouble(result.get());
-						
-						try {
-							this.simul.setObject(new Cube(massCube));
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-            		}
+					Optional<Pair<String, String>> result = dialog.showAndWait();
+					
+					result.ifPresent(
+							objectProperty -> 
+							{
+								try {
+									// Get the mass and radius of cylinder
+									double cubMass = Double.parseDouble(objectProperty.getKey());
+									double cubSide =  Double.parseDouble(objectProperty.getValue());
+									
+									// Create new Cube
+									this.simul.setObject(new Cube(cubMass,cubSide));
+									this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
+									this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
+								} catch (NumberFormatException e) {
+									e.printStackTrace();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							});
 				}); 
-		
-	Platform.runLater(() -> dialog.getEditor().requestFocus());
-
+		Platform.runLater(() -> cubeMass.requestFocus());
 	}
 	
+	
 	private void cylinderInput() {
+		// Pair<String, String> : as a dictionary in python -> return result
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 
 		dialog.initStyle(StageStyle.UNDECORATED);
 
-		
-		
-		dialog.setTitle("Input Setting For Cylinder");
-		dialog.setHeaderText(null);
-		
+		dialog.setTitle("Input Property For Cylinder");
+		dialog.setHeaderText("Cylinder property");
+		// Create a new Button type: OKEType, set Text of that button to "OK"
 		ButtonType OKEType = new ButtonType("OK", ButtonData.OK_DONE);
+		// Add button to the dialog
 		dialog.getDialogPane().getButtonTypes().add(OKEType);
-		
-		
 		
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
-
 		TextField cylinderMass = new TextField();
-//		cylinderMass.setPromptText("12");
+		cylinderMass.setPromptText("Input mass for cylinder");		
 		TextField cylinderRadius = new TextField();
-//		cylinderRadius.setPromptText("10");
+		cylinderRadius.setPromptText("Input radius for cylinder");
 
-		
 		// Enable/Disable OKE Button 
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
 		OKEButton.setDisable(true);
 
-		cylinderMass.textProperty().addListener((observable, oldValue, newValue) -> {
-		OKEButton.setDisable(newValue.trim().isEmpty());
-		});
-		
-		cylinderRadius.textProperty().addListener((observable, oldValue, newValue) -> {
-			OKEButton.setDisable(newValue.trim().isEmpty());
-		});
-		
 		
 		grid.add(new Label("Cylinder Mass:"), 0, 0);
 		grid.add(cylinderMass, 1, 0);
 		grid.add(new Label("Cylinder Radius:"), 0, 1);
 		grid.add(cylinderRadius, 1, 1);
-
 		
+		
+		// Set the disable property of the OKEButton
+		cylinderMass.textProperty().addListener((observable, oldValue, newValue) -> {
+			// String.trim() : remove all whitespace
+			OKEButton.setDisable(newValue.trim().isEmpty());
+		});
+		
+		cylinderRadius.textProperty().addListener((observable, oldValue, newValue) -> {
+			OKEButton.setDisable(newValue.trim().isEmpty());
+		});
+				
 		dialog.getDialogPane().setContent(grid);
-
 		
 		dialog.setResultConverter(dialogButton -> {
 		    if (dialogButton == OKEType) {
@@ -459,26 +490,42 @@ public class ObjectPanelController {
 		    return null;
 		    
 		});
+		
 		Platform.runLater( 
 				() -> 
 				{
 					Optional<Pair<String, String>> result = dialog.showAndWait();
 					
 					result.ifPresent(
-							t -> 
+							objectProperty -> 
 							{
 								try {
-									this.simul.setObject(new Cylinder(Double.parseDouble(t.getKey()), Double.parseDouble(t.getValue())));
+									// Get the mass and radius of cylinder
+									double cynMass = Double.parseDouble(objectProperty.getKey());
+									double cynRadius =  Double.parseDouble(objectProperty.getValue());
+									
+									// Create new Cylinder
+									this.simul.setObject(new Cylinder(cynMass,cynRadius));
+									this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(cynRadius));
+									
 								} catch (NumberFormatException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							});
 				}); 
 		
 		Platform.runLater(() -> cylinderMass.requestFocus());	
+		
+	}
+	
+	private boolean isNumber(String s) {
+		try {
+			Double.parseDouble(s);
+			return true;
+		}catch (Exception e) {
+			return false;
+		}
 	}
 }
