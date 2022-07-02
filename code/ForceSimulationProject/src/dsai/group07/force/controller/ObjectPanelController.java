@@ -5,6 +5,12 @@ package dsai.group07.force.controller;
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.model.objectProperty.ObjectPropertySimulation;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.beans.value.ObservableNumberValue;
+import dsai.group07.force.model.vector.FrictionForce;
 import dsai.group07.force.model.vector.FrictionForce;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -26,6 +32,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class ObjectPanelController {
@@ -52,7 +59,7 @@ public class ObjectPanelController {
     
 //    @FXML
 //    private CheckBox draggableCheckBox;
-    
+    ObjectPropertySimulation op;
 
 
 	public void setDownStackPane(StackPane downStackPane) {
@@ -88,6 +95,19 @@ public class ObjectPanelController {
 	            	
 	            	try {
 						this.simul.setObject(new Cylinder());
+						op = new ObjectPropertySimulation(this.simul);
+//						System.out.println("Object Panel Controller: " + this.simul.getObj());
+
+//		            	System.out.println("Object Panel Controller: " + ((Cylinder)this.simul.getObj()).getRadius());
+
+		            	((Cylinder)this.simul.getObj()).radiusProperty().addListener(
+		            				(observable, oldValue, newValue) -> {
+		            					double tmp = (double) newValue;
+		            					System.out.println(newValue.getClass());
+		            					System.out.println("Test final: " + newValue);
+		            					cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(tmp));
+		            				}
+		            			);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -108,6 +128,16 @@ public class ObjectPanelController {
 	            	
 	            	try {
 						this.simul.setObject(new Cube());
+						op = new ObjectPropertySimulation(this.simul);
+						((Cube)this.simul.getObj()).sizeProperty().addListener(
+	            				(observable, oldValue, newValue) -> {
+	            					double tmp = (double) newValue;
+	            					System.out.println(newValue.getClass());
+	            					System.out.println("Test final: " + newValue);
+	            					rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(tmp));
+	            					rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(tmp));
+	            				}
+	            			);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -115,17 +145,40 @@ public class ObjectPanelController {
 	            	event.setDropCompleted(true);
 	            	
 	            }
+	            op = new ObjectPropertySimulation(this.simul);
+	            try {
+					op.start(new Stage());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//	            if (this.simul.getObj() instanceof Cylinder) {
+//	            	System.out.println("Object Panel Controller: " + this.simul.getObj());
+//	            	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(((Cylinder) this.simul.getObj()).getRadius()));
+//	            	System.out.println("Object Panel Controller: " + ((Cylinder)this.simul.getObj()).getRadius());
+//	            }
+//	            else if (this.simul.getObj() instanceof Cube) {
+//	            	
+//	            	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(((Cube) this.simul.getObj()).getSize() * 2));
+//	            	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(((Cube) this.simul.getObj()).getSize() * 2));
+//	            }
+//	            cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 		});
 		 
 	 this.topStackPane.setOnDragOver(event -> 
         {
         	Dragboard db = event.getDragboard();
     		if(db.hasContent(cirFormat) && cir.getParent()!= topStackPane) {
+
     			event.acceptTransferModes(TransferMode.MOVE);
+
     		}
     		else if(db.hasContent(recFormat) && this.rec.getParent()!= topStackPane)
     			event.acceptTransferModes(TransferMode.MOVE);	
         });
+	 
+
+	 
 	}
 
 	
@@ -155,7 +208,7 @@ public class ObjectPanelController {
             if (db.hasContent(cirFormat))
             {
             	//TODO: another view for drag and drop ...
-            	
+            	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
             	gridPaneObjectContainer.add(cir, 1 , 0);
             	//model
             	this.simul.setObject(null);
@@ -165,6 +218,8 @@ public class ObjectPanelController {
             
             else if (db.hasContent(recFormat))
             {
+            	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+            	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
             	gridPaneObjectContainer.add(rec, 0 , 0);
             	
             	this.simul.setObject(null);
@@ -182,33 +237,11 @@ public class ObjectPanelController {
     		else if(db.hasContent(recFormat) &&  rec.getParent()!= gridPaneObjectContainer)
     			event.acceptTransferModes(TransferMode.MOVE);	
         });
-        
-        
-       
-        
-        
-        
-//        draggableCheckBox.selectedProperty().addListener(
-//        		(observable, oldValue, newValue) -> 
-//        		{
-//        			if (newValue) {
-//        				cir.setOnDragDetected(cirOnDragDectected);
-//        				rec.setOnDragDetected(recOnDragDectected);
-//        			}
-//        			else {
-//            				rec.setOnDragDetected(null);
-//        					cir.setOnDragDetected(null);
-//        			}
-//        		});
-//        
-                
     }
     
 	
     public void setSimul(Simulation simul) {
 		this.simul = simul;
-		
-//    	draggableCheckBox.selectedProperty().bind(this.simul.isStartProperty().not());
     	
     	this.simul.objProperty().addListener(
     			//TODO: unbind getSysAngAcc ..
