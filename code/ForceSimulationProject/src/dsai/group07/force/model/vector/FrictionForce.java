@@ -11,6 +11,7 @@ public class FrictionForce extends Force {
 	private MainObject mainObj;
 	private AppliedForce aForce;
 	public static final double g = 10;
+	//public static final double VEL_THRESHOLD = 0.001;
 
 	public FrictionForce(double value) {
 		super(value);
@@ -85,16 +86,19 @@ public class FrictionForce extends Force {
 	public void updateFrictionForce() {
 		if (mainObj != null) {
 			double direction = 0;
-			if (mainObj.velProperty().getValue() != 0) {
+			double normalForce = mainObj.getMass() * g;
+			double aForceValue = Math.abs(aForce.getValue());
+			
+			if (mainObj.velProperty().getLength() != 0) {
 				direction = (mainObj.velProperty().getDirection() == true) ? -1: 1;
 			} else {
-				if (aForce.getValue() != 0) {
+				if (aForceValue == 0) {
+					setValue(0);
+					return;
+				} else {
 					direction = (aForce.getDirection() ==  true) ? -1: 1;
 				}
 			}
-			
-			double normalForce = mainObj.getMass() * g;
-			double aForceValue = Math.abs(aForce.getValue());
 			
 			if (mainObj instanceof Cube) {
 				if (aForceValue <= surface.getStaCoef() * normalForce && aForceValue > 0) {

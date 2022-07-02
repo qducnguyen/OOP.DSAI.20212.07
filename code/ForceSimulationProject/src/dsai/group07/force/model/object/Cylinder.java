@@ -68,7 +68,11 @@ public class Cylinder extends MainObject implements Rotatable{
 
 	@Override
 	public void updateAngVel(double t) {
-		setAngVel(getAngVel() + getAngAcc() * t);
+		if (velProperty().getValue() == 0) {
+			setAngVel(0);
+		} else {
+			setAngVel(getAngVel() + getAngAcc() * t);
+		}
 	}
 
 	@Override

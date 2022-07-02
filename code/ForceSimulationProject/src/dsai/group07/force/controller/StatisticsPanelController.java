@@ -107,10 +107,9 @@ public class StatisticsPanelController {
 					"Current Angle : " + String.format("%.2f",((Cylinder) this.simul.getObj()).getAngle()) + " *", ((Cylinder) this.simul.getObj()).angleProperty());
 					angLabel.textProperty().bind(angPosString);
 					
-//					ObservableStringValue angVelString = Bindings.createStringBinding(() -> 
-//					"Current Angular Velocity : " + ((Cylinder) this.simul.getObj()).getAngVel() + " */s", ((Cylinder) this.simul.getObj()).angVelProperty());
-//					angVelLabel.textProperty().bind(angVelString);
-					
+					ObservableStringValue angVelString = Bindings.createStringBinding(() -> 					
+					"Current Angular Velocity : " + String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " */s", ((Cylinder) this.simul.getObj()).angVelProperty());
+					angVelLabel.textProperty().bind(angVelString);
 										
 					ObservableStringValue angAccString = Bindings.createStringBinding(() -> 
 					"Current Angular Accelerate : " + String.format("%.2f",((Cylinder) this.simul.getObj()).getAngAcc()) + " */s^2", ((Cylinder) this.simul.getObj()).angAccProperty());
