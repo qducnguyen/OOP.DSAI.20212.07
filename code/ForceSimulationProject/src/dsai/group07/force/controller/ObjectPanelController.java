@@ -7,6 +7,7 @@ import java.util.Optional;
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.model.object.MainObject;
 import dsai.group07.force.model.vector.FrictionForce;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -538,6 +539,9 @@ public class ObjectPanelController {
 		
 		Platform.runLater(() -> cylinderMass.requestFocus());	
 		
+	}
+	private MainObject getMainObject() {
+		return this.simul.getObj();
 	}
 	
 	private boolean isNumber(String s) {

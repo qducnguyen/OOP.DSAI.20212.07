@@ -70,8 +70,7 @@ public class StatisticsPanelController {
     @FXML
     private CheckBox sumForceCheckBox;
     
-    @FXML
-    private CheckBox massCheckBox;
+    @FXML CheckBox massCheckBox;
 	
 	@FXML
    	public void initialize()  {
@@ -102,6 +101,8 @@ public class StatisticsPanelController {
 		aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
 		fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
 		sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+		
+		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
 	
 	public void setSimul(Simulation simul) {
