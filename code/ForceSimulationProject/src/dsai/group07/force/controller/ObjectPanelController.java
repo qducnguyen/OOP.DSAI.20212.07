@@ -66,6 +66,18 @@ public class ObjectPanelController {
     
     @FXML
     private ImageView totalVector;
+    
+    @FXML
+    private ImageView aForceVector;
+    
+    @FXML
+    private ImageView fForceVector;
+    
+    public void test() {
+    	((StackPane)this.gridPaneObjectContainer.getChildren().get(2)).setMargin(cir, new Insets(0,0,0,0));
+    	this.topStackPane.getChildren().add(totalVector);
+    	this.topStackPane.setMargin(cir, null);
+    }
 
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
@@ -91,10 +103,6 @@ public class ObjectPanelController {
 	            if (db.hasContent(cirFormat)) 
 	            {
 	            	StackPane.setAlignment(cir, Pos.BOTTOM_CENTER);
-	            	System.out.println(cir.getCenterX());
-	            	System.out.println(cir.getLayoutX());
-	            	System.out.println(cir.getScaleX());
-	            	System.out.println(cir.getTranslateX());
 
 	            	//TODO: another view for drag and drop ...
 	            	if (topStackPane.getChildren().contains(rec)) {
@@ -103,15 +111,17 @@ public class ObjectPanelController {
 	            	
 	            	topStackPane.getChildren().add(cir);
 	            	
+//	            	System.out.println("Test circle radius: " +  this.cir.getRadius());
 	            	try {
 	            		// For Cylinder
 	            		cylinderInput();
-	            		topStackPane.getChildren().add(totalVector);
-		            	totalVector.xProperty().bind(this.topStackPane.widthProperty().multiply(0.5).add(this.cir.getRadius()));
-		            	totalVector.setVisible(true);
+		            	
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+	            	
+	            	System.out.println("Test circle radius: " +  this.cir.getRadius());
+//	            	topStackPane.setMargin(totalVector, new Insets(100,20,0,0));
 	            	
 	            	event.setDropCompleted(true);
 	            	
@@ -193,7 +203,7 @@ public class ObjectPanelController {
             	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
             	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
             	gridPaneObjectContainer.add(rec, 0 , 0);
-            	
+            	gridPaneObjectContainer.add(totalVector, 2, 0);
             	this.simul.setObject(null);
             	
             	event.setDropCompleted(true);
@@ -437,6 +447,7 @@ public class ObjectPanelController {
 									this.simul.setObject(new Cube(cubMass,cubSide));
 									this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
 									this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
+									
 								} catch (NumberFormatException e) {
 									e.printStackTrace();
 								} catch (Exception e) {
@@ -518,6 +529,7 @@ public class ObjectPanelController {
 									// Create new Cylinder
 									this.simul.setObject(new Cylinder(cynMass,cynRadius));
 									this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(cynRadius));
+									
 									
 								} catch (NumberFormatException e) {
 									e.printStackTrace();
