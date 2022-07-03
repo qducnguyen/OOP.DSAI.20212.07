@@ -448,6 +448,7 @@ public class ObjectPanelController {
 									this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
 									this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
 									
+									
 								} catch (NumberFormatException e) {
 									e.printStackTrace();
 								} catch (Exception e) {
@@ -529,7 +530,7 @@ public class ObjectPanelController {
 									// Create new Cylinder
 									this.simul.setObject(new Cylinder(cynMass,cynRadius));
 									this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(cynRadius));
-									
+																		
 									
 								} catch (NumberFormatException e) {
 									e.printStackTrace();
