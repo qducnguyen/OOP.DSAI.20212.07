@@ -41,6 +41,9 @@ public class StatisticsPanelController {
     private Label sumForceLabel;
     
     @FXML
+    private Label massLabel;
+    
+    @FXML
     private CheckBox angCheckBox;
     
     @FXML
@@ -67,6 +70,8 @@ public class StatisticsPanelController {
     @FXML
     private CheckBox sumForceCheckBox;
     
+    @FXML
+    private CheckBox massCheckBox;
 	
 	@FXML
    	public void initialize()  {

@@ -72,13 +72,7 @@ public class ObjectPanelController {
     
     @FXML
     private ImageView fForceVector;
-    
-    public void test() {
-    	((StackPane)this.gridPaneObjectContainer.getChildren().get(2)).setMargin(cir, new Insets(0,0,0,0));
-    	this.topStackPane.getChildren().add(totalVector);
-    	this.topStackPane.setMargin(cir, null);
-    }
-
+   
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
 		

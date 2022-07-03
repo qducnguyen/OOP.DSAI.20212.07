@@ -99,5 +99,15 @@
             <Insets top="200.0" />
          </StackPane.margin>
       </CheckBox>
+      <CheckBox fx:id="massLabel" layoutX="10.0" layoutY="210.0" mnemonicParsing="false" text="Mass">
+         <StackPane.margin>
+            <Insets top="250.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <Label fx:id="massLabel" layoutX="110.0" layoutY="235.0" text="Label" textFill="ORANGE">
+         <StackPane.margin>
+            <Insets left="100.0" top="250.0" />
+         </StackPane.margin>
+      </Label>
    </children>
 </StackPane>
