@@ -20,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -73,6 +74,7 @@ public class ObjectPanelController {
     @FXML
     private ImageView fForceVector;
    
+    
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
 		

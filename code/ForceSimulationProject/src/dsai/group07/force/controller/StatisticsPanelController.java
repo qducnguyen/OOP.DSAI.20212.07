@@ -76,33 +76,32 @@ public class StatisticsPanelController {
 	@FXML
    	public void initialize()  {
 		
-		
-		 angLabel.setText("Current Angle Position  : 0.00 *");
-		 angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
-		 angVelLabel.setText("Current Angular Velocity: 0.00 */s");
+		angLabel.setText("Current Angle Position  : 0.00 *");
+		angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
+		angVelLabel.setText("Current Angular Velocity: 0.00 */s");
 		 
-		 //Default 3 CheckBox above are invisible and disable
-		 setDisableThreeAngCheckBoxs(true);
+		//Default 3 CheckBox above are invisible and disable
+		setDisableThreeAngCheckBoxs(true);
 		 
-		 accLabel.setText("Current Accelerate : 0.00 m/s^2");
-		 velLabel.setText("Current Velocity : 0.00 m/s");
-		 posLabel.setText("Current Position : 0.00 m");
+		accLabel.setText("Current Accelerate : 0.00 m/s^2");
+		velLabel.setText("Current Velocity : 0.00 m/s");
+		posLabel.setText("Current Position : 0.00 m");
 		 
-		 aForceLabel.setText("Applied Force : 0 N");
-		 fForceLabel.setText("Friction Force : 0 N");
-		 sumForceLabel.setText("Net Force : 0 N");
+		aForceLabel.setText("Applied Force : 0 N");
+		fForceLabel.setText("Friction Force : 0 N");
+		sumForceLabel.setText("Net Force : 0 N");
 		 
-		 angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
-		 angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
-		 angVelLabel.visibleProperty().bind(this.angVelCheckBox.selectedProperty());
+		angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
+		angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
+		angVelLabel.visibleProperty().bind(this.angVelCheckBox.selectedProperty());
 		 
-		 accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
-		 velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
-		 posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
+		accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
+		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
+		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 		 
-		 aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
-		 fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
-		 sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+		aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
+		fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
+		sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
 	}
 	
 	public void setSimul(Simulation simul) {
