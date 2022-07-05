@@ -1,15 +1,19 @@
 package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
 import dsai.group07.force.model.object.MainObject;
 import dsai.group07.force.model.object.Rotatable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -19,6 +23,10 @@ public class StatisticsPanelController {
 	private Simulation simul;
 	private Circle cir;
 	private Rectangle rect;
+
+	private StackPane topStackPane;
+	private StackPane downStackPane;
+	private StackPane forcePanel;
 
 	@FXML
 	private Label angLabel;
@@ -80,11 +88,7 @@ public class StatisticsPanelController {
 	@FXML
 	CheckBox massCheckBox;
 
-	@FXML
-	private ImageView appliedForce;
 
-	@FXML
-	private ImageView frictionForce;
 
 	Rotate flipRotation = new Rotate(180, Rotate.Y_AXIS);
 
@@ -120,6 +124,39 @@ public class StatisticsPanelController {
 
 		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 
+		
+
+	}
+
+	public void setTopStackPane(StackPane topStackPane){
+		this.topStackPane = topStackPane;
+		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
+		
+
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue == null){
+				System.out.println("Null Object in statistics panel controller class");
+			}
+			else if (newValue instanceof Cylinder){
+				double bottom_value = ((Cylinder)this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight(); 
+				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
+			}
+			else if (newValue instanceof Cube){
+				double bottom_value = ((Cube)this.simul.getObj()).getSize() * this.downStackPane.getHeight() * 2;
+				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
+			}
+		});
+
+		this.topStackPane.getChildren().add(this.massLabel);
+	}
+
+	public void setForcePane(StackPane forcePanel){
+		this.forcePanel = forcePanel;
+	}
+
+	
+	public void setDownStackPane(StackPane downStackPane){
+		this.downStackPane = downStackPane;
 	}
 
 	public void setSimul(Simulation simul) {
@@ -193,8 +230,8 @@ public class StatisticsPanelController {
 				this.simul.getNetForce().valueProperty());
 		sumForceLabel.textProperty().bind(netForceString);
 
-		this.appliedForce.fitWidthProperty().bind(this.simul.getaForce().valueProperty());
-		this.frictionForce.fitWidthProperty().bind(this.simul.getfForce().valueProperty());
+//		this.appliedForce.fitWidthProperty().bind(this.simul.getaForce().valueProperty());
+//		this.frictionForce.fitWidthProperty().bind(this.simul.getfForce().valueProperty());
 
 		// this.simul.getaForce().valueProperty().addListener((observable, oldValue,
 		// newValue) -> {
@@ -243,7 +280,7 @@ public class StatisticsPanelController {
 				System.err.println("Something wrong here");
 			}
 			else {
-				this.massLabel.setText(this.simul.getObj().getMass() + "");
+				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
 			}
 		});
 	};

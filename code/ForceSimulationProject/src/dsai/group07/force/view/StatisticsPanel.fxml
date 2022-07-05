@@ -3,8 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 
 <StackPane alignment="CENTER_LEFT" prefHeight="221.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
@@ -111,21 +109,5 @@
             <Insets top="250.0" />
          </StackPane.margin>
       </CheckBox>
-      <ImageView fx:id="appliedForce" fitHeight="22.0" fitWidth="396.0" pickOnBounds="true" StackPane.alignment="BOTTOM_CENTER">
-         <image>
-            <Image url="@../../../../../resources/images/vector.png" />
-         </image>
-         <StackPane.margin>
-            <Insets left="205.0" />
-         </StackPane.margin>
-      </ImageView>
-      <ImageView fx:id="frictionForce" fitHeight="22.0" fitWidth="396.0" layoutX="380.0" layoutY="259.0" pickOnBounds="true" StackPane.alignment="BOTTOM_CENTER">
-         <image>
-            <Image url="@../../../../../resources/images/vector.png" />
-         </image>
-         <StackPane.margin>
-            <Insets left="205.0" />
-         </StackPane.margin>
-      </ImageView>
    </children>
 </StackPane>

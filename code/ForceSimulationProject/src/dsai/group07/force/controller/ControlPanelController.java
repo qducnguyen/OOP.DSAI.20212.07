@@ -21,6 +21,7 @@ public class ControlPanelController {
 
 	private StackPane topStackPane;
 	private StackPane downStackPane;
+	private StackPane forcePanel;
 
 	@FXML
 	private GridPane controlPanelGridPane;
@@ -90,6 +91,9 @@ public class ControlPanelController {
 			staController = loader.getController();
 
 			staController.setSimul(simul);
+			staController.setDownStackPane(downStackPane);
+			staController.setTopStackPane(topStackPane);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -99,7 +103,7 @@ public class ControlPanelController {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ForcePanel.fxml"));
-			StackPane forcePanel = (StackPane) loader.load();
+			forcePanel = (StackPane) loader.load();
 
 			controlPanelGridPane.add(forcePanel, 1, 0);
 
