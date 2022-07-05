@@ -15,10 +15,11 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Simulation {
-	
-	private BooleanProperty isStart = new SimpleBooleanProperty(false); 
+
+	private BooleanProperty isStart = new SimpleBooleanProperty(false);
 	private BooleanProperty isPause = new SimpleBooleanProperty(true);
 	// isStart = false --> isPause always true but the opposite is not true.
+
 	private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
 	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
@@ -29,8 +30,7 @@ public class Simulation {
 	private Surface surface;
 	private Force aForce;
 	private Force fForce;
-	
-	
+
 	public Simulation() {
 		this.surface = new Surface();
 		this.aForce = new AppliedForce(0);
@@ -52,7 +52,7 @@ public class Simulation {
 	public void setSysAcc(HorizontalVector horizontalVector) {
 		this.sysAcc.set(horizontalVector);
 	}
-	
+
 	public ObjectProperty<HorizontalVector> sysVelProperty() {
 		return sysVel;
 	}
@@ -60,7 +60,7 @@ public class Simulation {
 	public ObjectProperty<HorizontalVector> sysAccProperty() {
 		return sysAcc;
 	}
-	
+
 	public DoubleProperty getSysAngAcc() {
 		return sysAngAcc;
 	}
@@ -77,7 +77,7 @@ public class Simulation {
 		this.sysAngVel.set(sysAngVel);
 	}
 
-	public ObjectProperty<MainObject> objProperty(){
+	public ObjectProperty<MainObject> objProperty() {
 		return this.obj;
 	}
 
@@ -86,8 +86,7 @@ public class Simulation {
 		if (obj == null) {
 			this.sysAcc.set(new HorizontalVector(0));
 			this.sysVel.set(new HorizontalVector(0));
-		}
-		else {
+		} else {
 			this.sysAcc.set(obj.accProperty());
 			this.sysVel.set(obj.velProperty());
 		}
@@ -124,7 +123,7 @@ public class Simulation {
 	public Surface getSur() {
 		return surface;
 	}
-	
+
 	public Force getaForce() {
 		return aForce;
 	}
@@ -136,30 +135,29 @@ public class Simulation {
 	public Force getfForce() {
 		return fForce;
 	}
-	
-	
-	//public void updateNetForce() {
-	//	Force newNetForce = Force.sumTwoForce(aForce, fForce);
-	//	this.netForce.set(newNetForce);
-	//}
-	
+
+	// public void updateNetForce() {
+	// Force newNetForce = Force.sumTwoForce(aForce, fForce);
+	// this.netForce.set(newNetForce);
+	// }
+
 	public Force getNetForce() {
 		return netForce;
 	}
-	
+
 	public void start() {
 		setIsStart(true);
 		setIsPause(false);
 	}
-	
-	public void pause(){
+
+	public void pause() {
 		setIsPause(true);
 	}
-	
+
 	public void conti() {
 		setIsPause(false);
 	}
-	
+
 	public void restart() {
 		setIsStart(false);
 		setIsPause(true);
@@ -167,20 +165,20 @@ public class Simulation {
 		fForce.setValue(0);
 		setObject(null);
 	}
-	
+
 	public void getObjAcc() {
 		getObj().updateAcc(getNetForce());
 	}
-	
+
 	public HorizontalVector getObjVel() {
 		return getObj().velProperty();
 	}
-	
+
 	public void updateNetForce() {
 		Force newNerForce = Force.sumTwoForce(aForce, fForce);
 		netForce.setValue(newNerForce.getValue());
 	}
-	
+
 	public void applyForceInTime(double t) {
 		obj.get().applyForceInTime(getNetForce(), t);
 		if (obj.get() instanceof Rotatable) {
@@ -191,5 +189,5 @@ public class Simulation {
 			}
 		}
 	}
-	
+
 }

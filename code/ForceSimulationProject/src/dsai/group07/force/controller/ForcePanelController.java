@@ -31,84 +31,75 @@ public class ForcePanelController {
 		// null, auto start the simulation when value != 0
 		// TODO: Unfocus forceTextField when click outside the textfield
 
+		// fForceListener();
 		
-
-//		fForceListener();
+		// Update for the Net Force whenever there is a change in Friction Force or Applied Force
 		netForceListener();
-		
+
 		this.simul.getaForce().valueProperty().addListener(observable -> {
 			try {
-				 System.out.println("Applied Force Changed.");
+				System.out.println("Applied Force Changed.");
 				((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		});
-		
-		
-		
+
 		this.simul.getaForce().valueProperty().addListener(
-				(observable, oldValue, newValue) -> 
-				{
-//					
-//					fForceListener();
-//					netForceListener();
+				(observable, oldValue, newValue) -> {
+					//
+					// fForceListener();
+					// netForceListener();
 					/*
-					this.simul.getObj().updateAcc(this.simul.getNetForce());
-					
-					//TODO: update in general
-					if (simul.getObj() instanceof Cylinder) {
-						// BUG: .......
-						try {
-							((Cylinder) this.simul.getObj()).updateAngAcc(this.simul.getfForce());
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					*/
-					
-					
-					if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0)  // newValue.doubleValue() != 0: Prevent auto start when force == 0
-					{ 		
+					 * this.simul.getObj().updateAcc(this.simul.getNetForce());
+					 * 
+					 * //TODO: update in general
+					 * if (simul.getObj() instanceof Cylinder) {
+					 * // BUG: .......
+					 * 		try {
+					 * 			((Cylinder) this.simul.getObj()).updateAngAcc(this.simul.getfForce());
+					 * 		} catch (Exception e) {
+					 * 			e.printStackTrace();
+					 * 		}
+					 * 	}
+					 */
+
+					if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0) // newValue.doubleValue() != 0:
+																					// Prevent auto start when force ==
+																					// 0
+					{
 						this.simul.start();
-					}
-					else if (this.simul.getIsPause() && this.simul.getIsStart() ) {
+					} else if (this.simul.getIsPause() && this.simul.getIsStart()) {
 						this.simul.conti();
 					}
-		
-					
+
 					forceTextField.getParent().requestFocus();
-					
-				}
-			);
-		
+
+				});
+
 		this.simul.objProperty().addListener(
 				(observable, oldValue, newValue) -> {
-//		            this.simul.setObject(newValue);
-					if(newValue == null) {
+					// this.simul.setObject(newValue);
+					if (newValue == null) {
 						forceTextField.setDisable(true);
 						forceTextField.setText("0");
 						this.simul.setaForce(0);
-					}
-					else {
-			            forceTextField.setDisable(false);
-			            ((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
-//			            fForceListener();
-//			            netForceListener();
-			            
-			        	this.simul.getObj().velProperty().valueProperty().addListener(
-								(observable1, oldValue1, newValue1) -> 
-								{	
+					} else {
+						forceTextField.setDisable(false);
+						((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
+						// fForceListener();
+						// netForceListener();
+
+						this.simul.getObj().velProperty().valueProperty().addListener(
+								(observable1, oldValue1, newValue1) -> {
 									((FrictionForce) this.simul.getfForce()).updateFrictionForce();
-								}
-						);
-			            
+								});
+
 					}
-				}
-			);
-		
-	
+				});
+
 		// Unfocus forceTextField
+		// TODO: Update unfocus TextField
 		forceTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
 			if (!newValue) {
 				this.simul.setaForce(Integer.parseInt(forceTextField.getText()));
@@ -119,6 +110,8 @@ public class ForcePanelController {
 
 	}
 
+	
+	// TODO: update for unfocus textField
 	@FXML
 	void forceTextFieldOnAction(ActionEvent event) {
 		this.simul.getaForce().setValue((double) Integer.parseInt(forceTextField.getText()));
@@ -126,11 +119,12 @@ public class ForcePanelController {
 				"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
 	}
 
+	// Update Friction Force as it based on both the applied force and total force
 	public void fForceListener() {
 		try {
 			this.simul.getaForce().valueProperty().addListener(observable -> {
 				try {
-					 System.out.println("Applied Force Changed.");
+					System.out.println("Applied Force Changed.");
 					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -139,7 +133,7 @@ public class ForcePanelController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			this.simul.getObj().massProperty().addListener(observable -> {
 				try {
@@ -148,22 +142,21 @@ public class ForcePanelController {
 					e.printStackTrace();
 				}
 			});
-			
+
 			this.simul.getObj().velProperty().valueProperty().addListener(
-					(observable, oldValue, newValue) -> 
-					{
+					(observable, oldValue, newValue) -> {
 						if (newValue.doubleValue() * oldValue.doubleValue() < 0) {
 							System.out.print("Velocity Changed Inside.");
 							((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 						}
-					}
-			);
-			
+					});
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	// Whenever the applied force or friction force change, it will automatically update the nerforce
 	public void netForceListener() {
 		this.simul.getaForce().valueProperty().addListener(observable -> {
 			try {
@@ -172,7 +165,7 @@ public class ForcePanelController {
 				e.printStackTrace();
 			}
 		});
-		
+
 		this.simul.getfForce().valueProperty().addListener(observable -> {
 			try {
 				this.simul.updateNetForce();

@@ -6,23 +6,23 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 //import javafx.geometry.HorizontalDirection;
 
-public class Cylinder extends MainObject implements Rotatable{
+public class Cylinder extends MainObject implements Rotatable {
 
 	private DoubleProperty angle = new SimpleDoubleProperty();
 	private DoubleProperty angAcc = new SimpleDoubleProperty();
 	private DoubleProperty angVel = new SimpleDoubleProperty();
 	private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS);
 	public static final double MAX_RADIUS = 1.0;
-	
+
 	public Cylinder() throws Exception {
 		super();
 	}
-	
+
 	public Cylinder(double mass) throws Exception {
 		super(mass);
 	}
-	
-	public Cylinder(double mass, double radius ) throws Exception {
+
+	public Cylinder(double mass, double radius) throws Exception {
 		this(mass);
 		setRadius(radius);
 	}
@@ -88,7 +88,7 @@ public class Cylinder extends MainObject implements Rotatable{
 
 	@Override
 	public void updateAngle(double oldAngVel, double t) {
-		setAngle(getAngle() + oldAngVel * t + 0.5 * getAngAcc() * t * t); 
+		setAngle(getAngle() + oldAngVel * t + 0.5 * getAngAcc() * t * t);
 	}
 
 	@Override
@@ -122,4 +122,3 @@ public class Cylinder extends MainObject implements Rotatable{
 		updateAngle(oldAngVel, t);
 	}
 }
-

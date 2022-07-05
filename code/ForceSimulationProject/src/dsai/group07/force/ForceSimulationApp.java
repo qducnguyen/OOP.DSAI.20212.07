@@ -11,10 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class ForceSimulationApp extends Application  {
+public class ForceSimulationApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+
 		final String appName = "Force Simulation App";
 
 		primaryStage.setTitle(appName);
@@ -22,25 +22,24 @@ public class ForceSimulationApp extends Application  {
 		primaryStage.setMinHeight(400);
 		primaryStage.setMinWidth(650);
 
-		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/dsai/group07/force/view/RootLayout.fxml"));
 		Parent rootLayout = loader.load();
-		
+
 		ForceSimulationAppController appController = loader.getController();
-		
+
+		// init a model
 		Simulation simul = new Simulation(null, new Surface(), new AppliedForce(0));
 		appController.init(simul);
-		
+
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		System.out.println(primaryStage.getHeight());
 		System.out.println(primaryStage.getWidth());
-		
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
