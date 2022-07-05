@@ -5,6 +5,7 @@ import dsai.group07.force.model.vector.FrictionForce;
 
 import java.text.NumberFormat;
 
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
@@ -31,9 +32,23 @@ public class SurfacePanelController {
     public void initialize() {
         staticCoefTextField.textProperty().bindBidirectional(
             staticCoefSlider.valueProperty(), NumberFormat.getNumberInstance());
+        staticCoefTextField.textProperty().addListener(event -> {
+            staticCoefTextField.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !staticCoefTextField.getText().isEmpty() &&
+                            !staticCoefTextField.getText().matches("\\\\d+\\\\.\\\\d+")
+            );
+        });
 
         kineticCoefTextField.textProperty().bindBidirectional(
             kineticCoefSlider.valueProperty(), NumberFormat.getNumberInstance());
+        kineticCoefTextField.textProperty().addListener(event -> {
+            kineticCoefTextField.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !kineticCoefTextField.getText().isEmpty() &&
+                            !kineticCoefTextField.getText().matches("\\\\d+\\\\.\\\\d+")
+            );
+        });
     }
 
 	public void setSimul(Simulation simul) {
