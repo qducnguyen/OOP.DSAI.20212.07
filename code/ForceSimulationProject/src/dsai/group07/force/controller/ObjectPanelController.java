@@ -65,15 +65,6 @@ public class ObjectPanelController {
 
     @FXML
     private Circle cir;
-    
-    @FXML
-    private ImageView totalVector;
-    
-    @FXML
-    private ImageView aForceVector;
-    
-    @FXML
-    private ImageView fForceVector;
    
     
 	public void setDownStackPane(StackPane downStackPane) {
@@ -84,7 +75,7 @@ public class ObjectPanelController {
     	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
     	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
     	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
-    	totalVector.setVisible(false);
+    	
     	
 	}
 
@@ -200,7 +191,7 @@ public class ObjectPanelController {
             	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
             	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
             	gridPaneObjectContainer.add(rec, 0 , 0);
-            	gridPaneObjectContainer.add(totalVector, 2, 0);
+            	
             	this.simul.setObject(null);
             	
             	event.setDropCompleted(true);

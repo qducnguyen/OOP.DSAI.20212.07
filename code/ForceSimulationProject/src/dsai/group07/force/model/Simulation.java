@@ -137,6 +137,7 @@ public class Simulation {
 		return fForce;
 	}
 	
+	
 	//public void updateNetForce() {
 	//	Force newNetForce = Force.sumTwoForce(aForce, fForce);
 	//	this.netForce.set(newNetForce);

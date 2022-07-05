@@ -2,16 +2,20 @@ package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.model.object.MainObject;
 import dsai.group07.force.model.object.Rotatable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.transform.Rotate;
 
 public class StatisticsPanelController {
 	
 	private Simulation simul;
+	private MainObject obj;
 	
     @FXML
     private Label angLabel;
@@ -71,6 +75,14 @@ public class StatisticsPanelController {
     private CheckBox sumForceCheckBox;
     
     @FXML CheckBox massCheckBox;
+    
+    @FXML 
+    private ImageView appliedForce;
+    
+    @FXML
+    private ImageView frictionForce;
+    
+    Rotate flipRotation = new Rotate(180, Rotate.Y_AXIS);
 	
 	@FXML
    	public void initialize()  {
@@ -103,6 +115,8 @@ public class StatisticsPanelController {
 		sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
 		
 		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
+		
+		
 	}
 	
 	public void setSimul(Simulation simul) {
@@ -172,6 +186,49 @@ public class StatisticsPanelController {
 		ObservableStringValue netForceString = Bindings.createStringBinding(() -> 
 			"Current Net Force : " + String.format("%.2f",this.simul.getNetForce().getValue()) + " N", this.simul.getNetForce().valueProperty());
 		sumForceLabel.textProperty().bind(netForceString);
+		
+		this.appliedForce.fitWidthProperty().bind(this.simul.getaForce().valueProperty());
+		this.frictionForce.fitWidthProperty().bind(this.simul.getfForce().valueProperty());
+		
+//		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+//			if ((double)oldValue * (double)newValue < 0 && (double)oldValue != 0) {
+//				this.appliedForce.getTransforms().add(flipRotation);
+//			}
+//			else if ((double) oldValue == 0) {
+//				if ((double) newValue < 0) {
+//					this.appliedForce.getTransforms().add(flipRotation);
+//				}
+//			}
+//			else if ((double) newValue == 0 && (double) oldValue >= 0) {
+//				this.appliedForce.setVisible(false);
+//			}
+//			else if ((double) newValue == 0 && (double) oldValue < 0) {
+//				this.appliedForce.getTransforms().add(flipRotation);
+//				this.appliedForce.setVisible(false);
+//			}
+//		});
+//		
+//		
+//		this.simul.getfForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+//			if ((double)oldValue * (double)newValue < 0 && (double) oldValue != 0) {
+//				this.frictionForce.getTransforms().add(flipRotation);
+//				this.frictionForce.setVisible(true);
+//			}
+//			else if ((double) oldValue == 0) {
+//				if ((double) newValue < 0) {
+//					this.frictionForce.getTransforms().add(flipRotation);
+//					this.frictionForce.setVisible(true);
+//				}
+//			}
+//			else if ((double) newValue == 0 && (double) oldValue >= 0) {
+//				this.frictionForce.setVisible(false);
+//			}
+//			else if ((double) newValue == 0 && (double) oldValue <0) {
+//				this.frictionForce.getTransforms().add(flipRotation);
+//				this.frictionForce.setVisible(false);
+//			}
+//		});
+		
 	};
 	
 	
@@ -186,4 +243,8 @@ public class StatisticsPanelController {
 		angVelCheckBox.setVisible(!isAble);
 	}
 	
+	
+	public void setObj(MainObject obj) {
+		this.obj = obj;
+	}
 }

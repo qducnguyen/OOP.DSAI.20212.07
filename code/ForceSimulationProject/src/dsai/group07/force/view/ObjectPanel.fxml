@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 
@@ -19,25 +16,6 @@
   </rowConstraints>
    <children>
       <Circle fx:id="cir" fill="DODGERBLUE" radius="100.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-      <StackPane prefHeight="150.0" prefWidth="200.0">
-         <children>
-            <ImageView fx:id="totalVector" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../../../../../resources/images/vector.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="fForceVector" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../../../../../resources/images/vector.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="aForceVector" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../../../../../resources/images/vector.png" />
-               </image>
-            </ImageView>
-            <Rectangle fx:id="rec" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-         </children>
-      </StackPane>
+      <Rectangle fx:id="rec" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
    </children>
 </GridPane>
