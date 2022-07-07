@@ -3,9 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane alignment="CENTER_LEFT" prefHeight="221.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
+<StackPane alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
    <children>
       <Label fx:id="angLabel" text="Label" textFill="ORANGE">
          <StackPane.margin>
@@ -54,7 +56,7 @@
          <StackPane.margin>
             <Insets left="100.0" top="200.0" />
          </StackPane.margin></Label>
-      <Label fx:id="massLabel" layoutX="110.0" layoutY="235.0" text="Label" textFill="ORANGE">
+      <Label fx:id="massLabel" layoutX="110.0" layoutY="235.0" text="0 kg" textFill="ORANGE">
          <StackPane.margin>
             <Insets left="100.0" top="250.0" />
          </StackPane.margin>
@@ -109,5 +111,50 @@
             <Insets top="250.0" />
          </StackPane.margin>
       </CheckBox>
+      <CheckBox fx:id="appliedForceCheckBox" mnemonicParsing="false" onAction="#appliedForceView" text="appliedForce">
+         <StackPane.margin>
+            <Insets top="350.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="netForceCheckBox" mnemonicParsing="false" onAction="#netForceView" text="netForce">
+         <StackPane.margin>
+            <Insets top="300.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="frictionForceCheckBox" layoutX="10.0" layoutY="360.0" mnemonicParsing="false" onAction="#frictionForceView" text="frictionForce">
+         <StackPane.margin>
+            <Insets top="400.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <ImageView fx:id="rightAppliedForce" fitHeight="32.0" fitWidth="200.0" pickOnBounds="true" visible="false">
+         <image>
+            <Image url="@../../../../../resources/images/vector.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="rightFrictionForce" fitHeight="32.0" fitWidth="200.0" pickOnBounds="true" visible="false">
+         <image>
+            <Image url="@../../../../../resources/images/vector.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="rightNetForce" fitHeight="32.0" fitWidth="200.0" pickOnBounds="true" visible="false">
+         <image>
+            <Image url="@../../../../../resources/images/vector.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="leftAppliedForce" fitHeight="32.0" fitWidth="200.0" pickOnBounds="true" rotate="180.0" visible="false">
+         <image>
+            <Image url="@../../../../../resources/images/vector.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="leftNetForce" fitHeight="32.0" fitWidth="200.0" pickOnBounds="true" rotate="180.0" visible="false">
+         <image>
+            <Image url="@../../../../../resources/images/vector.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="leftFrictionForce" fitHeight="32.0" fitWidth="200.0" pickOnBounds="true" rotate="180.0" visible="false">
+         <image>
+            <Image url="@../../../../../resources/images/vector.png" />
+         </image>
+      </ImageView>
    </children>
 </StackPane>

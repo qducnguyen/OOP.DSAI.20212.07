@@ -21,12 +21,9 @@ import javafx.scene.transform.Rotate;
 public class StatisticsPanelController {
 
 	private Simulation simul;
-	private Circle cir;
-	private Rectangle rect;
 
 	private StackPane topStackPane;
 	private StackPane downStackPane;
-	private StackPane forcePanel;
 
 	@FXML
 	private Label angLabel;
@@ -88,12 +85,36 @@ public class StatisticsPanelController {
 	@FXML
 	CheckBox massCheckBox;
 
+	@FXML
+	CheckBox appliedForceCheckBox;
 
+	@FXML
+	CheckBox frictionForceCheckBox;
 
-	Rotate flipRotation = new Rotate(180, Rotate.Y_AXIS);
+	@FXML
+	CheckBox netForceCheckBox;
+
+	@FXML
+    private ImageView rightNetForce;
+
+    @FXML
+    private ImageView rightAppliedForce;
+
+    @FXML
+    private ImageView rightFrictionForce;
+
+    @FXML
+    private ImageView leftNetForce;
+
+    @FXML
+    private ImageView leftAppliedForce;
+
+    @FXML
+    private ImageView leftFrictionForce;
 
 	@FXML
 	public void initialize() {
+		
 
 		angLabel.setText("Current Angle Position  : 0.00 *");
 		angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
@@ -124,7 +145,7 @@ public class StatisticsPanelController {
 
 		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 
-		
+		// this.simul.objProperty().addListener((obser));
 
 	}
 
@@ -148,11 +169,10 @@ public class StatisticsPanelController {
 		});
 
 		this.topStackPane.getChildren().add(this.massLabel);
+		setupVector();
+		updateVector();
 	}
 
-	public void setForcePane(StackPane forcePanel){
-		this.forcePanel = forcePanel;
-	}
 
 	
 	public void setDownStackPane(StackPane downStackPane){
@@ -230,51 +250,6 @@ public class StatisticsPanelController {
 				this.simul.getNetForce().valueProperty());
 		sumForceLabel.textProperty().bind(netForceString);
 
-//		this.appliedForce.fitWidthProperty().bind(this.simul.getaForce().valueProperty());
-//		this.frictionForce.fitWidthProperty().bind(this.simul.getfForce().valueProperty());
-
-		// this.simul.getaForce().valueProperty().addListener((observable, oldValue,
-		// newValue) -> {
-		// if ((double)oldValue * (double)newValue < 0 && (double)oldValue != 0) {
-		// this.appliedForce.getTransforms().add(flipRotation);
-		// }
-		// else if ((double) oldValue == 0) {
-		// if ((double) newValue < 0) {
-		// this.appliedForce.getTransforms().add(flipRotation);
-		// }
-		// }
-		// else if ((double) newValue == 0 && (double) oldValue >= 0) {
-		// this.appliedForce.setVisible(false);
-		// }
-		// else if ((double) newValue == 0 && (double) oldValue < 0) {
-		// this.appliedForce.getTransforms().add(flipRotation);
-		// this.appliedForce.setVisible(false);
-		// }
-		// });
-		//
-		//
-		// this.simul.getfForce().valueProperty().addListener((observable, oldValue,
-		// newValue) -> {
-		// if ((double)oldValue * (double)newValue < 0 && (double) oldValue != 0) {
-		// this.frictionForce.getTransforms().add(flipRotation);
-		// this.frictionForce.setVisible(true);
-		// }
-		// else if ((double) oldValue == 0) {
-		// if ((double) newValue < 0) {
-		// this.frictionForce.getTransforms().add(flipRotation);
-		// this.frictionForce.setVisible(true);
-		// }
-		// }
-		// else if ((double) newValue == 0 && (double) oldValue >= 0) {
-		// this.frictionForce.setVisible(false);
-		// }
-		// else if ((double) newValue == 0 && (double) oldValue <0) {
-		// this.frictionForce.getTransforms().add(flipRotation);
-		// this.frictionForce.setVisible(false);
-		// }
-		// });
-		
-		// TODO: implement this to bind the object property with the force and mass
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == null){
 				System.err.println("Something wrong here");
@@ -294,5 +269,217 @@ public class StatisticsPanelController {
 
 		angVelCheckBox.setDisable(isAble);
 		angVelCheckBox.setVisible(!isAble);
+	}
+
+	public void setupVector(){
+		
+		this.topStackPane.getChildren().add(this.rightAppliedForce);
+		this.topStackPane.getChildren().add(this.rightFrictionForce);
+		this.topStackPane.getChildren().add(this.rightNetForce);
+		
+		this.topStackPane.getChildren().add(this.leftAppliedForce);
+		this.topStackPane.getChildren().add(this.leftFrictionForce);
+		this.topStackPane.getChildren().add(this.leftNetForce);
+
+		StackPane.setAlignment(this.rightNetForce, Pos.BOTTOM_CENTER);
+		StackPane.setAlignment(this.rightAppliedForce, Pos.BOTTOM_CENTER);
+		StackPane.setAlignment(this.rightFrictionForce, Pos.BOTTOM_CENTER);
+		StackPane.setAlignment(this.leftNetForce, Pos.BOTTOM_CENTER);
+		StackPane.setAlignment(this.leftAppliedForce, Pos.BOTTOM_CENTER);
+		StackPane.setAlignment(this.leftFrictionForce, Pos.BOTTOM_CENTER);
+	}
+
+	public void updateVector(){
+		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+			// this.rightAppliedForce.setFitWidth((double) newValue);
+			this.rightAppliedForce.fitWidthProperty().bind(this.topStackPane.heightProperty().multiply(Math.abs((double) newValue * 0.01)));
+			this.leftAppliedForce.fitWidthProperty().bind(this.topStackPane.heightProperty().multiply(Math.abs((double) newValue * 0.01)));
+			// this.leftAppliedForce.setFitWidth((double) newValue);
+			
+			double insetValue = this.rightAppliedForce.getFitWidth();
+			MainObject obj = this.simul.getObj();
+			if (obj instanceof Cylinder){
+				
+			}
+			StackPane.setMargin(this.rightAppliedForce, new Insets(0, 0, 0, insetValue));
+			StackPane.setMargin(this.leftAppliedForce, new Insets(0, insetValue, 0, 0));
+
+			System.out.println(this.aForceCheckBox.isSelected());
+			if ((double) newValue > 0 && this.aForceCheckBox.isSelected()){
+				this.rightAppliedForce.setVisible(true);
+				this.leftAppliedForce.setVisible(false);
+			}
+			else if ((double) newValue < 0 && this.aForceCheckBox.isSelected()){
+				this.rightAppliedForce.setVisible(false);
+				this.leftAppliedForce.setVisible(true);
+			}
+			else if ((double) newValue == 0 && this.aForceCheckBox.isSelected()){
+				
+			}
+			
+		});
+		
+		this.simul.getfForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+
+			this.rightFrictionForce.fitWidthProperty().bind(this.topStackPane.heightProperty().multiply(Math.abs((double) newValue * 0.01)));
+			this.leftFrictionForce.fitWidthProperty().bind(this.topStackPane.heightProperty().multiply(Math.abs((double) newValue * 0.01)));
+
+
+			if ((double) newValue > 0 && this.fForceCheckBox.isSelected()){
+				this.rightFrictionForce.setVisible(true);
+				this.leftFrictionForce.setVisible(false);
+			}
+			else if ((double) newValue < 0 && this.fForceCheckBox.isSelected()){
+				this.rightFrictionForce.setVisible(false);
+				this.leftFrictionForce.setVisible(true);
+			}
+
+			double insetValue = this.rightAppliedForce.getFitWidth();
+			// this.rightFrictionForce.setFitWidth((double) newValue);
+			// this.leftFrictionForce.setFitWidth((double) newValue);
+
+			// double insetValue = -(double) newValue;
+
+			StackPane.setMargin(this.rightFrictionForce, new Insets(0, 0, 0, insetValue));
+			StackPane.setMargin(this.leftFrictionForce, new Insets(0, insetValue, 0, 0));
+
+			// if ((double) newValue > 0 && this.fForceCheckBox.isSelected()){
+			// 	this.rightFrictionForce.setVisible(true);
+			// 	this.leftFrictionForce.setVisible(false);
+			// }
+			// else if ((double) newValue < 0 && this.fForceCheckBox.isSelected()){
+			// 	this.rightFrictionForce.setVisible(false);
+			// 	this.leftFrictionForce.setVisible(true);
+			// }
+		});
+
+		this.simul.getNetForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+			// this.rightNetForce.setFitWidth((double) newValue);
+			// this.leftNetForce.setFitWidth((double) newValue);
+			System.out.println("Test new value for net force: " + (double) newValue);
+			this.rightNetForce.fitWidthProperty().bind(this.topStackPane.heightProperty().multiply(Math.abs((double) newValue * 0.01)));
+			this.leftNetForce.fitWidthProperty().bind(this.topStackPane.heightProperty().multiply(Math.abs((double) newValue * 0.01)));
+
+			double insetValue = this.rightNetForce.getFitHeight();
+			// double insetValue = (double) newValue;
+
+			StackPane.setMargin(this.rightNetForce, new Insets(0, 0, 0, insetValue));
+			StackPane.setMargin(this.leftNetForce, new Insets(0, insetValue, 0, 0));
+
+			if ((double) newValue > 0 && this.netForceCheckBox.isSelected()){
+				this.rightNetForce.setVisible(true);
+				this.leftNetForce.setVisible(false);
+			}
+			else if ((double) newValue < 0 && this.netForceCheckBox.isSelected()){
+				this.rightNetForce.setVisible(false);
+				this.leftNetForce.setVisible(true);
+			}
+		});
+	}
+
+	public void updateDirectionByForce(){
+		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+			if ((double) newValue > 0){
+				this.rightAppliedForce.setVisible(true);
+				this.leftAppliedForce.setVisible(false);
+			}
+			else if ((double) newValue < 0){
+				this.rightAppliedForce.setVisible(false);
+				this.leftAppliedForce.setVisible(true);
+			}
+		});
+
+		this.simul.getfForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+			if ((double) newValue > 0){
+				this.rightFrictionForce.setVisible(true);
+				this.leftFrictionForce.setVisible(false);
+			}
+			else if ((double) newValue < 0){
+				this.rightFrictionForce.setVisible(false);
+				this.leftFrictionForce.setVisible(true);
+			}
+		});
+
+		this.simul.getNetForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+			if ((double) newValue > 0){
+				this.rightNetForce.setVisible(true);
+				this.leftNetForce.setVisible(false);
+			}
+			else if ((double) newValue < 0){
+				this.rightNetForce.setVisible(false);
+				this.leftNetForce.setVisible(true);
+			}
+		});
+	}
+
+
+	@FXML
+	public void frictionForceView(){
+		if (this.frictionForceCheckBox.isSelected()){
+			if (this.simul.getfForce().getValue() == 0){
+				this.rightFrictionForce.setVisible(false);
+				this.leftFrictionForce.setVisible(false);
+				this.frictionForceCheckBox.setSelected(false);
+			}
+			else if (this.simul.getfForce().getValue() > 0){
+				this.rightFrictionForce.setVisible(true);
+				this.leftFrictionForce.setVisible(false);
+			}
+			else if (this.simul.getfForce().getValue() < 0){
+				this.rightFrictionForce.setVisible(false);
+				this.leftFrictionForce.setVisible(true);
+			}
+		}
+		else {
+			this.rightFrictionForce.setVisible(false);
+			this.leftFrictionForce.setVisible(false);
+		}
+	}
+
+	@FXML
+	public void appliedForceView(){
+		if (this.appliedForceCheckBox.isSelected()){
+			if (this.simul.getaForce().getValue() == 0){
+				this.rightAppliedForce.setVisible(false);
+				this.leftAppliedForce.setVisible(false);
+				this.appliedForceCheckBox.setSelected(false);
+			}
+			else if (this.simul.getaForce().getValue() > 0){
+				this.rightAppliedForce.setVisible(true);
+				this.leftAppliedForce.setVisible(false);
+			}
+			else if (this.simul.getaForce().getValue() < 0){
+				System.out.println("Test applied force");
+				this.rightAppliedForce.setVisible(false);
+				this.leftAppliedForce.setVisible(true);
+			}
+		}
+		else {
+			this.rightAppliedForce.setVisible(false);
+			this.leftAppliedForce.setVisible(false);
+		}
+	}
+
+	@FXML
+	public void netForceView(){
+		if (this.netForceCheckBox.isSelected()){
+			if (this.simul.getNetForce().getValue() == 0){
+				this.rightNetForce.setVisible(false);
+				this.leftNetForce.setVisible(false);
+				this.netForceCheckBox.setSelected(false);
+			}
+			else if (this.simul.getNetForce().getValue() > 0){
+				this.rightNetForce.setVisible(true);
+				this.leftNetForce.setVisible(false);
+			}
+			else if (this.simul.getNetForce().getValue() < 0){
+				this.rightNetForce.setVisible(false);
+				this.leftNetForce.setVisible(true);
+			}
+		}
+		else {
+			this.rightNetForce.setVisible(false);
+			this.leftNetForce.setVisible(false);
+		}
 	}
 }

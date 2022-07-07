@@ -189,6 +189,8 @@ public class ObjectPanelController {
 				}
 				topStackPane.getChildren().add(cir);
 
+				System.out.println("Test the circle layout x in the object panel controller: " + this.cir.getLayoutX());
+				System.out.println("Test the center of x in the object panel controller: " +  this.cir.getCenterX());
 				// System.out.println("Test circle radius: " + this.cir.getRadius());
 				try {
 					// When object is a Cylinder
@@ -381,6 +383,7 @@ public class ObjectPanelController {
 									this.simul.setObject(new Cube(cubMass, cubSide));
 									this.rec.heightProperty()
 											.bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
+									// this.rec.widt
 									this.rec.widthProperty()
 											.bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
 
@@ -461,7 +464,7 @@ public class ObjectPanelController {
 									this.simul.setObject(new Cylinder(cynMass, cynRadius));
 									this.cir.radiusProperty()
 											.bind(this.downStackPane.heightProperty().multiply(cynRadius));
-
+									
 								} catch (NumberFormatException e) {
 									e.printStackTrace();
 								} catch (Exception e) {
