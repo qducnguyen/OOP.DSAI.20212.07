@@ -7,6 +7,7 @@ public class Cube extends MainObject {
 	
 	private DoubleProperty size = new SimpleDoubleProperty(MAX_SIZE);
 	public static final double MAX_SIZE = 1.0;
+	public static final double MIN_SIZE = 0.1;
 	
 	public Cube() throws Exception {
 		super();
@@ -30,9 +31,9 @@ public class Cube extends MainObject {
 	}
 	
 	public void setSize(double size) throws Exception {
-		if (size <=  0) {
-			setSize(0.001);
-			throw new Exception("Cube's size must > 0 and <= " + MAX_SIZE);
+		if (size <  MIN_SIZE) {
+			setSize(MIN_SIZE);
+			throw new Exception("Cube's size must > " + MIN_SIZE + " and <= " + MAX_SIZE);
 		} else if (size > MAX_SIZE) {
 			setSize(MAX_SIZE);
 			throw new Exception("Cube's size must > 0 and <= " + MAX_SIZE);

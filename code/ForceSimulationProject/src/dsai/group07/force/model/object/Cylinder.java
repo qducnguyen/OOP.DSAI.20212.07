@@ -13,6 +13,7 @@ public class Cylinder extends MainObject implements Rotatable{
 	private DoubleProperty angVel = new SimpleDoubleProperty();
 	private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS);
 	public static final double MAX_RADIUS = 1.0;
+	public static final double MIN_RADIUS = 0.1;
 	
 	public Cylinder() throws Exception {
 		super();
@@ -107,12 +108,12 @@ public class Cylinder extends MainObject implements Rotatable{
 
 	@Override
 	public void setRadius(double radius) throws Exception {
-		if (radius <= 0) {
-			this.radius.setValue(0.001);
-			throw new Exception("The radius of object must be > 0 and <= " + MAX_RADIUS);
+		if (radius < MIN_RADIUS) {
+			this.radius.setValue(MIN_RADIUS);
+			throw new Exception("The radius of object must be > " + MIN_RADIUS +" and <= " + MAX_RADIUS);
 		} else if (radius > MAX_RADIUS) {
 			this.radius.setValue(MAX_RADIUS);
-			throw new Exception("The radius of object must be > 0 and <= " + MAX_RADIUS);
+			throw new Exception("The radius of object must be > " + MIN_RADIUS +" and <= " + MAX_RADIUS);
 		} else {
 			this.radius.setValue(radius);
 		}
