@@ -1,10 +1,15 @@
 package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.vector.AppliedForce;
 import dsai.group07.force.model.vector.FrictionForce;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 public class ForcePanelController {
@@ -16,10 +21,25 @@ public class ForcePanelController {
 
 	@FXML
 	private TextField forceTextField;
+	
+	@FXML
+	private Slider forceSlider;
 
 	@FXML
 	public void initialize() {
 		forceTextField.setDisable(true);
+		
+        forceTextField.textProperty().addListener(event -> {
+            forceTextField.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !forceTextField.getText().isEmpty() &&
+                            !forceTextField.getText().matches("\\\\d+\\\\.\\\\d+")
+            );
+        });
+
+		forceSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			forceTextField.setText(String.format("%.3f", newValue));
+		});
 	}
 
 	public void setSimul(Simulation simul) {
@@ -30,9 +50,8 @@ public class ForcePanelController {
 		// UPDATE: Disable and Set 0 when the object is null, enable when object is not
 		// null, auto start the simulation when value != 0
 		// TODO: Unfocus forceTextField when click outside the textfield
-
 		
-
+		forceSlider.valueProperty().bindBidirectional(this.simul.getaForce().valueProperty());
 //		fForceListener();
 		netForceListener();
 		
@@ -92,24 +111,27 @@ public class ForcePanelController {
 					}
 				}
 			);
-		
-	
-		// Unfocus forceTextField
-		forceTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-			if (!newValue) {
-				this.simul.setaForce(Integer.parseInt(forceTextField.getText()));
-				System.out.println(
-						"Current Force Value " + this.simul.getaForce().getValue() + " from Unfocus force Text");
-			}
-		});
 
 	}
 
 	@FXML
 	void forceTextFieldOnAction(ActionEvent event) {
-		this.simul.getaForce().setValue((double) Integer.parseInt(forceTextField.getText()));
-		System.out.println(
-				"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
+		try {
+			if (Math.abs((double) Double.parseDouble(forceTextField.getText())) > AppliedForce.ABS_MAX_AFORCE) {
+	            Alert alert = new Alert(Alert.AlertType.WARNING);
+	            alert.setContentText("\npPlease input a number >= -500 and <= 500");
+	            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+	            alert.showAndWait();
+			}
+			this.simul.getaForce().setValue((double) Double.parseDouble(forceTextField.getText()));
+			System.out.println(
+					"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
+		} catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage() + "\npPlease input a number >= -500 and <= 500");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+		}
 	}
 
 	public void fForceListener() {

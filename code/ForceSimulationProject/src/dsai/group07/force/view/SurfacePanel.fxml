@@ -20,8 +20,8 @@
    <children>
       <Label text="Static Friction Coef" GridPane.halignment="CENTER" />
       <Label text="Kinetic Friction Coef" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Slider fx:id="staticCoefSlider" blockIncrement="0.001" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="239.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" />
-      <Slider fx:id="kineticCoefSlider" blockIncrement="0.001" majorTickUnit="0.1" max="1.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Slider fx:id="staticCoefSlider" blockIncrement="0.001" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="239.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
+      <Slider fx:id="kineticCoefSlider" blockIncrement="0.001" majorTickUnit="0.1" max="1.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <TextField fx:id="staticCoefTextField" GridPane.columnIndex="2" />
       <TextField fx:id="kineticCoefTextField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
    </children>
