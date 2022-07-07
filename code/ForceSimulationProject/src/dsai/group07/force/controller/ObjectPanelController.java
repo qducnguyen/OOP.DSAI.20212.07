@@ -7,11 +7,13 @@ import java.util.Optional;
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
+import dsai.group07.force.model.object.MainObject;
 import dsai.group07.force.model.vector.FrictionForce;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
+import javafx.css.PseudoClass;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -19,6 +21,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -30,6 +33,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -379,8 +383,23 @@ public class ObjectPanelController {
 		
 		TextField cubeMass = new TextField();
 		cubeMass.setPromptText("Input mass for cube");
+        cubeMass.textProperty().addListener(event -> {
+            cubeMass.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !cubeMass.getText().isEmpty() &&
+                            !cubeMass.getText().matches("\\\\d+\\\\.\\\\d+")
+            );
+        });
+        
 		TextField cubeSide = new TextField();
 		cubeSide.setPromptText("Input Side-length for cube");
+        cubeSide.textProperty().addListener(event -> {
+            cubeSide.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !cubeSide.getText().isEmpty() &&
+                            !cubeSide.getText().matches("\\\\d+\\\\.\\\\d+")
+            );
+        });
 		
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
 		OKEButton.setDisable(true);
@@ -425,10 +444,18 @@ public class ObjectPanelController {
 									this.simul.setObject(new Cube(cubMass,cubSide));
 									this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
 									this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
-								} catch (NumberFormatException e) {
-									e.printStackTrace();
 								} catch (Exception e) {
-									e.printStackTrace();
+									try {
+										this.simul.setObject(new Cube(MainObject.DEFAULT_MASS, Cube.MAX_SIZE));
+									} catch (Exception e1) {
+										e1.printStackTrace();
+									}
+									this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 2));
+									this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 2));
+					                Alert alert = new Alert(Alert.AlertType.WARNING);
+					                alert.setContentText(e.getMessage());
+					                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+					                alert.showAndWait();
 								}
 							});
 				}); 
@@ -455,9 +482,24 @@ public class ObjectPanelController {
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
 		TextField cylinderMass = new TextField();
-		cylinderMass.setPromptText("Input mass for cylinder");		
+		cylinderMass.setPromptText("Input mass for cylinder");	
+        cylinderMass.textProperty().addListener(event -> {
+            cylinderMass.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !cylinderMass.getText().isEmpty() &&
+                            !cylinderMass.getText().matches("\\\\d+\\\\.\\\\d+")
+            );
+        });
+        
 		TextField cylinderRadius = new TextField();
 		cylinderRadius.setPromptText("Input radius for cylinder");
+        cylinderRadius.textProperty().addListener(event -> {
+            cylinderRadius.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !cylinderRadius.getText().isEmpty() &&
+                            !cylinderRadius.getText().matches("\\\\d+\\\\.\\\\d+")
+            );
+        });
 
 		// Enable/Disable OKE Button 
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
@@ -507,10 +549,17 @@ public class ObjectPanelController {
 									this.simul.setObject(new Cylinder(cynMass,cynRadius));
 									this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(cynRadius));
 									
-								} catch (NumberFormatException e) {
-									e.printStackTrace();
 								} catch (Exception e) {
-									e.printStackTrace();
+									try {
+										this.simul.setObject(new Cylinder(MainObject.DEFAULT_MASS, Cylinder.MAX_RADIUS));
+									} catch (Exception e1) {
+										e1.printStackTrace();
+									}
+									this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(Cylinder.MAX_RADIUS));
+					                Alert alert = new Alert(Alert.AlertType.WARNING);
+					                alert.setContentText(e.getMessage());
+					                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+					                alert.showAndWait();
 								}
 							});
 				}); 

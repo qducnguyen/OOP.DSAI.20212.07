@@ -7,7 +7,8 @@ import javafx.beans.property.DoubleProperty;
 
 public abstract class MainObject {
 	
-	private DoubleProperty mass = new SimpleDoubleProperty();
+	public static final double DEFAULT_MASS = 10;
+	private DoubleProperty mass = new SimpleDoubleProperty(DEFAULT_MASS);
 	private HorizontalVector acc = new HorizontalVector(0.0);
 	private HorizontalVector vel = new HorizontalVector(0.0);
 	private DoubleProperty pos = new SimpleDoubleProperty();
@@ -82,9 +83,7 @@ public abstract class MainObject {
 		setPos(getPos() + oldVel * t + 0.5 * accProperty().getValue() * t * t); 
 	}
 	
-	public MainObject() throws Exception {
-		setMass(12); // 12
-	}
+	public MainObject() {}
 	
 	public MainObject(double mass) throws Exception {
 		setMass(mass);

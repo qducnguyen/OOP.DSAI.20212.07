@@ -36,7 +36,7 @@ public class Cube extends MainObject {
 			throw new Exception("Cube's size must > " + MIN_SIZE + " and <= " + MAX_SIZE);
 		} else if (size > MAX_SIZE) {
 			setSize(MAX_SIZE);
-			throw new Exception("Cube's size must > 0 and <= " + MAX_SIZE);
+			throw new Exception("Cube's size must > " + MIN_SIZE + " and <= " + MAX_SIZE);
 		} else {
 			this.size.setValue(size);
 		}
