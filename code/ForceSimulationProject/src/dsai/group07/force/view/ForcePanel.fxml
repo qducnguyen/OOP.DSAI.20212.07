@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="forcePanel" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.ForcePanelController">
+<StackPane fx:id="forcePanel" prefHeight="72.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.ForcePanelController">
    <children>
-      <TextField fx:id="forceTextField" alignment="CENTER" onAction="#forceTextFieldOnAction" text="0" StackPane.alignment="CENTER" />
+      <TextField fx:id="forceTextField" alignment="CENTER" onAction="#forceTextFieldOnAction" prefHeight="21.0" prefWidth="345.0" text="0" StackPane.alignment="CENTER" />
+      <Slider fx:id="forceSlider" blockIncrement="0.001" majorTickUnit="50.0" max="500.0" min="-500.0" showTickLabels="true" showTickMarks="true" StackPane.alignment="BOTTOM_CENTER" />
    </children>
 </StackPane>

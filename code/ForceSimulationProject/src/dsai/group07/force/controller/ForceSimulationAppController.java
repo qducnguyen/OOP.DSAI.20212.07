@@ -44,8 +44,6 @@ public class ForceSimulationAppController {
 		showAnimation();
 		showControlPane();
 		setUpPauseResetOperation();
-
-		
 	}
 	
 	

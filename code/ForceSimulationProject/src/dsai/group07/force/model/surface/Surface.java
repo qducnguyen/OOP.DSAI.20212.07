@@ -5,8 +5,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Surface {
 	
-	DoubleProperty staCoef = new SimpleDoubleProperty();
-	DoubleProperty kiCoef = new SimpleDoubleProperty();
+	DoubleProperty staCoef = new SimpleDoubleProperty(MAX_STA_COEF / 2);
+	DoubleProperty kiCoef = new SimpleDoubleProperty(MAX_STA_COEF / 4);
 	public static final double MAX_STA_COEF = 1.0;
 	public static final double STEP_COEF = 0.001;
 	
@@ -67,7 +67,7 @@ public class Surface {
             this.kiCoef.setValue(MAX_STA_COEF);
             throw new Exception("Static friction coefficient must be >= 0 and <= " + MAX_STA_COEF);
 		} else if (getStaCoef() <= kiCoef) {
-            this.kiCoef.setValue(getStaCoef() - STEP_COEF);
+            this.kiCoef.setValue(Math.max(0, getStaCoef() - STEP_COEF));
 			throw new Exception("Kinetic friction coefficient must be < static friction coefficient: " + String.format("%.3f", getStaCoef()));
 		} else {
 			this.kiCoef.setValue(kiCoef);
