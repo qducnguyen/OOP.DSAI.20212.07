@@ -404,9 +404,9 @@ public class ObjectPanelController {
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
 		OKEButton.setDisable(true);
 		
-		grid.add(new Label("Cube Mass: "), 0, 0);
+		grid.add(new Label("Cube Mass: (default 10.0)"), 0, 0);
 		grid.add(cubeMass, 1, 0);
-		grid.add(new Label("Cylinder Side: "), 0, 1);
+		grid.add(new Label("Cylinder Side: (default " + Cylinder.MAX_RADIUS + ")"), 0, 1);
 		grid.add(cubeSide, 1, 1);
 		
 		// Set the disable property of the OKEButton

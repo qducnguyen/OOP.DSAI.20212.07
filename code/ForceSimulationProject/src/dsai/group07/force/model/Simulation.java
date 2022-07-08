@@ -165,6 +165,13 @@ public class Simulation {
 		aForce.setValue(0);
 		fForce.setValue(0);
 		setObject(null);
+		try {
+			surface.setKiCoef(Surface.MAX_STA_COEF / 4);
+			surface.setStaCoef(Surface.MAX_STA_COEF / 2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	public void getObjAcc() {

@@ -5,8 +5,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Surface {
 	
-	DoubleProperty staCoef = new SimpleDoubleProperty();
-	DoubleProperty kiCoef = new SimpleDoubleProperty();
+	DoubleProperty staCoef = new SimpleDoubleProperty(MAX_STA_COEF / 2);
+	DoubleProperty kiCoef = new SimpleDoubleProperty(MAX_STA_COEF / 4);
 	public static final double MAX_STA_COEF = 1.0;
 	public static final double STEP_COEF = 0.001;
 	
