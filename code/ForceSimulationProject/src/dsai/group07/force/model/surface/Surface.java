@@ -67,7 +67,7 @@ public class Surface {
             this.kiCoef.setValue(MAX_STA_COEF);
             throw new Exception("Static friction coefficient must be >= 0 and <= " + MAX_STA_COEF);
 		} else if (getStaCoef() <= kiCoef) {
-            this.kiCoef.setValue(getStaCoef() - STEP_COEF);
+            this.kiCoef.setValue(Math.max(0, getStaCoef() - STEP_COEF));
 			throw new Exception("Kinetic friction coefficient must be < static friction coefficient: " + String.format("%.3f", getStaCoef()));
 		} else {
 			this.kiCoef.setValue(kiCoef);

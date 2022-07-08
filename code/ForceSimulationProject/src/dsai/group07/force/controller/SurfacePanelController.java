@@ -77,7 +77,7 @@ public class SurfacePanelController {
         kineticCoefTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 simul.getSur().setKiCoef(Double.parseDouble(newValue));
-            } catch (Exception e) {
+            } catch (Exception e) { 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + this.simul.getSur().MAX_STA_COEF);
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

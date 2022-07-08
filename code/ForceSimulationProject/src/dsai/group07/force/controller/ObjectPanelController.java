@@ -258,6 +258,9 @@ public class ObjectPanelController {
     
 	public void resetObjectPosition() {
 		gridPaneObjectContainer.getChildren().clear();
+    	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
+    	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+    	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
 		gridPaneObjectContainer.add(rec, 0 ,0);
 		gridPaneObjectContainer.add(cir, 1 ,0);
 	}

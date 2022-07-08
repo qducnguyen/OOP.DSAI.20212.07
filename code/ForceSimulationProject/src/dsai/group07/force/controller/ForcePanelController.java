@@ -119,7 +119,7 @@ public class ForcePanelController {
 		try {
 			if (Math.abs((double) Double.parseDouble(forceTextField.getText())) > AppliedForce.ABS_MAX_AFORCE) {
 	            Alert alert = new Alert(Alert.AlertType.WARNING);
-	            alert.setContentText("\npPlease input a number >= -500 and <= 500");
+	            alert.setContentText("\nPlease input a number >= -500 and <= 500");
 	            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 	            alert.showAndWait();
 			}
@@ -128,7 +128,7 @@ public class ForcePanelController {
 					"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
 		} catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText(e.getMessage() + "\npPlease input a number >= -500 and <= 500");
+            alert.setContentText(e.getMessage() + "\nPlease input a number >= -500 and <= 500");
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
 		}
