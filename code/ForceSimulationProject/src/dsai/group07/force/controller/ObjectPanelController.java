@@ -132,7 +132,7 @@ public class ObjectPanelController {
 	
 	            	if (topStackPane.getChildren().contains(cir)) {
 	            		gridPaneObjectContainer.add(cir, 1, 0);
-	            		this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
+	                	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 	            	}
 	            	
 	            	topStackPane.getChildren().add(rec);

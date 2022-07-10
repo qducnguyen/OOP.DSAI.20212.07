@@ -98,7 +98,7 @@ public class ControlPanelController {
 		
 		staController = loader.getController();
 		
-		staController.init(simul, this.rec, this.cir, this.topStackPane);
+		staController.init(simul, this.rec, this.cir, this.topStackPane, this.downStackPane);
 		staController.setTopStackPane(this.topStackPane);
 //		staController.setSimul(simul);
 		}

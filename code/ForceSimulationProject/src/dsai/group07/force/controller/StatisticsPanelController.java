@@ -109,7 +109,7 @@ public class StatisticsPanelController {
 		 angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
 		 angVelLabel.setText("Current Angular Velocity: 0.00 */s");
 		 
-		 //Default 3 Label above are invisible.
+		 
 		 setActiveThreeCheckBox(false);
 		 
 		 
@@ -119,32 +119,33 @@ public class StatisticsPanelController {
 		 aForceLabel.setText("Applied Force : 0 N");
 		 fForceLabel.setText("Friction Force : 0 N");
 		 sumForceLabel.setText("Net Force : 0 N");
+		 
+		 angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
+		 angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
+		 angVelLabel.visibleProperty().bind(this.angVelCheckBox.selectedProperty());
 
-		angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
-		angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
-		angVelLabel.visibleProperty().bind(this.angVelCheckBox.selectedProperty());
+		 accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
+		 velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
+		 posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 
-		accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
-		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
-		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
+		 aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
+		 fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
+		 sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
 
-		aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
-		fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
-		sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
-
-		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
+		 this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
 	
 	
-	public void init(Simulation simul, Rectangle rec, Circle cir, StackPane topStackPane) {
+	public void init(Simulation simul, Rectangle rec, Circle cir, StackPane topStackPane, StackPane downStackPane) {
 		setSimul(simul);
 		this.rec = rec;
 		this.cir = cir;
 		this.stackPane = topStackPane;
-		
+		this.downStackPane = downStackPane;
 		setUpAppliedForce();
 		setUpFrictionForce();
 		setUpNetForce();
+		
 	}
 	
 	
@@ -219,6 +220,15 @@ public class StatisticsPanelController {
 		ObservableStringValue netForceString = Bindings.createStringBinding(() -> 
 		"Current Net Force : " + String.format("%.2f",this.simul.getNetForce().getValue()) + " N", this.simul.getNetForce().valueProperty());
 		sumForceLabel.textProperty().bind(netForceString);
+		
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue == null){
+				System.err.println("Something wrong here");
+			}
+			else {
+				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
+			}
+		});
 	};
 	
 	private void setActiveThreeCheckBox(boolean isVi) {
@@ -237,6 +247,7 @@ public class StatisticsPanelController {
 		// Setup Arrow
 		
 		aArrow = new Rectangle(200 , 50);
+		aArrow.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
 		StackPane.setAlignment(aArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(aArrow);	
 		Image recImage =  new Image("file:resources/images/arrow.png");
@@ -305,6 +316,7 @@ public class StatisticsPanelController {
 	private void setUpFrictionForce()
 	{
 		fArrow = new Rectangle(200 , 50);
+		fArrow.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
 		StackPane.setAlignment(fArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(fArrow);	
 		Image recImage =  new Image("file:resources/images/arrow.png");
@@ -321,7 +333,7 @@ public class StatisticsPanelController {
 		
 		
 		// Resize Arrow
-    	double firstWidth  = fArrow.getWidth();
+    	 double firstWidth  = fArrow.getWidth();
     	 Rotate rotate = new Rotate();
 		 rotate.setPivotX(0);
 		 rotate.setPivotY(fArrow.getHeight() / 2);
@@ -354,9 +366,6 @@ public class StatisticsPanelController {
     				if (newValue instanceof Cube) {
     				fArrow.translateYProperty().bind(rec.heightProperty().divide(2).subtract(fArrow.heightProperty().divide(2)).multiply(-1));
     				}
-    				else {
-    					fArrow.translateYProperty().bind(cir.radiusProperty().subtract(fArrow.heightProperty().divide(2)).multiply(-1));
-    				}
     				
     				fArrowLabel.toFront();
     				fArrow.toFront();
@@ -366,11 +375,11 @@ public class StatisticsPanelController {
     	
     	// Position Label
    	 	fArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
-   	 	fArrowLabel.translateYProperty().bind(fArrow.translateYProperty());
 	};
 	private void setUpNetForce() 
 	{
 		nArrow = new Rectangle(200 , 50);
+		nArrow.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
 		StackPane.setAlignment(nArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(nArrow);	
 		Image recImage =  new Image("file:resources/images/arrow.png");
