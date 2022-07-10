@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.StackPane?>
 
@@ -8,7 +9,7 @@
    <children>
       <Label fx:id="angLabel" text="Label" textFill="ORANGE">
          <StackPane.margin>
-            <Insets left="25.0" top="-120.0" />
+            <Insets left="100.0" top="-200.0" />
          </StackPane.margin>
       </Label>
       <Label fx:id="angAccLabel" text="Label" textFill="ORANGE">
@@ -16,7 +17,7 @@
             <Insets left="25.0" top="-80.0" />
          </opaqueInsets>
          <StackPane.margin>
-            <Insets left="25.0" top="-80.0" />
+            <Insets left="100.0" top="-150.0" />
          </StackPane.margin>
       </Label>
       <Label fx:id="angVelLabel" text="Label" textFill="ORANGE">
@@ -24,34 +25,89 @@
             <Insets />
          </opaqueInsets>
          <StackPane.margin>
-            <Insets left="25.0" top="-40.0" />
+            <Insets left="100.0" top="-100.0" />
          </StackPane.margin>
       </Label>
       <Label fx:id="posLabel" text="Label" textFill="ORANGE">
          <StackPane.margin>
-            <Insets left="25.0" />
+            <Insets left="100.0" top="-50.0" />
          </StackPane.margin>
       </Label>
       <Label fx:id="accLabel" text="Label" textFill="ORANGE">
          <StackPane.margin>
-            <Insets left="25.0" top="40.0" />
+            <Insets left="100.0" />
          </StackPane.margin></Label>
       <Label fx:id="velLabel" text="Label" textFill="ORANGE" StackPane.alignment="CENTER_LEFT">
          <StackPane.margin>
-            <Insets left="25.0" top="80.0" />
+            <Insets left="100.0" top="50.0" />
          </StackPane.margin>
       </Label>
       <Label fx:id="aForceLabel" text="Label" textFill="ORANGE">
          <StackPane.margin>
-            <Insets left="25.0" top="120.0" />
+            <Insets left="100.0" top="100.0" />
          </StackPane.margin></Label>
       <Label fx:id="fForceLabel" text="Label" textFill="ORANGE">
          <StackPane.margin>
-            <Insets left="25.0" top="160.0" />
+            <Insets left="100.0" top="150.0" />
          </StackPane.margin></Label>
       <Label fx:id="sumForceLabel" text="Label" textFill="ORANGE">
          <StackPane.margin>
-            <Insets left="25.0" top="200.0" />
+            <Insets left="100.0" top="200.0" />
          </StackPane.margin></Label>
+      <CheckBox fx:id="angCheckBox" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="-200.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="angAccCheckBox" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="-150.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="angVelCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="-100.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="posCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="-50.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="50.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="aForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="100.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="fForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="150.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="sumForceCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="200.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <Label fx:id="massLabel" layoutX="110.0" layoutY="210.0" text="Label" textFill="ORANGE">
+         <StackPane.margin>
+            <Insets left="100.0" top="250.0" />
+         </StackPane.margin>
+      </Label>
+      <CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" text="CheckBox">
+         <StackPane.margin>
+            <Insets top="250.0" />
+         </StackPane.margin>
+      </CheckBox>
    </children>
 </StackPane>
