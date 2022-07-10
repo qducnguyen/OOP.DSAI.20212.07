@@ -108,6 +108,8 @@ public class ObjectPanelController {
 	            	//TODO: another view for drag and drop ...
 	            	if (topStackPane.getChildren().contains(rec)) {
 	            		gridPaneObjectContainer.add(rec, 0, 0);
+	                	rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+	                	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
 	            	}
 	            	
 	            	topStackPane.getChildren().add(cir);
@@ -129,6 +131,7 @@ public class ObjectPanelController {
 	
 	            	if (topStackPane.getChildren().contains(cir)) {
 	            		gridPaneObjectContainer.add(cir, 1, 0);
+	                	cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 	            	}
 	            	
 	            	topStackPane.getChildren().add(rec);
@@ -420,9 +423,9 @@ public class ObjectPanelController {
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
 		OKEButton.setDisable(true);
 		
-		grid.add(new Label("Cube Mass: (default 10.0)"), 0, 0);
+		grid.add(new Label("Cube Mass: (> 0, default " + MainObject.DEFAULT_MASS + ")"), 0, 0);
 		grid.add(cubeMass, 1, 0);
-		grid.add(new Label("Cylinder Side: (default " + Cylinder.MAX_RADIUS + ")"), 0, 1);
+		grid.add(new Label("Cube Side: (>= " + Cube.MIN_SIZE + " and <=" + Cube.MAX_SIZE + ", default " + Cylinder.MAX_RADIUS + ")"), 0, 1);
 		grid.add(cubeSide, 1, 1);
 		
 		// Set the disable property of the OKEButton
@@ -522,9 +525,9 @@ public class ObjectPanelController {
 		OKEButton.setDisable(true);
 
 		
-		grid.add(new Label("Cylinder Mass:"), 0, 0);
+		grid.add(new Label("Cylinder Mass: (> 0, default " + MainObject.DEFAULT_MASS + ")"), 0, 0);
 		grid.add(cylinderMass, 1, 0);
-		grid.add(new Label("Cylinder Radius:"), 0, 1);
+		grid.add(new Label("Cylinder Radius: (>= " + Cylinder.MIN_RADIUS + " and <= " + Cylinder.MAX_RADIUS + ", default " + Cylinder.MAX_RADIUS + ")"), 0, 1);
 		grid.add(cylinderRadius, 1, 1);
 		
 		
