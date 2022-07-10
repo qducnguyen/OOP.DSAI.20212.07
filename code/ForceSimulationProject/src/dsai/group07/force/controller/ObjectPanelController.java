@@ -108,6 +108,8 @@ public class ObjectPanelController {
 	            	//TODO: another view for drag and drop ...
 	            	if (topStackPane.getChildren().contains(rec)) {
 	            		gridPaneObjectContainer.add(rec, 0, 0);
+	            		this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+	            		this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
 	            	}
 	            	
 	            	topStackPane.getChildren().add(cir);
@@ -129,6 +131,7 @@ public class ObjectPanelController {
 	
 	            	if (topStackPane.getChildren().contains(cir)) {
 	            		gridPaneObjectContainer.add(cir, 1, 0);
+	            		this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 	            	}
 	            	
 	            	topStackPane.getChildren().add(rec);
