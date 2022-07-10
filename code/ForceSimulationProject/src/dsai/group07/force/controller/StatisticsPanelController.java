@@ -7,7 +7,9 @@ import dsai.group07.force.model.object.Rotatable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -51,7 +53,35 @@ public class StatisticsPanelController {
     @FXML
     private Label sumForceLabel;
     
-    private Rectangle rec;
+    @FXML
+	private CheckBox angCheckBox;
+
+	@FXML
+	private CheckBox angAccCheckBox;
+
+	@FXML
+	private CheckBox angVelCheckBox;
+
+	@FXML
+	private CheckBox posCheckBox;
+
+	@FXML
+	private CheckBox accCheckBox;
+
+	@FXML
+	private CheckBox velCheckBox;
+
+	@FXML
+	private CheckBox aForceCheckBox;
+
+	@FXML
+	private CheckBox fForceCheckBox;
+
+	@FXML
+	private CheckBox sumForceCheckBox;
+
+	private Rectangle rec;
+
     
     private Circle cir;
     
@@ -61,7 +91,15 @@ public class StatisticsPanelController {
     
     private Rectangle nArrow;
     
-    
+	private StackPane topStackPane;
+
+	private StackPane downStackPane;
+
+    @FXML
+	CheckBox massCheckBox;
+
+	@FXML
+	private Label massLabel;
 	
 	@FXML
    	public void initialize()  {
@@ -72,7 +110,7 @@ public class StatisticsPanelController {
 		 angVelLabel.setText("Current Angular Velocity: 0.00 */s");
 		 
 		 //Default 3 Label above are invisible.
-		 setVisibleThreeAngLabels(false);
+		 setActiveThreeCheckBox(false);
 		 
 		 
 		 accLabel.setText("Current Accelerate : 0.00 m/s^2");
@@ -81,6 +119,20 @@ public class StatisticsPanelController {
 		 aForceLabel.setText("Applied Force : 0 N");
 		 fForceLabel.setText("Friction Force : 0 N");
 		 sumForceLabel.setText("Net Force : 0 N");
+
+		angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
+		angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
+		angVelLabel.visibleProperty().bind(this.angVelCheckBox.selectedProperty());
+
+		accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
+		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
+		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
+
+		aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
+		fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
+		sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+
+		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
 	
 	
@@ -89,6 +141,7 @@ public class StatisticsPanelController {
 		this.rec = rec;
 		this.cir = cir;
 		this.stackPane = topStackPane;
+		
 		setUpAppliedForce();
 		setUpFrictionForce();
 		setUpNetForce();
@@ -116,10 +169,10 @@ public class StatisticsPanelController {
 				(observable, oldValue, newValue) -> 
 				{
 					if(newValue instanceof Rotatable) {
-						 setVisibleThreeAngLabels(true);
+						setActiveThreeCheckBox(true);
 					}
 					else {
-						setVisibleThreeAngLabels(false);
+						setActiveThreeCheckBox(false);
 					}
 				}
 				);
@@ -168,10 +221,14 @@ public class StatisticsPanelController {
 		sumForceLabel.textProperty().bind(netForceString);
 	};
 	
-	private void setVisibleThreeAngLabels(boolean isVi) {
-		angLabel.setVisible(isVi);
-		 angAccLabel.setVisible(isVi);
-		 angVelLabel.setVisible(isVi);
+	private void setActiveThreeCheckBox(boolean isVi) {
+		this.angCheckBox.setVisible(isVi);
+		this.angVelCheckBox.setVisible(isVi);
+		this.angAccCheckBox.setVisible(isVi);
+		
+		this.angAccCheckBox.setDisable(!isVi);
+		this.angVelCheckBox.setDisable(!isVi);
+		this.angCheckBox.setDisable(!isVi);
 	}
 	
 	
@@ -378,5 +435,31 @@ public class StatisticsPanelController {
    	 	nArrowLabel.translateYProperty().bind(nArrow.translateYProperty());
     
 	};
+
+	public void setTopStackPane(StackPane topStackPane){
+		this.topStackPane = topStackPane;
+		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
+		
+
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue == null){
+				System.out.println("Null Object in statistics panel controller class");
+			}
+			else if (newValue instanceof Cylinder){
+				double bottom_value = ((Cylinder)this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight(); 
+				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
+			}
+			else if (newValue instanceof Cube){
+				double bottom_value = ((Cube)this.simul.getObj()).getSize() * this.downStackPane.getHeight() * 2;
+				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
+			}
+		});
+
+		this.topStackPane.getChildren().add(this.massLabel);
+	}
+
+	public void setDownStackPane(StackPane downStackPane){
+		this.downStackPane = downStackPane;
+	}
 	
 }

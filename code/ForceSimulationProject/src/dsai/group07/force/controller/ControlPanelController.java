@@ -20,6 +20,7 @@ public class ControlPanelController {
 	private SurfacePanelController surfaceController;
 	private StackPane topStackPane;
 	private StackPane downStackPane;
+//	private StackPane forcePanel;
 	private Circle cir;
 	private Rectangle rec;
 	
@@ -98,6 +99,7 @@ public class ControlPanelController {
 		staController = loader.getController();
 		
 		staController.init(simul, this.rec, this.cir, this.topStackPane);
+		staController.setTopStackPane(this.topStackPane);
 //		staController.setSimul(simul);
 		}
 		catch(IOException e) {
