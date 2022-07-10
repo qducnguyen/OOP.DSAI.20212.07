@@ -67,6 +67,20 @@ public class ObjectPanelController {
     private Circle cir;
     
 
+    
+    
+    
+	public Rectangle getRec() {
+		return rec;
+	}
+
+
+	public Circle getCir() {
+		return cir;
+	}
+
+
+
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
 		
@@ -97,7 +111,7 @@ public class ObjectPanelController {
 	            	}
 	            	
 	            	topStackPane.getChildren().add(cir);
-	            	
+	            		            	
 	            	try {
 	            		// For Cylinder
 	            		cylinderInput();
@@ -118,7 +132,6 @@ public class ObjectPanelController {
 	            	}
 	            	
 	            	topStackPane.getChildren().add(rec);
-	            	
 	            	try {
 	            		// When object is a Cube
 	            		cubeInput();
