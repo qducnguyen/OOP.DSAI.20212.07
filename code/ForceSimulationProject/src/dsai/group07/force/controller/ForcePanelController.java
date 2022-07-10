@@ -28,6 +28,7 @@ public class ForcePanelController {
 	@FXML
 	public void initialize() {
 		forceTextField.setDisable(true);
+		forceSlider.setDisable(true);
 		
         forceTextField.textProperty().addListener(event -> {
             forceTextField.pseudoClassStateChanged(
@@ -57,7 +58,7 @@ public class ForcePanelController {
 		
 		this.simul.getaForce().valueProperty().addListener(observable -> {
 			try {
-				 System.out.println("Applied Force Changed.");
+//				 System.out.println("Applied Force Changed.");
 				((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -92,11 +93,13 @@ public class ForcePanelController {
 //		            this.simul.setObject(newValue);
 					if(newValue == null) {
 						forceTextField.setDisable(true);
+						forceSlider.setDisable(true);
 						forceTextField.setText("0");
 						this.simul.setaForce(0);
 					}
 					else {
 			            forceTextField.setDisable(false);
+			            forceSlider.setDisable(false);
 			            ((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
 //			            fForceListener();
 //			            netForceListener();

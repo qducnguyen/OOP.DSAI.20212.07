@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 public class ControlPanelController {
 	
@@ -18,6 +20,8 @@ public class ControlPanelController {
 	private SurfacePanelController surfaceController;
 	private StackPane topStackPane;
 	private StackPane downStackPane;
+	private Circle cir;
+	private Rectangle rec;
 	
 	@FXML
 	private GridPane controlPanelGridPane;
@@ -74,6 +78,9 @@ public class ControlPanelController {
 		objController.setTopStackPane(topStackPane);
 		objController.setDownStackPane(downStackPane);
 		
+		this.rec = objController.getRec();
+		this.cir = objController.getCir();
+		
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -90,7 +97,8 @@ public class ControlPanelController {
 		
 		staController = loader.getController();
 		
-		staController.setSimul(simul);
+		staController.init(simul, this.rec, this.cir, this.topStackPane);
+//		staController.setSimul(simul);
 		}
 		catch(IOException e) {
 			e.printStackTrace();
