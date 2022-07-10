@@ -110,7 +110,7 @@ public class StatisticsPanelController {
 		 angVelLabel.setText("Current Angular Velocity: 0.00 */s");
 		 
 		 //Default 3 Label above are invisible.
-		 setVisibleThreeAngLabels(false);
+		 setActiveThreeCheckBox(false);
 		 
 		 
 		 accLabel.setText("Current Accelerate : 0.00 m/s^2");
@@ -168,10 +168,10 @@ public class StatisticsPanelController {
 				(observable, oldValue, newValue) -> 
 				{
 					if(newValue instanceof Rotatable) {
-						 setVisibleThreeAngLabels(true);
+						setActiveThreeCheckBox(true);
 					}
 					else {
-						setVisibleThreeAngLabels(false);
+						setActiveThreeCheckBox(false);
 					}
 				}
 				);
@@ -220,10 +220,14 @@ public class StatisticsPanelController {
 		sumForceLabel.textProperty().bind(netForceString);
 	};
 	
-	private void setVisibleThreeAngLabels(boolean isVi) {
-		angLabel.setVisible(isVi);
-		 angAccLabel.setVisible(isVi);
-		 angVelLabel.setVisible(isVi);
+	private void setActiveThreeCheckBox(boolean isVi) {
+		this.angCheckBox.setVisible(isVi);
+		this.angVelCheckBox.setVisible(isVi);
+		this.angAccCheckBox.setVisible(isVi);
+		
+		this.angAccCheckBox.setDisable(!isVi);
+		this.angVelCheckBox.setDisable(!isVi);
+		this.angCheckBox.setDisable(!isVi);
 	}
 	
 	

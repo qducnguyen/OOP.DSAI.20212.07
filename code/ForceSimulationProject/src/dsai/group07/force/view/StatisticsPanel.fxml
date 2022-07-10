@@ -7,12 +7,12 @@
 
 <StackPane alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
    <children>
-      <Label fx:id="angLabel" text="Label" textFill="ORANGE">
+      <Label fx:id="angLabel" text="Label" textFill="ORANGE" visible="false">
          <StackPane.margin>
             <Insets left="100.0" top="-200.0" />
          </StackPane.margin>
       </Label>
-      <Label fx:id="angAccLabel" text="Label" textFill="ORANGE">
+      <Label fx:id="angAccLabel" text="Label" textFill="ORANGE" visible="false">
          <opaqueInsets>
             <Insets left="25.0" top="-80.0" />
          </opaqueInsets>
@@ -20,7 +20,7 @@
             <Insets left="100.0" top="-150.0" />
          </StackPane.margin>
       </Label>
-      <Label fx:id="angVelLabel" text="Label" textFill="ORANGE">
+      <Label fx:id="angVelLabel" text="Label" textFill="ORANGE" visible="false">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -28,29 +28,29 @@
             <Insets left="100.0" top="-100.0" />
          </StackPane.margin>
       </Label>
-      <Label fx:id="posLabel" text="Label" textFill="ORANGE">
+      <Label fx:id="posLabel" text="Label" textFill="ORANGE" visible="false">
          <StackPane.margin>
             <Insets left="100.0" top="-50.0" />
          </StackPane.margin>
       </Label>
-      <Label fx:id="accLabel" text="Label" textFill="ORANGE">
+      <Label fx:id="accLabel" text="Label" textFill="ORANGE" visible="false">
          <StackPane.margin>
             <Insets left="100.0" />
          </StackPane.margin></Label>
-      <Label fx:id="velLabel" text="Label" textFill="ORANGE" StackPane.alignment="CENTER_LEFT">
+      <Label fx:id="velLabel" text="Label" textFill="ORANGE" visible="false" StackPane.alignment="CENTER_LEFT">
          <StackPane.margin>
             <Insets left="100.0" top="50.0" />
          </StackPane.margin>
       </Label>
-      <Label fx:id="aForceLabel" text="Label" textFill="ORANGE">
+      <Label fx:id="aForceLabel" text="Label" textFill="ORANGE" visible="false">
          <StackPane.margin>
             <Insets left="100.0" top="100.0" />
          </StackPane.margin></Label>
-      <Label fx:id="fForceLabel" text="Label" textFill="ORANGE">
+      <Label fx:id="fForceLabel" text="Label" textFill="ORANGE" visible="false">
          <StackPane.margin>
             <Insets left="100.0" top="150.0" />
          </StackPane.margin></Label>
-      <Label fx:id="sumForceLabel" text="Label" textFill="ORANGE">
+      <Label fx:id="sumForceLabel" text="Label" textFill="ORANGE" visible="false">
          <StackPane.margin>
             <Insets left="100.0" top="200.0" />
          </StackPane.margin></Label>
@@ -99,7 +99,7 @@
             <Insets top="200.0" />
          </StackPane.margin>
       </CheckBox>
-      <Label fx:id="massLabel" layoutX="110.0" layoutY="210.0" text="Label" textFill="ORANGE">
+      <Label fx:id="massLabel" layoutX="110.0" layoutY="210.0" text="Label" textFill="ORANGE" visible="false">
          <StackPane.margin>
             <Insets left="100.0" top="250.0" />
          </StackPane.margin>
