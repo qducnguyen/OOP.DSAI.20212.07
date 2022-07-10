@@ -162,7 +162,6 @@ public class StatisticsPanelController {
 				(observable, oldValue, newValue) -> 
 				{
 					velLabel.textProperty().bind(newValue.valueProperty().asString("Current Velocity : %.2f m/s"));
-					System.out.println(observable);
 				});
 		
 	
