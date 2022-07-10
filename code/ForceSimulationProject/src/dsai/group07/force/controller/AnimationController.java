@@ -114,6 +114,7 @@ public class AnimationController {
             public void tick(float secondsSinceLastFrame) {
             	if(simul != null) {
             		// 1
+            		
             		simul.applyForceInTime(secondsSinceLastFrame);
             		
 //            		System.out.println(parallelTransitionDown.getRate());
@@ -143,15 +144,14 @@ public class AnimationController {
         this.simul.sysVelProperty().addListener(
         		(observable, oldValue, newValue) -> 
         		{	
-        			parallelTransitionUp.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 10e-4)).then(10e-5).otherwise(newValue.valueProperty().multiply(0.5)));
-        			parallelTransitionDown.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 10e-4)).then(10e-5).otherwise(newValue.valueProperty().multiply(0.5)));
-//        			parallelTransitionDown.rateProperty().bind(newValue.valueProperty().multiply(0.5));
-//        			parallelTransitionUp.rateProperty().bind(newValue.valueProperty().multiply(0.5));
+        			//TODO: Smooth Debuggggg
+        			
+//        			final double THRESH_HOLD = 500 * 0.5  / this.simul.getObj().getMass()  * savedLastSecond; 
+//        			System.out.println(THRESH_HOLD);
+        			
+        			parallelTransitionUp.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.1)).then(10e-5 * 5).otherwise(newValue.valueProperty().multiply(0.05)));
+        			parallelTransitionDown.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.1)).then(10e-5 * 5).otherwise(newValue.valueProperty().multiply(0.05)));
         		});
-//        
-//        parallelTransitionUp.rateProperty().addListener((observable, oldValue, newValue) -> {
-//        	System.out.println(newValue.doubleValue());
-//        });
 	}
 
 	public void startAmination() {

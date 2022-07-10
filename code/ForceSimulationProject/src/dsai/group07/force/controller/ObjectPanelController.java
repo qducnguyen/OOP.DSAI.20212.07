@@ -234,7 +234,6 @@ public class ObjectPanelController {
     				}
     				else if (newValue instanceof Cylinder) {
     					System.out.println("Cylinder Time.......");
-    					System.out.println(newValue.getClass());
     					((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
     					//this.simul.getSysAngAcc().bind(((Cylinder) newValue).angAccProperty());
 //        		    	objectListener();
@@ -242,7 +241,6 @@ public class ObjectPanelController {
     				else
     				{
     					System.out.println("Cube Time......");
-    					System.out.println(newValue.getClass());
     					((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
 //        		    	objectListener();
     				}
