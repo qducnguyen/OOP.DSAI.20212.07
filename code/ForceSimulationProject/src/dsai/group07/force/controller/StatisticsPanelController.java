@@ -141,6 +141,7 @@ public class StatisticsPanelController {
 		this.rec = rec;
 		this.cir = cir;
 		this.stackPane = topStackPane;
+		
 		setUpAppliedForce();
 		setUpFrictionForce();
 		setUpNetForce();
