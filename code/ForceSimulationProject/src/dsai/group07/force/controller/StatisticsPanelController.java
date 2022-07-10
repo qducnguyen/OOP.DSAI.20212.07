@@ -453,6 +453,7 @@ public class StatisticsPanelController {
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == null){
 				System.out.println("Null Object in statistics panel controller class");
+				this.massCheckBox.setSelected(false);
 			}
 			else if (newValue instanceof Cylinder){
 				double bottom_value = ((Cylinder)this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight(); 
