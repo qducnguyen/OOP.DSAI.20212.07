@@ -79,17 +79,17 @@
             <Insets />
          </StackPane.margin>
       </CheckBox>
-      <CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Velocity">
+      <CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Velocity">
          <StackPane.margin>
             <Insets top="50.0" />
          </StackPane.margin>
       </CheckBox>
-      <CheckBox fx:id="aForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Applied force">
+      <CheckBox fx:id="aForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Applied force">
          <StackPane.margin>
             <Insets top="100.0" />
          </StackPane.margin>
       </CheckBox>
-      <CheckBox fx:id="fForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Friction force">
+      <CheckBox fx:id="fForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Friction force">
          <StackPane.margin>
             <Insets top="150.0" />
          </StackPane.margin>
