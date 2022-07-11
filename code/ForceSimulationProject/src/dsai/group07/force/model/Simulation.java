@@ -174,7 +174,7 @@ public class Simulation {
 
 	}
 	
-	public void getObjAcc() {
+	public void updateObjAcc() {
 		getObj().updateAcc(getNetForce());
 	}
 	

@@ -24,64 +24,6 @@ public class FrictionForce extends Force {
 		this.aForce = aForce;
 		updateFrictionForce();
 	}
-	/* Only used for testing model
-	public void surfaceListener() {
-		try {
-			surface.staCoefProperty().addListener(observable -> {
-				try {
-					updateFrictionForce();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-			
-			surface.kiCoefProperty().addListener(observable -> {
-				try {
-					updateFrictionForce();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void objectListener() {
-		try {
-			mainObj.massProperty().addListener(observable -> {
-				try {
-					updateFrictionForce();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-			
-			mainObj.velProperty().valueProperty().addListener(observable -> {
-				try {
-					updateFrictionForce();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void aForceListener() {
-		try {
-			aForce.valueProperty().addListener(observable -> {
-				try {
-					updateFrictionForce();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 	public void updateFrictionForce() {
 		if (mainObj != null) {
