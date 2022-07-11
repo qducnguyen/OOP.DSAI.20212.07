@@ -100,7 +100,11 @@ public class StatisticsPanelController {
 
 	@FXML
 	private Label massLabel;
-	
+
+	Label aArrowLabel = new Label("Applied Force");
+	Label fArrowLabel = new Label("Friction Force");
+	Label nArrowLabel = new Label("Net Force");
+
 	@FXML
    	public void initialize()  {
 		
@@ -131,6 +135,10 @@ public class StatisticsPanelController {
 		 aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
 		 fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
 		 sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+
+		 this.aArrowLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
+		 this.fArrowLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
+		 this.nArrowLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
 
 		 this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
@@ -256,7 +264,7 @@ public class StatisticsPanelController {
 		
 		//Label for arrow
 		
-		Label aArrowLabel = new Label("Applied Force");
+		// Label aArrowLabel = new Label("Applied Force");
 		StackPane.setAlignment(aArrowLabel, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(aArrowLabel);	
 		
@@ -265,13 +273,13 @@ public class StatisticsPanelController {
 		
 		// Resize Arrow
     	double firstWidth  = aArrow.getWidth();
-    	 Rotate rotate = new Rotate();
-		 rotate.setPivotX(0);
-		 rotate.setPivotY(aArrow.getHeight() / 2);
-		 aArrow.getTransforms().add(rotate);
-    	 Translate translate = new Translate();
-    	 aArrow.getTransforms().add(translate);
-    	 aArrow.setWidth(0);
+    	Rotate rotate = new Rotate();
+		rotate.setPivotX(0);
+		rotate.setPivotY(aArrow.getHeight() / 2);
+		aArrow.getTransforms().add(rotate);
+    	Translate translate = new Translate();
+    	aArrow.getTransforms().add(translate);
+    	aArrow.setWidth(0);
     	
     	 
     	this.simul.getaForce().valueProperty().addListener(
@@ -325,7 +333,7 @@ public class StatisticsPanelController {
 		
 		//Label for arrow
 		
-		Label fArrowLabel = new Label("Friction Force");
+		// Label fArrowLabel = new Label("Friction Force");
 		StackPane.setAlignment(fArrowLabel, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(fArrowLabel);	
 		
@@ -388,7 +396,7 @@ public class StatisticsPanelController {
 		
 		//Label for arrow
 		
-		Label nArrowLabel = new Label("Net Force");
+		// Label nArrowLabel = new Label("Net Force");
 		StackPane.setAlignment(nArrowLabel, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(nArrowLabel);	
 		
