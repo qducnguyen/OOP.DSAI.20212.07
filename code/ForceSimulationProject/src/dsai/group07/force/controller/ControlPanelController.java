@@ -5,6 +5,7 @@ import java.io.IOException;
 import dsai.group07.force.model.Simulation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -95,6 +96,8 @@ public class ControlPanelController {
 		StackPane panel = (StackPane) loader.load();
 		
 		topStackPane.getChildren().add(panel);
+		
+		StackPane.setMargin(panel, new Insets(0, 0, 0, 6));
 		
 		staController = loader.getController();
 		

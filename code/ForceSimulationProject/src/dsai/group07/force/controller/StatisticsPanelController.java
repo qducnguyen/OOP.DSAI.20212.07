@@ -113,8 +113,9 @@ public class StatisticsPanelController {
 		 angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
 		 angVelLabel.setText("Current Angular Velocity: 0.00 */s");
 		 
+		 massLabel.setText("");
 		 
-		 setActiveThreeCheckBox(false);
+		 setCylinderCheckBoxes(false);
 		 
 		 
 		 accLabel.setText("Current Accelerate : 0.00 m/s^2");
@@ -136,9 +137,7 @@ public class StatisticsPanelController {
 		 fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
 		 sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
 
-		 this.aArrowLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
-		 this.fArrowLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
-		 this.nArrowLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+
 
 		 this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
@@ -162,6 +161,10 @@ public class StatisticsPanelController {
 		this.simul = simul;
 		
 		
+		 this.aArrowLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty().and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
+		 this.fArrowLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty().and(this.simul.getfForce().valueProperty().isNotEqualTo(0)));
+		 this.nArrowLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty().and(this.simul.getNetForce().valueProperty().isNotEqualTo(0)));
+		
 		
 		angVelLabel.textProperty().bind(this.simul.getSysAngVel().asString("Current Angular Velocity : %.2f m/s"));
 
@@ -176,11 +179,26 @@ public class StatisticsPanelController {
 		this.simul.objProperty().addListener(
 				(observable, oldValue, newValue) -> 
 				{
-					if(newValue instanceof Rotatable) {
-						setActiveThreeCheckBox(true);
+					if(newValue == null) {
+						
+						//Restart
+						this.posCheckBox.setSelected(false);
+						this.angAccCheckBox.setSelected(false);
+						this.angCheckBox.setSelected(false);
+						this.angVelCheckBox.setSelected(false);
+						this.sumForceCheckBox.setSelected(false);
+						this.angCheckBox.setSelected(false);
+						this.massCheckBox.setSelected(false);
+						this.aForceCheckBox.setSelected(true);
+						this.fForceCheckBox.setSelected(true);
+						this.accCheckBox.setSelected(false);
+					}
+					
+					else if(newValue instanceof Rotatable) {
+						setCylinderCheckBoxes(true);
 					}
 					else {
-						setActiveThreeCheckBox(false);
+						setCylinderCheckBoxes(false);
 					}
 				}
 				);
@@ -191,12 +209,17 @@ public class StatisticsPanelController {
 				});
 		
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			this.massLabel.setText("");
+			
 			if (newValue != null) {
 				this.simul.setObject(newValue);
 				
 				ObservableStringValue posString = Bindings.createStringBinding(() -> 
 				"Current Position : " +  String.format("%.2f",this.simul.getObj().getPos()) + " m", this.simul.getObj().posProperty());
 				posLabel.textProperty().bind(posString);
+				
+				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
+
 				
 				if (newValue instanceof Cylinder) {
 					
@@ -223,22 +246,12 @@ public class StatisticsPanelController {
 		"Current Friction Force : " + String.format("%.2f",this.simul.getfForce().getValue()) + " N", this.simul.getfForce().valueProperty());
 		fForceLabel.textProperty().bind(fForceString);
 
-		//System.out.println(this.simul.getNetForce().getValue());
 		ObservableStringValue netForceString = Bindings.createStringBinding(() -> 
 		"Current Net Force : " + String.format("%.2f",this.simul.getNetForce().getValue()) + " N", this.simul.getNetForce().valueProperty());
 		sumForceLabel.textProperty().bind(netForceString);
-		
-		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue == null){
-				System.err.println("Something wrong here");
-			}
-			else {
-				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
-			}
-		});
 	};
 	
-	private void setActiveThreeCheckBox(boolean isVi) {
+	private void setCylinderCheckBoxes(boolean isVi) {
 		this.angCheckBox.setVisible(isVi);
 		this.angVelCheckBox.setVisible(isVi);
 		this.angAccCheckBox.setVisible(isVi);
@@ -291,8 +304,8 @@ public class StatisticsPanelController {
     					rotate.setAngle(180);
 
     				}
-    				translate.setX(firstWidth  * newValue.doubleValue() / 100 / 2);
-    				aArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 100);
+    				translate.setX(firstWidth  * newValue.doubleValue() / 300 / 2);
+    				aArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 300);
 
     			});
     	
@@ -360,8 +373,8 @@ public class StatisticsPanelController {
     					rotate.setAngle(180);
 
     				}
-    				translate.setX(firstWidth  * newValue.doubleValue() / 100 / 2);
-    				fArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 100);
+    				translate.setX(firstWidth  * newValue.doubleValue() / 300 / 2);
+    				fArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 300);
 
     			});
     	
@@ -372,6 +385,9 @@ public class StatisticsPanelController {
     			{
     				if (newValue instanceof Cube) {
     				fArrow.translateYProperty().bind(rec.heightProperty().divide(2).subtract(fArrow.heightProperty().divide(2)).multiply(-1));
+    				}
+    				else {
+    					fArrow.translateYProperty().bind(cir.radiusProperty().subtract(fArrow.heightProperty().divide(2)).multiply(-1));
     				}
     				
     				fArrowLabel.toFront();
@@ -394,11 +410,12 @@ public class StatisticsPanelController {
 		nArrow.setStroke(Color.TRANSPARENT);
 		
 		//Label for arrow
-		
-		// Label nArrowLabel = new Label("Net Force");
 		StackPane.setAlignment(nArrowLabel, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(nArrowLabel);	
 		
+		
+		
+//		this.nArrowLabel.setVisible(false);
 
 		
 		
@@ -416,16 +433,23 @@ public class StatisticsPanelController {
     	this.simul.getNetForce().valueProperty().addListener(
     			(observable, oldValue, newValue) -> 
     			{	
-    				if (newValue.doubleValue()  >= 0 ) {
+//    				if (newValue.doubleValue() == 0) {
+//    					this.nArrowLabel.setVisible(false);
+//    				}
+//    				else {
+//    					this.nArrowLabel.setVisible(true);
+//    				}
+    				
+    				 if (newValue.doubleValue()  >= 0 ) {
     					rotate.setAngle(0);
     				}
     				else {
     					rotate.setAngle(180);
 
     				}
-    				translate.setX(firstWidth  * newValue.doubleValue() / 100 / 2);
-    				nArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 100);
-
+    				translate.setX(firstWidth  * newValue.doubleValue() / 300 / 2);
+    				nArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 300);
+    				
     			});
     	
     	// Position arrow in the center of the object, bring arrow and label to front
@@ -456,20 +480,24 @@ public class StatisticsPanelController {
 		this.topStackPane = topStackPane;
 		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
 		
+		StackPane.setMargin(this.massLabel, new Insets(0, 0, 5, 0));
+		
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == null){
-				System.out.println("Null Object in statistics panel controller class");
 				this.massCheckBox.setSelected(false);
 			}
 			else if (newValue instanceof Cylinder){
 				double bottom_value = ((Cylinder)this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight(); 
 				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
+				
 			}
 			else if (newValue instanceof Cube){
 				double bottom_value = ((Cube)this.simul.getObj()).getSize() * this.downStackPane.getHeight() * 2;
 				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
 			}
+			
+			this.massLabel.toFront();
 		});
 
 		this.topStackPane.getChildren().add(this.massLabel);
