@@ -1,6 +1,7 @@
 package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
+import dsai.group07.force.model.surface.Surface;
 import dsai.group07.force.model.vector.FrictionForce;
 
 import java.text.NumberFormat;
@@ -47,6 +48,10 @@ public class SurfacePanelController {
 		});
 	}
 
+	public void init(Simulation simul) {
+		setSimul(simul);
+	}
+
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
@@ -64,8 +69,8 @@ public class SurfacePanelController {
 				simul.getSur().setStaCoef(Double.parseDouble(newValue));
 			} catch (Exception e) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setContentText(
-						e.getMessage() + "\nPlease input a number >= 0 and <= " + this.simul.getSur().MAX_STA_COEF);
+				this.simul.getSur();
+				alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
 				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 				alert.showAndWait();
 			}
@@ -76,8 +81,8 @@ public class SurfacePanelController {
 				simul.getSur().setKiCoef(Double.parseDouble(newValue));
 			} catch (Exception e) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setContentText(
-						e.getMessage() + "\nPlease input a number >= 0 and <= " + this.simul.getSur().MAX_STA_COEF);
+				this.simul.getSur();
+				alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
 				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 				alert.showAndWait();
 			}

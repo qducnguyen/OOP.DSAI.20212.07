@@ -97,11 +97,12 @@ public class ForceSimulationAppController {
 
 	@FXML
 	public void resetButtonPressed() {
+		// TODO: Reset ControlPanel
 		// Reset scene manually through other controllers and the model as well.
 		this.aniController.resetAnimation();
 		this.objController.resetObjectPosition();
 		this.objController.resetCirAnimation();
-		
+
 		// Reset the model
 		this.simul.restart();
 

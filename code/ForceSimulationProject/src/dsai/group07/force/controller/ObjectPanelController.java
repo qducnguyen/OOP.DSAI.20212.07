@@ -52,10 +52,6 @@ public class ObjectPanelController {
 	// For rotation
 	private RotateTransition cirRotate;
 
-	// For drag and drop
-	private final DataFormat cirFormat = new DataFormat("dsai.group07.force.circle");
-	private final DataFormat recFormat = new DataFormat("dsai.group07.force.rec");
-
 	@FXML
 	private GridPane gridPaneObjectContainer;
 
@@ -73,84 +69,6 @@ public class ObjectPanelController {
 		return cir;
 	}
 
-	public void setDownStackPane(StackPane downStackPane) {
-		this.downStackPane = downStackPane;
-
-		// TODO: more binding for circle
-
-		cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
-		rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
-		rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
-
-	}
-
-	public void setTopStackPane(StackPane topStackPane) {
-		this.topStackPane = topStackPane;
-
-		this.topStackPane.setOnDragDropped(event -> {
-			Dragboard db = event.getDragboard();
-
-			if (db.hasContent(cirFormat)) {
-				StackPane.setAlignment(cir, Pos.BOTTOM_CENTER);
-
-				// TODO: another view for drag and drop ...
-				if (topStackPane.getChildren().contains(rec)) {
-					gridPaneObjectContainer.add(rec, 0, 0);
-					this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
-					this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
-
-				}
-
-				topStackPane.getChildren().add(cir);
-
-				try {
-					// For Cylinder
-					cylinderInput();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				event.setDropCompleted(true);
-
-			}
-
-			else if (db.hasContent(recFormat)) {
-
-				StackPane.setAlignment(rec, Pos.BOTTOM_CENTER);
-
-				if (topStackPane.getChildren().contains(cir)) {
-					gridPaneObjectContainer.add(cir, 1, 0);
-					cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
-				}
-
-				topStackPane.getChildren().add(rec);
-				try {
-					// When object is a Cube
-					cubeInput();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				event.setDropCompleted(true);
-
-			}
-		});
-
-		this.topStackPane.setOnDragOver(event -> {
-			Dragboard db = event.getDragboard();
-			if (db.hasContent(cirFormat) && cir.getParent() != topStackPane) {
-
-				event.acceptTransferModes(TransferMode.MOVE);
-
-			} else if (db.hasContent(recFormat) && this.rec.getParent() != topStackPane)
-				event.acceptTransferModes(TransferMode.MOVE);
-		});
-
-	}
-
-	private EventDragDetected cirOnDragDectected = new EventDragDetected(cirFormat);
-	private EventDragDetected recOnDragDectected = new EventDragDetected(recFormat);
-
 	@FXML
 	public void initialize() {
 
@@ -159,80 +77,42 @@ public class ObjectPanelController {
 
 		cir.setFill(new ImagePattern(cirImage));
 
-		// Drag and drop
-		cir.setOnDragDetected(cirOnDragDectected);
-		rec.setOnDragDetected(recOnDragDectected);
+	}
 
-		gridPaneObjectContainer.setOnDragDropped(event -> {
-			Dragboard db = event.getDragboard();
+	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
+		setSimul(simul);
+		setTopStackPane(topStackPane);
+		setDownStackPane(downStackPane);
 
-			if (db.hasContent(cirFormat)) {
-				// TODO: another view for drag and drop ...
-				cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
-				gridPaneObjectContainer.add(cir, 1, 0);
-				// model
-				this.simul.setObject(null);
+		setUpDragandDrop();
+		setUpCircleRotation();
 
-				event.setDropCompleted(true);
-			}
+	}
 
-			else if (db.hasContent(recFormat)) {
-				rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
-				rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
-				gridPaneObjectContainer.add(rec, 0, 0);
+	public void setDownStackPane(StackPane downStackPane) {
+		this.downStackPane = downStackPane;
 
-				this.simul.setObject(null);
+		// TODO: responsive application
+		// TODO: more binding for circle
+		cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
+		rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+		rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
 
-				event.setDropCompleted(true);
-			}
-		});
+	}
 
-		gridPaneObjectContainer.setOnDragOver(event -> {
-			Dragboard db = event.getDragboard();
-			if (db.hasContent(cirFormat) && cir.getParent() != gridPaneObjectContainer) {
-				event.acceptTransferModes(TransferMode.MOVE);
-			} else if (db.hasContent(recFormat) && rec.getParent() != gridPaneObjectContainer)
-				event.acceptTransferModes(TransferMode.MOVE);
-		});
+	public void setTopStackPane(StackPane topStackPane) {
+		this.topStackPane = topStackPane;
 	}
 
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
-		this.simul.objProperty().addListener(
-				// TODO: unbind getSysAngAcc ..
-				(observable, oldValue, newValue) -> {
-//					this.simul.setObject(newValue);
-					if (newValue == null) {
-						System.out.println("Null Object");
-//        		    	this.simul.getaForce().setValue(0);
-					} else if (newValue instanceof Cylinder) {
-						System.out.println("Cylinder Time.......");
-						((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
-						// this.simul.getSysAngAcc().bind(((Cylinder) newValue).angAccProperty());
-//        		    	objectListener();
-					} else {
-						System.out.println("Cube Time......");
-						((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
-//        		    	objectListener();
-					}
-
-				});
-
-		// Draggable bind to this.simul.isStartProperty()
-		this.simul.isStartProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue) {
-				rec.setOnDragDetected(null);
-				cir.setOnDragDetected(null);
-
-			} else {
-				cir.setOnDragDetected(cirOnDragDectected);
-				rec.setOnDragDetected(recOnDragDectected);
-
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
 			}
 		});
 
-		setUpCircleRotation();
 	}
 
 	public void resetObjectPosition() {
@@ -287,54 +167,6 @@ public class ObjectPanelController {
 		if (cirRotate != null) {
 			cirRotate.jumpTo(Duration.ZERO);
 			cirRotate.stop();
-		}
-	}
-
-	private class EventDragDetected implements EventHandler<MouseEvent> {
-		private final DataFormat shapeFormat;
-
-		public EventDragDetected(DataFormat data) {
-			this.shapeFormat = data;
-		}
-
-		@Override
-		public void handle(MouseEvent event) {
-			Shape s = (Shape) event.getSource();
-			Dragboard db = s.startDragAndDrop(TransferMode.MOVE);
-
-			SnapshotParameters snapShotparams = new SnapshotParameters();
-			snapShotparams.setFill(Color.TRANSPARENT);
-			db.setDragView(s.snapshot(snapShotparams, null), event.getX(), event.getY());
-			if (s instanceof Circle) {
-				db.setDragViewOffsetX(event.getX() + cir.getRadius());
-				db.setDragViewOffsetY(event.getY() + cir.getRadius());
-			}
-			ClipboardContent cc = new ClipboardContent();
-			cc.put(shapeFormat, this.shapeFormat.toString());
-			db.setContent(cc);
-		}
-
-	}
-
-	public void objectListener() {
-		try {
-			this.simul.getObj().massProperty().addListener(observable -> {
-				try {
-					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-
-			this.simul.getObj().velProperty().valueProperty().addListener(observable -> {
-				try {
-					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -521,6 +353,149 @@ public class ObjectPanelController {
 		});
 
 		Platform.runLater(() -> cylinderMass.requestFocus());
+
+	}
+
+	private void setUpDragandDrop() {
+
+		final DataFormat cirFormat = new DataFormat("dsai.group07.force.circle");
+		final DataFormat recFormat = new DataFormat("dsai.group07.force.rec");
+
+		EventDragDetected cirOnDragDectected = new EventDragDetected(cirFormat);
+		EventDragDetected recOnDragDectected = new EventDragDetected(recFormat);
+
+		cir.setOnDragDetected(cirOnDragDectected);
+		rec.setOnDragDetected(recOnDragDectected);
+
+		gridPaneObjectContainer.setOnDragDropped(event -> {
+			Dragboard db = event.getDragboard();
+
+			if (db.hasContent(cirFormat)) {
+				// TODO: another view for drag and drop ...
+				cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
+				gridPaneObjectContainer.add(cir, 1, 0);
+				// model
+				this.simul.setObject(null);
+
+				event.setDropCompleted(true);
+			}
+
+			else if (db.hasContent(recFormat)) {
+				rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+				rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+				gridPaneObjectContainer.add(rec, 0, 0);
+
+				this.simul.setObject(null);
+
+				event.setDropCompleted(true);
+			}
+		});
+
+		gridPaneObjectContainer.setOnDragOver(event -> {
+			Dragboard db = event.getDragboard();
+			if (db.hasContent(cirFormat) && cir.getParent() != gridPaneObjectContainer) {
+				event.acceptTransferModes(TransferMode.MOVE);
+			} else if (db.hasContent(recFormat) && rec.getParent() != gridPaneObjectContainer)
+				event.acceptTransferModes(TransferMode.MOVE);
+		});
+
+		this.topStackPane.setOnDragDropped(event -> {
+			Dragboard db = event.getDragboard();
+
+			if (db.hasContent(cirFormat)) {
+				StackPane.setAlignment(cir, Pos.BOTTOM_CENTER);
+
+				// TODO: another view for drag and drop ...
+				if (topStackPane.getChildren().contains(rec)) {
+					gridPaneObjectContainer.add(rec, 0, 0);
+					this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+					this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
+
+				}
+
+				topStackPane.getChildren().add(cir);
+
+				try {
+					// For Cylinder
+					cylinderInput();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				event.setDropCompleted(true);
+
+			}
+
+			else if (db.hasContent(recFormat)) {
+
+				StackPane.setAlignment(rec, Pos.BOTTOM_CENTER);
+
+				if (topStackPane.getChildren().contains(cir)) {
+					gridPaneObjectContainer.add(cir, 1, 0);
+					cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
+				}
+
+				topStackPane.getChildren().add(rec);
+				try {
+					// When object is a Cube
+					cubeInput();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				event.setDropCompleted(true);
+
+			}
+		});
+
+		this.topStackPane.setOnDragOver(event -> {
+			Dragboard db = event.getDragboard();
+			if (db.hasContent(cirFormat) && cir.getParent() != topStackPane) {
+
+				event.acceptTransferModes(TransferMode.MOVE);
+
+			} else if (db.hasContent(recFormat) && this.rec.getParent() != topStackPane)
+				event.acceptTransferModes(TransferMode.MOVE);
+		});
+
+		this.simul.isStartProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue) {
+				rec.setOnDragDetected(null);
+				cir.setOnDragDetected(null);
+
+			} else {
+				cir.setOnDragDetected(cirOnDragDectected);
+				rec.setOnDragDetected(recOnDragDectected);
+
+			}
+		});
+
+	}
+
+	private class EventDragDetected implements EventHandler<MouseEvent> {
+		// Auxiliary class for drag and drop
+		private final DataFormat shapeFormat;
+
+		public EventDragDetected(DataFormat data) {
+			this.shapeFormat = data;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {
+			Shape s = (Shape) event.getSource();
+			Dragboard db = s.startDragAndDrop(TransferMode.MOVE);
+
+			SnapshotParameters snapShotparams = new SnapshotParameters();
+			snapShotparams.setFill(Color.TRANSPARENT);
+			db.setDragView(s.snapshot(snapShotparams, null), event.getX(), event.getY());
+			if (s instanceof Circle) {
+				db.setDragViewOffsetX(event.getX() + cir.getRadius());
+				db.setDragViewOffsetY(event.getY() + cir.getRadius());
+			}
+			ClipboardContent cc = new ClipboardContent();
+			cc.put(shapeFormat, this.shapeFormat.toString());
+			db.setContent(cc);
+		}
 
 	}
 }

@@ -57,6 +57,7 @@ public class ControlPanelController {
 		setSimul(simul);
 		setTopStackPane(topStackPane);
 		setDownStackPane(downStackPane);
+		
 		showObjectPane();
 		showForcePane();
 		showSurfacePane();
@@ -75,9 +76,7 @@ public class ControlPanelController {
 
 			// initialize the obj controller
 			objController = loader.getController();
-			objController.setSimul(simul);
-			objController.setTopStackPane(topStackPane);
-			objController.setDownStackPane(downStackPane);
+			objController.init(simul, topStackPane, downStackPane);
 
 			// Get rec, cir from obj controller and pass it to statistic controller
 			this.rec = objController.getRec();
@@ -118,7 +117,7 @@ public class ControlPanelController {
 
 			forceController = loader.getController();
 
-			forceController.setSimul(simul);
+			forceController.init(simul);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -135,7 +134,7 @@ public class ControlPanelController {
 			surfacePanel.setAlignment(Pos.BOTTOM_CENTER);
 
 			surfaceController = loader.getController();
-			surfaceController.setSimul(simul);
+			surfaceController.init(simul);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

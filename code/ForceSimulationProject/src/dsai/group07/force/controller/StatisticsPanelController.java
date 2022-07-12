@@ -368,6 +368,8 @@ public class StatisticsPanelController {
 
 		// Position Label
 		fArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
+		fArrowLabel.translateYProperty().bind(fArrow.translateYProperty());
+
 	};
 
 	private void setUpNetForce() {
@@ -382,8 +384,6 @@ public class StatisticsPanelController {
 		// Label for arrow
 		StackPane.setAlignment(nArrowLabel, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(nArrowLabel);
-
-//		this.nArrowLabel.setVisible(false);
 
 		// Resize Arrow
 		double firstWidth = nArrow.getWidth();
