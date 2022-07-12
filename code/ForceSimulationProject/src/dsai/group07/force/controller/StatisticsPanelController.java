@@ -72,13 +72,10 @@ public class StatisticsPanelController {
 	private CheckBox velCheckBox;
 
 	@FXML
-	private CheckBox aForceCheckBox;
+	private CheckBox forceCheckBox;
 
 	@FXML
-	private CheckBox fForceCheckBox;
-
-	@FXML
-	private CheckBox sumForceCheckBox;
+	private CheckBox sumForcesCheckBox;
 
 	private Rectangle rec;
 
@@ -100,9 +97,17 @@ public class StatisticsPanelController {
 	@FXML
 	private Label massLabel;
 
-	Label aArrowLabel = new Label("Applied Force");
-	Label fArrowLabel = new Label("Friction Force");
-	Label nArrowLabel = new Label("Net Force");
+	@FXML
+	private CheckBox valueCheckBox;
+
+	@FXML
+	private Label aArrowLabel;
+
+	@FXML
+	private Label fArrowLabel;
+
+	@FXML
+	private Label nArrowLabel;
 
 	@FXML
 	public void initialize() {
@@ -130,9 +135,9 @@ public class StatisticsPanelController {
 		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
 		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 
-		aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
-		fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
-		sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+		aForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty());
+		fForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty());
+		sumForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty());
 
 		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
@@ -153,11 +158,11 @@ public class StatisticsPanelController {
 		this.simul = simul;
 
 		this.aArrowLabel.visibleProperty().bind(
-				this.aForceCheckBox.selectedProperty().and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
+				this.forceCheckBox.selectedProperty().and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
 		this.fArrowLabel.visibleProperty().bind(
-				this.fForceCheckBox.selectedProperty().and(this.simul.getfForce().valueProperty().isNotEqualTo(0)));
-		this.nArrowLabel.visibleProperty().bind(
-				this.sumForceCheckBox.selectedProperty().and(this.simul.getNetForce().valueProperty().isNotEqualTo(0)));
+				this.forceCheckBox.selectedProperty().and(this.simul.getfForce().valueProperty().isNotEqualTo(0)));
+		this.nArrowLabel.visibleProperty().bind(this.sumForcesCheckBox.selectedProperty()
+				.and(this.simul.getNetForce().valueProperty().isNotEqualTo(0)));
 
 		angVelLabel.textProperty().bind(this.simul.getSysAngVel().asString("Current Angular Velocity : %.2f m/s"));
 
@@ -173,12 +178,14 @@ public class StatisticsPanelController {
 				this.angAccCheckBox.setSelected(false);
 				this.angCheckBox.setSelected(false);
 				this.angVelCheckBox.setSelected(false);
-				this.sumForceCheckBox.setSelected(false);
+				this.sumForcesCheckBox.setSelected(false);
 				this.angCheckBox.setSelected(false);
 				this.massCheckBox.setSelected(false);
-				this.aForceCheckBox.setSelected(true);
-				this.fForceCheckBox.setSelected(true);
+				this.forceCheckBox.setSelected(true);
 				this.accCheckBox.setSelected(false);
+				this.velCheckBox.setSelected(false);
+
+				setCylinderCheckBoxes(false);
 			}
 
 			else if (newValue instanceof Rotatable) {
@@ -258,11 +265,12 @@ public class StatisticsPanelController {
 		// Setup Arrow
 
 		aArrow = new Rectangle(200, 50);
-		aArrow.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
+		aArrow.visibleProperty().bind(this.forceCheckBox.selectedProperty());
 		StackPane.setAlignment(aArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(aArrow);
-		Image recImage = new Image("file:resources/images/arrow.png");
-		aArrow.setFill(new ImagePattern(recImage));
+		aArrow.setFill(new ImagePattern(new Image("file:resources/images/aArrow_image.png")));
+
+		aArrow.setStrokeWidth(0);
 		aArrow.setStroke(Color.TRANSPARENT);
 
 		// Label for arrow
@@ -281,13 +289,34 @@ public class StatisticsPanelController {
 		aArrow.getTransforms().add(translate);
 		aArrow.setWidth(0);
 
+		aArrowLabel.translateYProperty().bind(aArrow.translateYProperty().subtract(aArrow.heightProperty().divide(2))
+				.add(aArrowLabel.heightProperty().divide(2)));
+		
 		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue.doubleValue() >= 0) {
-				rotate.setAngle(0);
-			} else {
-				rotate.setAngle(180);
-
+			if (newValue.doubleValue() * oldValue.doubleValue() <= 0) {
+				if (newValue.doubleValue() >= 0) {
+					rotate.setAngle(0);
+					
+					aArrowLabel.translateXProperty()
+							.bind((translate.xProperty().multiply(2)).add(aArrowLabel.widthProperty().divide(2)).add(5));
+					
+					
+				} else {
+					rotate.setAngle(180);
+					
+					aArrowLabel.translateXProperty()
+					.bind((translate.xProperty().multiply(2)).subtract(aArrowLabel.widthProperty().divide(2)).subtract(5));
+					
+				}
 			}
+			
+			if (newValue.doubleValue() * this.simul.getfForce().getValue() >= 0) {
+				fArrowLabel.translateXProperty().unbind();
+				fArrowLabel.setTranslateX(0);
+				System.out.println("Hello");
+				}
+			
+			
 			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
 			aArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
 
@@ -308,24 +337,17 @@ public class StatisticsPanelController {
 			aArrow.toFront();
 		});
 
-		// Position Label
-		aArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
-		aArrowLabel.translateYProperty().bind(aArrow.translateYProperty());
+	
 
 	}
 
 	private void setUpFrictionForce() {
 		fArrow = new Rectangle(200, 50);
-		fArrow.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
+		fArrow.visibleProperty().bind(this.forceCheckBox.selectedProperty());
 		StackPane.setAlignment(fArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(fArrow);
-		Image recImage = new Image("file:resources/images/arrow.png");
-		fArrow.setFill(new ImagePattern(recImage));
-		fArrow.setStroke(Color.TRANSPARENT);
-
-		// Label for arrow
-
-		// Label fArrowLabel = new Label("Friction Force");
+		fArrow.setFill(new ImagePattern(new Image("file:resources/images/fArrow_image.png")));
+		fArrow.setStrokeWidth(0);
 		StackPane.setAlignment(fArrowLabel, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(fArrowLabel);
 
@@ -339,13 +361,30 @@ public class StatisticsPanelController {
 		fArrow.getTransforms().add(translate);
 		fArrow.setWidth(0);
 
+		fArrowLabel.translateYProperty().bind(fArrow.translateYProperty().subtract(fArrow.heightProperty().divide(2))
+				.add(fArrowLabel.heightProperty().divide(2)));
+		
 		this.simul.getfForce().valueProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue.doubleValue() >= 0) {
-				rotate.setAngle(0);
-			} else {
-				rotate.setAngle(180);
 
+			if (newValue.doubleValue() * oldValue.doubleValue() <= 0) {
+				if (newValue.doubleValue() >= 0) {
+					rotate.setAngle(0);
+					
+					fArrowLabel.translateXProperty()
+							.bind((translate.xProperty().multiply(2)).add(fArrowLabel.widthProperty().divide(2)).add(5));
+					
+					
+				} else {
+					rotate.setAngle(180);
+					
+					fArrowLabel.translateXProperty()
+					.bind((translate.xProperty().multiply(2)).subtract(fArrowLabel.widthProperty().divide(2)).subtract(5));
+					
+				}
 			}
+			
+			
+			
 			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
 			fArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
 
@@ -366,20 +405,17 @@ public class StatisticsPanelController {
 			fArrow.toFront();
 		});
 
-		// Position Label
-		fArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
-		fArrowLabel.translateYProperty().bind(fArrow.translateYProperty());
 
 	};
 
 	private void setUpNetForce() {
 		nArrow = new Rectangle(200, 50);
-		nArrow.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+		nArrow.visibleProperty().bind(this.sumForcesCheckBox.selectedProperty());
 		StackPane.setAlignment(nArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(nArrow);
-		Image recImage = new Image("file:resources/images/arrow.png");
-		nArrow.setFill(new ImagePattern(recImage));
-		nArrow.setStroke(Color.TRANSPARENT);
+		nArrow.setFill(new ImagePattern(new Image("file:resources/images/sumArrow_image.png")));
+
+		nArrow.setStrokeWidth(0);
 
 		// Label for arrow
 		StackPane.setAlignment(nArrowLabel, Pos.BOTTOM_CENTER);

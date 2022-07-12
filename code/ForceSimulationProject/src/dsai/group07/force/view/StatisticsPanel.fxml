@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
 <StackPane alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
    <children>
@@ -54,12 +55,12 @@
          <StackPane.margin>
             <Insets left="120.0" top="200.0" />
          </StackPane.margin></Label>
-      <CheckBox fx:id="angCheckBox" mnemonicParsing="false" text="Angluar">
+      <CheckBox fx:id="angCheckBox" mnemonicParsing="false" text="Angular">
          <StackPane.margin>
             <Insets top="-200.0" />
          </StackPane.margin>
       </CheckBox>
-      <CheckBox fx:id="angAccCheckBox" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="AngularAcc">
+      <CheckBox fx:id="angAccCheckBox" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="Angular Acc">
          <StackPane.margin>
             <Insets top="-150.0" />
          </StackPane.margin>
@@ -74,27 +75,17 @@
             <Insets top="-50.0" />
          </StackPane.margin>
       </CheckBox>
-      <CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Accelerate">
+      <CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Acceleration">
          <StackPane.margin>
             <Insets />
          </StackPane.margin>
       </CheckBox>
-      <CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Velocity">
+      <CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Velocity">
          <StackPane.margin>
             <Insets top="50.0" />
          </StackPane.margin>
       </CheckBox>
-      <CheckBox fx:id="aForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Applied force">
-         <StackPane.margin>
-            <Insets top="100.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="fForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Friction force">
-         <StackPane.margin>
-            <Insets top="150.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="sumForceCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" text="Net force">
+      <CheckBox fx:id="sumForcesCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" text="Sum of Forces">
          <StackPane.margin>
             <Insets top="200.0" />
          </StackPane.margin>
@@ -104,10 +95,32 @@
             <Insets left="100.0" top="250.0" />
          </StackPane.margin>
       </Label>
-      <CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" text="Mass">
+      <CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" text="Masses">
          <StackPane.margin>
             <Insets top="250.0" />
          </StackPane.margin>
       </CheckBox>
+      <CheckBox fx:id="forceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Forces">
+         <StackPane.margin>
+            <Insets top="100.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <CheckBox fx:id="valueCheckBox" mnemonicParsing="false" text="Values">
+         <StackPane.margin>
+            <Insets top="150.0" />
+         </StackPane.margin>
+      </CheckBox>
+      <Label fx:id="aArrowLabel" text="Applied Force" visible="false">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <Label fx:id="fArrowLabel" text="Friction Force" visible="false">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <Label fx:id="nArrowLabel" text="Sum of Forces" visible="false">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
    </children>
 </StackPane>
