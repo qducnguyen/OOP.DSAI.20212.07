@@ -24,7 +24,6 @@ public class ForceSimulationAppController {
 	private StackPane downStackPane;
 
 	private GridPane controlPanel;
-
 	private AnimationController aniController;
 	private ObjectPanelController objController;
 	private ControlPanelController controlController;
@@ -102,7 +101,7 @@ public class ForceSimulationAppController {
 		this.aniController.resetAnimation();
 		this.objController.resetObjectPosition();
 		this.objController.resetCirAnimation();
-
+		
 		// Reset the model
 		this.simul.restart();
 

@@ -21,39 +21,39 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 
 public class StatisticsPanelController {
-	
+
 	private Simulation simul;
-	
-    private StackPane stackPane;
-	
-    @FXML
-    private Label angLabel;
 
-    @FXML
-    private Label angAccLabel;
+	private StackPane stackPane;
 
-    @FXML
-    private Label angVelLabel;
-    
-    @FXML
-    private Label posLabel;
+	@FXML
+	private Label angLabel;
 
-    @FXML
-    private Label accLabel;
+	@FXML
+	private Label angAccLabel;
 
-    @FXML
-    private Label velLabel;
+	@FXML
+	private Label angVelLabel;
 
-    @FXML
-    private Label aForceLabel;
+	@FXML
+	private Label posLabel;
 
-    @FXML
-    private Label fForceLabel;
+	@FXML
+	private Label accLabel;
 
-    @FXML
-    private Label sumForceLabel;
-    
-    @FXML
+	@FXML
+	private Label velLabel;
+
+	@FXML
+	private Label aForceLabel;
+
+	@FXML
+	private Label fForceLabel;
+
+	@FXML
+	private Label sumForceLabel;
+
+	@FXML
 	private CheckBox angCheckBox;
 
 	@FXML
@@ -82,20 +82,19 @@ public class StatisticsPanelController {
 
 	private Rectangle rec;
 
-    
-    private Circle cir;
-    
-    private Rectangle aArrow;
-    
-    private Rectangle fArrow;
-    
-    private Rectangle nArrow;
-    
+	private Circle cir;
+
+	private Rectangle aArrow;
+
+	private Rectangle fArrow;
+
+	private Rectangle nArrow;
+
 	private StackPane topStackPane;
 
 	private StackPane downStackPane;
 
-    @FXML
+	@FXML
 	CheckBox massCheckBox;
 
 	@FXML
@@ -106,43 +105,38 @@ public class StatisticsPanelController {
 	Label nArrowLabel = new Label("Net Force");
 
 	@FXML
-   	public void initialize()  {
-		
-		
-		 angLabel.setText("Current Angle Position  : 0.00 *");
-		 angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
-		 angVelLabel.setText("Current Angular Velocity: 0.00 */s");
-		 
-		 massLabel.setText("");
-		 
-		 setCylinderCheckBoxes(false);
-		 
-		 
-		 accLabel.setText("Current Accelerate : 0.00 m/s^2");
-		 velLabel.setText("Current Velocity : 0.00 m/s");
-		 posLabel.setText("Current Position : 0.00 m");
-		 aForceLabel.setText("Applied Force : 0 N");
-		 fForceLabel.setText("Friction Force : 0 N");
-		 sumForceLabel.setText("Net Force : 0 N");
-		 
-		 angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
-		 angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
-		 angVelLabel.visibleProperty().bind(this.angVelCheckBox.selectedProperty());
+	public void initialize() {
 
-		 accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
-		 velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
-		 posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
+		angLabel.setText("Current Angle Position  : 0.00 *");
+		angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
+		angVelLabel.setText("Current Angular Velocity: 0.00 */s");
 
-		 aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
-		 fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
-		 sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+		massLabel.setText("");
 
+		setCylinderCheckBoxes(false);
 
+		accLabel.setText("Current Accelerate : 0.00 m/s^2");
+		velLabel.setText("Current Velocity : 0.00 m/s");
+		posLabel.setText("Current Position : 0.00 m");
+		aForceLabel.setText("Applied Force : 0 N");
+		fForceLabel.setText("Friction Force : 0 N");
+		sumForceLabel.setText("Net Force : 0 N");
 
-		 this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
+		angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
+		angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
+		angVelLabel.visibleProperty().bind(this.angVelCheckBox.selectedProperty());
+
+		accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
+		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
+		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
+
+		aForceLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
+		fForceLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
+		sumForceLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
+
+		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
-	
-	
+
 	public void init(Simulation simul, Rectangle rec, Circle cir, StackPane topStackPane, StackPane downStackPane) {
 		setSimul(simul);
 		this.rec = rec;
@@ -152,359 +146,321 @@ public class StatisticsPanelController {
 		setUpAppliedForce();
 		setUpFrictionForce();
 		setUpNetForce();
-		
+
 	}
-	
-	
-	
+
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
-		
-		
-		 this.aArrowLabel.visibleProperty().bind(this.aForceCheckBox.selectedProperty().and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
-		 this.fArrowLabel.visibleProperty().bind(this.fForceCheckBox.selectedProperty().and(this.simul.getfForce().valueProperty().isNotEqualTo(0)));
-		 this.nArrowLabel.visibleProperty().bind(this.sumForceCheckBox.selectedProperty().and(this.simul.getNetForce().valueProperty().isNotEqualTo(0)));
-		
-		
+
+		this.aArrowLabel.visibleProperty().bind(
+				this.aForceCheckBox.selectedProperty().and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
+		this.fArrowLabel.visibleProperty().bind(
+				this.fForceCheckBox.selectedProperty().and(this.simul.getfForce().valueProperty().isNotEqualTo(0)));
+		this.nArrowLabel.visibleProperty().bind(
+				this.sumForceCheckBox.selectedProperty().and(this.simul.getNetForce().valueProperty().isNotEqualTo(0)));
+
 		angVelLabel.textProperty().bind(this.simul.getSysAngVel().asString("Current Angular Velocity : %.2f m/s"));
 
-		
-		this.simul.sysVelProperty().addListener(
-				(observable, oldValue, newValue) -> 
-				{
-					velLabel.textProperty().bind(newValue.valueProperty().asString("Current Velocity : %.2f m/s"));
-				});
-		
-	
-		this.simul.objProperty().addListener(
-				(observable, oldValue, newValue) -> 
-				{
-					if(newValue == null) {
-						
-						//Restart
-						this.posCheckBox.setSelected(false);
-						this.angAccCheckBox.setSelected(false);
-						this.angCheckBox.setSelected(false);
-						this.angVelCheckBox.setSelected(false);
-						this.sumForceCheckBox.setSelected(false);
-						this.angCheckBox.setSelected(false);
-						this.massCheckBox.setSelected(false);
-						this.aForceCheckBox.setSelected(true);
-						this.fForceCheckBox.setSelected(true);
-						this.accCheckBox.setSelected(false);
-					}
-					
-					else if(newValue instanceof Rotatable) {
-						setCylinderCheckBoxes(true);
-					}
-					else {
-						setCylinderCheckBoxes(false);
-					}
-				}
-				);
-		
-		this.simul.sysAccProperty().addListener(
-				(observable, oldValue, newValue) -> {
-					accLabel.textProperty().bind(newValue.valueProperty().asString("Current Accelerate : %.2f m/s^2"));
-				});
-		
-		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			this.massLabel.setText("");
-			
-			if (newValue != null) {
-				this.simul.setObject(newValue);
-				
-				ObservableStringValue posString = Bindings.createStringBinding(() -> 
-				"Current Position : " +  String.format("%.2f",this.simul.getObj().getPos()) + " m", this.simul.getObj().posProperty());
-				posLabel.textProperty().bind(posString);
-				
-				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
-
-				
-				if (newValue instanceof Cylinder) {
-					
-					ObservableStringValue angPosString = Bindings.createStringBinding(() -> 
-					"Current Angle : " + String.format("%.2f",((Cylinder) this.simul.getObj()).getAngle()) + " *", ((Cylinder) this.simul.getObj()).angleProperty());
-					angLabel.textProperty().bind(angPosString);
-					
-					ObservableStringValue angVelString = Bindings.createStringBinding(() -> 					
-					"Current Angular Velocity : " + String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " */s", ((Cylinder) this.simul.getObj()).angVelProperty());
-					angVelLabel.textProperty().bind(angVelString);
-										
-					ObservableStringValue angAccString = Bindings.createStringBinding(() -> 
-					"Current Angular Accelerate : " + String.format("%.2f",((Cylinder) this.simul.getObj()).getAngAcc()) + " */s^2", ((Cylinder) this.simul.getObj()).angAccProperty());
-					angAccLabel.textProperty().bind(angAccString);
-				}
-			} 
+		this.simul.sysVelProperty().addListener((observable, oldValue, newValue) -> {
+			velLabel.textProperty().bind(newValue.valueProperty().asString("Current Velocity : %.2f m/s"));
 		});
 
-		ObservableStringValue aForceString = Bindings.createStringBinding(() -> 
-		"Current Applied Force : " + String.format("%.2f",this.simul.getaForce().getValue()) + " N", this.simul.getaForce().valueProperty());
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue == null) {
+
+				// Restart
+				this.posCheckBox.setSelected(false);
+				this.angAccCheckBox.setSelected(false);
+				this.angCheckBox.setSelected(false);
+				this.angVelCheckBox.setSelected(false);
+				this.sumForceCheckBox.setSelected(false);
+				this.angCheckBox.setSelected(false);
+				this.massCheckBox.setSelected(false);
+				this.aForceCheckBox.setSelected(true);
+				this.fForceCheckBox.setSelected(true);
+				this.accCheckBox.setSelected(false);
+			}
+
+			else if (newValue instanceof Rotatable) {
+				setCylinderCheckBoxes(true);
+			} else {
+				setCylinderCheckBoxes(false);
+			}
+		});
+
+		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) -> {
+			accLabel.textProperty().bind(newValue.valueProperty().asString("Current Accelerate : %.2f m/s^2"));
+		});
+
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			this.massLabel.setText("");
+
+			if (newValue != null) {
+				this.simul.setObject(newValue);
+
+				ObservableStringValue posString = Bindings.createStringBinding(
+						() -> "Current Position : " + String.format("%.2f", this.simul.getObj().getPos()) + " m",
+						this.simul.getObj().posProperty());
+				posLabel.textProperty().bind(posString);
+
+				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
+
+				if (newValue instanceof Cylinder) {
+
+					ObservableStringValue angPosString = Bindings.createStringBinding(
+							() -> "Current Angle : "
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " *",
+							((Cylinder) this.simul.getObj()).angleProperty());
+					angLabel.textProperty().bind(angPosString);
+
+					ObservableStringValue angVelString = Bindings.createStringBinding(
+							() -> "Current Angular Velocity : "
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " */s",
+							((Cylinder) this.simul.getObj()).angVelProperty());
+					angVelLabel.textProperty().bind(angVelString);
+
+					ObservableStringValue angAccString = Bindings.createStringBinding(
+							() -> "Current Angular Accelerate : "
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " */s^2",
+							((Cylinder) this.simul.getObj()).angAccProperty());
+					angAccLabel.textProperty().bind(angAccString);
+				}
+			}
+		});
+
+		ObservableStringValue aForceString = Bindings.createStringBinding(
+				() -> "Current Applied Force : " + String.format("%.2f", this.simul.getaForce().getValue()) + " N",
+				this.simul.getaForce().valueProperty());
 		aForceLabel.textProperty().bind(aForceString);
 
-		ObservableStringValue fForceString = Bindings.createStringBinding(() -> 
-		"Current Friction Force : " + String.format("%.2f",this.simul.getfForce().getValue()) + " N", this.simul.getfForce().valueProperty());
+		ObservableStringValue fForceString = Bindings.createStringBinding(
+				() -> "Current Friction Force : " + String.format("%.2f", this.simul.getfForce().getValue()) + " N",
+				this.simul.getfForce().valueProperty());
 		fForceLabel.textProperty().bind(fForceString);
 
-		ObservableStringValue netForceString = Bindings.createStringBinding(() -> 
-		"Current Net Force : " + String.format("%.2f",this.simul.getNetForce().getValue()) + " N", this.simul.getNetForce().valueProperty());
+		ObservableStringValue netForceString = Bindings.createStringBinding(
+				() -> "Current Net Force : " + String.format("%.2f", this.simul.getNetForce().getValue()) + " N",
+				this.simul.getNetForce().valueProperty());
 		sumForceLabel.textProperty().bind(netForceString);
 	};
-	
+
 	private void setCylinderCheckBoxes(boolean isVi) {
 		this.angCheckBox.setVisible(isVi);
 		this.angVelCheckBox.setVisible(isVi);
 		this.angAccCheckBox.setVisible(isVi);
-		
+
 		this.angAccCheckBox.setDisable(!isVi);
 		this.angVelCheckBox.setDisable(!isVi);
 		this.angCheckBox.setDisable(!isVi);
 	}
-	
-	
-	
+
 	private void setUpAppliedForce() {
 		// Setup Arrow
-		
-		aArrow = new Rectangle(200 , 50);
+
+		aArrow = new Rectangle(200, 50);
 		aArrow.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
 		StackPane.setAlignment(aArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(aArrow);	
-		Image recImage =  new Image("file:resources/images/arrow.png");
+		this.stackPane.getChildren().add(aArrow);
+		Image recImage = new Image("file:resources/images/arrow.png");
 		aArrow.setFill(new ImagePattern(recImage));
 		aArrow.setStroke(Color.TRANSPARENT);
-		
-		//Label for arrow
-		
+
+		// Label for arrow
+
 		// Label aArrowLabel = new Label("Applied Force");
 		StackPane.setAlignment(aArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(aArrowLabel);	
-		
+		this.stackPane.getChildren().add(aArrowLabel);
 
-		
-		
 		// Resize Arrow
-    	double firstWidth  = aArrow.getWidth();
-    	Rotate rotate = new Rotate();
+		double firstWidth = aArrow.getWidth();
+		Rotate rotate = new Rotate();
 		rotate.setPivotX(0);
 		rotate.setPivotY(aArrow.getHeight() / 2);
 		aArrow.getTransforms().add(rotate);
-    	Translate translate = new Translate();
-    	aArrow.getTransforms().add(translate);
-    	aArrow.setWidth(0);
-    	
-    	 
-    	this.simul.getaForce().valueProperty().addListener(
-    			(observable, oldValue, newValue) -> 
-    			{	
-    				if (newValue.doubleValue()  >= 0 ) {
-    					rotate.setAngle(0);
-    				}
-    				else {
-    					rotate.setAngle(180);
+		Translate translate = new Translate();
+		aArrow.getTransforms().add(translate);
+		aArrow.setWidth(0);
 
-    				}
-    				translate.setX(firstWidth  * newValue.doubleValue() / 300 / 2);
-    				aArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 300);
+		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.doubleValue() >= 0) {
+				rotate.setAngle(0);
+			} else {
+				rotate.setAngle(180);
 
-    			});
-    	
-    	// Position arrow in the center of the object, bring arrow and label to front
-    	
-    	this.simul.objProperty().addListener(
-    			(observable, oldValue, newValue) -> 
-    			{
-    				if (newValue instanceof Cube) {
-    				aArrow.translateYProperty().bind(rec.heightProperty().divide(2).subtract(aArrow.heightProperty().divide(2)).multiply(-1));
-    				}
-    				else {
-    					aArrow.translateYProperty().bind(cir.radiusProperty().subtract(aArrow.heightProperty().divide(2)).multiply(-1));
-    				}
-    				
-    				aArrowLabel.toFront();
-    				aArrow.toFront();
-    			}
-    			);
-    	
-    	
-    	// Position Label
-   	 	aArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
-   	 	aArrowLabel.translateYProperty().bind(aArrow.translateYProperty());
-    
+			}
+			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
+			aArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
+
+		});
+
+		// Position arrow in the center of the object, bring arrow and label to front
+
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue instanceof Cube) {
+				aArrow.translateYProperty()
+						.bind(rec.heightProperty().divide(2).subtract(aArrow.heightProperty().divide(2)).multiply(-1));
+			} else {
+				aArrow.translateYProperty()
+						.bind(cir.radiusProperty().subtract(aArrow.heightProperty().divide(2)).multiply(-1));
+			}
+
+			aArrowLabel.toFront();
+			aArrow.toFront();
+		});
+
+		// Position Label
+		aArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
+		aArrowLabel.translateYProperty().bind(aArrow.translateYProperty());
+
 	}
-	
-	private void setUpFrictionForce()
-	{
-		fArrow = new Rectangle(200 , 50);
+
+	private void setUpFrictionForce() {
+		fArrow = new Rectangle(200, 50);
 		fArrow.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
 		StackPane.setAlignment(fArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(fArrow);	
-		Image recImage =  new Image("file:resources/images/arrow.png");
+		this.stackPane.getChildren().add(fArrow);
+		Image recImage = new Image("file:resources/images/arrow.png");
 		fArrow.setFill(new ImagePattern(recImage));
 		fArrow.setStroke(Color.TRANSPARENT);
-		
-		//Label for arrow
-		
+
+		// Label for arrow
+
 		// Label fArrowLabel = new Label("Friction Force");
 		StackPane.setAlignment(fArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(fArrowLabel);	
-		
+		this.stackPane.getChildren().add(fArrowLabel);
 
-		
-		
 		// Resize Arrow
-    	 double firstWidth  = fArrow.getWidth();
-    	 Rotate rotate = new Rotate();
-		 rotate.setPivotX(0);
-		 rotate.setPivotY(fArrow.getHeight() / 2);
-		 fArrow.getTransforms().add(rotate);
-    	 Translate translate = new Translate();
-    	 fArrow.getTransforms().add(translate);
-    	 fArrow.setWidth(0);
-    	
-    	 
-    	this.simul.getfForce().valueProperty().addListener(
-    			(observable, oldValue, newValue) -> 
-    			{	
-    				if (newValue.doubleValue()  >= 0 ) {
-    					rotate.setAngle(0);
-    				}
-    				else {
-    					rotate.setAngle(180);
+		double firstWidth = fArrow.getWidth();
+		Rotate rotate = new Rotate();
+		rotate.setPivotX(0);
+		rotate.setPivotY(fArrow.getHeight() / 2);
+		fArrow.getTransforms().add(rotate);
+		Translate translate = new Translate();
+		fArrow.getTransforms().add(translate);
+		fArrow.setWidth(0);
 
-    				}
-    				translate.setX(firstWidth  * newValue.doubleValue() / 300 / 2);
-    				fArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 300);
+		this.simul.getfForce().valueProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.doubleValue() >= 0) {
+				rotate.setAngle(0);
+			} else {
+				rotate.setAngle(180);
 
-    			});
-    	
-    	// Position arrow in the center of the object, bring arrow and label to front
-    	
-    	this.simul.objProperty().addListener(
-    			(observable, oldValue, newValue) -> 
-    			{
-    				if (newValue instanceof Cube) {
-    				fArrow.translateYProperty().bind(rec.heightProperty().divide(2).subtract(fArrow.heightProperty().divide(2)).multiply(-1));
-    				}
-    				else {
-    					fArrow.translateYProperty().bind(cir.radiusProperty().subtract(fArrow.heightProperty().divide(2)).multiply(-1));
-    				}
-    				
-    				fArrowLabel.toFront();
-    				fArrow.toFront();
-    			}
-    			);
-    	
-    	
-    	// Position Label
-   	 	fArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
+			}
+			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
+			fArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
+
+		});
+
+		// Position arrow in the center of the object, bring arrow and label to front
+
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue instanceof Cube) {
+				fArrow.translateYProperty()
+						.bind(rec.heightProperty().divide(2).subtract(fArrow.heightProperty().divide(2)).multiply(-1));
+			} else {
+				fArrow.translateYProperty()
+						.bind(cir.radiusProperty().subtract(fArrow.heightProperty().divide(2)).multiply(-1));
+			}
+
+			fArrowLabel.toFront();
+			fArrow.toFront();
+		});
+
+		// Position Label
+		fArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
 	};
-	private void setUpNetForce() 
-	{
-		nArrow = new Rectangle(200 , 50);
+
+	private void setUpNetForce() {
+		nArrow = new Rectangle(200, 50);
 		nArrow.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
 		StackPane.setAlignment(nArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(nArrow);	
-		Image recImage =  new Image("file:resources/images/arrow.png");
+		this.stackPane.getChildren().add(nArrow);
+		Image recImage = new Image("file:resources/images/arrow.png");
 		nArrow.setFill(new ImagePattern(recImage));
 		nArrow.setStroke(Color.TRANSPARENT);
-		
-		//Label for arrow
+
+		// Label for arrow
 		StackPane.setAlignment(nArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(nArrowLabel);	
-		
-		
-		
+		this.stackPane.getChildren().add(nArrowLabel);
+
 //		this.nArrowLabel.setVisible(false);
 
-		
-		
 		// Resize Arrow
-    	double firstWidth  = nArrow.getWidth();
-    	 Rotate rotate = new Rotate();
-		 rotate.setPivotX(0);
-		 rotate.setPivotY(nArrow.getHeight() / 2);
-		 nArrow.getTransforms().add(rotate);
-    	 Translate translate = new Translate();
-    	 nArrow.getTransforms().add(translate);
-    	 nArrow.setWidth(0);
-    	
-    	 
-    	this.simul.getNetForce().valueProperty().addListener(
-    			(observable, oldValue, newValue) -> 
-    			{	
+		double firstWidth = nArrow.getWidth();
+		Rotate rotate = new Rotate();
+		rotate.setPivotX(0);
+		rotate.setPivotY(nArrow.getHeight() / 2);
+		nArrow.getTransforms().add(rotate);
+		Translate translate = new Translate();
+		nArrow.getTransforms().add(translate);
+		nArrow.setWidth(0);
+
+		this.simul.getNetForce().valueProperty().addListener((observable, oldValue, newValue) -> {
 //    				if (newValue.doubleValue() == 0) {
 //    					this.nArrowLabel.setVisible(false);
 //    				}
 //    				else {
 //    					this.nArrowLabel.setVisible(true);
 //    				}
-    				
-    				 if (newValue.doubleValue()  >= 0 ) {
-    					rotate.setAngle(0);
-    				}
-    				else {
-    					rotate.setAngle(180);
 
-    				}
-    				translate.setX(firstWidth  * newValue.doubleValue() / 300 / 2);
-    				nArrow.setWidth(firstWidth  * Math.abs(newValue.doubleValue()) / 300);
-    				
-    			});
-    	
-    	// Position arrow in the center of the object, bring arrow and label to front
-    	
-    	this.simul.objProperty().addListener(
-    			(observable, oldValue, newValue) -> 
-    			{
-    				if (newValue instanceof Cube) {
-    				nArrow.translateYProperty().bind(rec.heightProperty().subtract(nArrow.heightProperty().divide(2)).multiply(-1));
-    				}
-    				else {
-    					nArrow.translateYProperty().bind(cir.radiusProperty().multiply(2).subtract(nArrow.heightProperty().divide(2)).multiply(-1));
-    				}
-    				
-    				nArrowLabel.toFront();
-    				nArrow.toFront();
-    			}
-    			);
-    	
-    	
-    	// Position Label
-   	 	nArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
-   	 	nArrowLabel.translateYProperty().bind(nArrow.translateYProperty());
-    
-	};
+			if (newValue.doubleValue() >= 0) {
+				rotate.setAngle(0);
+			} else {
+				rotate.setAngle(180);
 
-	public void setTopStackPane(StackPane topStackPane){
-		this.topStackPane = topStackPane;
-		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
-		
-		StackPane.setMargin(this.massLabel, new Insets(0, 0, 5, 0));
-		
+			}
+			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
+			nArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
+
+		});
+
+		// Position arrow in the center of the object, bring arrow and label to front
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue == null){
+			if (newValue instanceof Cube) {
+				nArrow.translateYProperty()
+						.bind(rec.heightProperty().subtract(nArrow.heightProperty().divide(2)).multiply(-1));
+			} else {
+				nArrow.translateYProperty().bind(
+						cir.radiusProperty().multiply(2).subtract(nArrow.heightProperty().divide(2)).multiply(-1));
+			}
+
+			nArrowLabel.toFront();
+			nArrow.toFront();
+		});
+
+		// Position Label
+		nArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
+		nArrowLabel.translateYProperty().bind(nArrow.translateYProperty());
+
+	};
+
+	public void setTopStackPane(StackPane topStackPane) {
+		this.topStackPane = topStackPane;
+		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
+
+		StackPane.setMargin(this.massLabel, new Insets(0, 0, 5, 0));
+
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue == null) {
 				this.massCheckBox.setSelected(false);
-			}
-			else if (newValue instanceof Cylinder){
-				double bottom_value = ((Cylinder)this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight(); 
+			} else if (newValue instanceof Cylinder) {
+				double bottom_value = ((Cylinder) this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight();
 				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
-				
-			}
-			else if (newValue instanceof Cube){
-				double bottom_value = ((Cube)this.simul.getObj()).getSize() * this.downStackPane.getHeight() * 2;
+
+			} else if (newValue instanceof Cube) {
+				double bottom_value = ((Cube) this.simul.getObj()).getSize() * this.downStackPane.getHeight() * 2;
 				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
 			}
-			
+
 			this.massLabel.toFront();
 		});
 
 		this.topStackPane.getChildren().add(this.massLabel);
 	}
 
-	public void setDownStackPane(StackPane downStackPane){
+	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
 	}
-	
+
 }
