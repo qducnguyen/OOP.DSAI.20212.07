@@ -1,3 +1,7 @@
+/*
+ * ControlPanelController.java
+ */
+
 package dsai.group07.force.controller;
 
 import java.io.IOException;
@@ -13,52 +17,34 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class ControlPanelController {
-	
+
 	private Simulation simul;
+
 	private ObjectPanelController objController;
 	private StatisticsPanelController staController;
 	private ForcePanelController forceController;
 	private SurfacePanelController surfaceController;
+
 	private StackPane topStackPane;
 	private StackPane downStackPane;
-//	private StackPane forcePanel;
 	private Circle cir;
 	private Rectangle rec;
-	
+
 	@FXML
 	private GridPane controlPanelGridPane;
-	
-	
-	@FXML
-   	public void initialize()  {
-		
-    }
-	
-	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
-		setSimul(simul);
-		setTopStackPane(topStackPane);
-		setDownStackPane(downStackPane);
-		showObjectPanel();
-		showForcePanel();
-		showSurfacePanel();
-		showStatisticsPanel();
-	}
-	
-	
-	
+
 	public void setTopStackPane(StackPane topStackPane) {
 		this.topStackPane = topStackPane;
 	}
-	
+
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
 	}
-	
+
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
-		
 	}
-	
+
 	public ObjectPanelController getObjController() {
 		return objController;
 	}
@@ -67,83 +53,91 @@ public class ControlPanelController {
 		return controlPanelGridPane;
 	}
 
-	private void showObjectPanel() {
+	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
+		setSimul(simul);
+		setTopStackPane(topStackPane);
+		setDownStackPane(downStackPane);
+		
+		showObjectPane();
+		showForcePane();
+		showSurfacePane();
+		showStatisticsPane();
+	}
+
+	private void showObjectPane() {
+		// Add and show objectPanel in ControlPane
 		try {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectPanel.fxml"));
-		GridPane ObjectPanel = (GridPane) loader.load();
-		controlPanelGridPane.add(ObjectPanel, 0, 0);
-		
-		objController = loader.getController();
-		
-		objController.setSimul(simul);
-		objController.setTopStackPane(topStackPane);
-		objController.setDownStackPane(downStackPane);
-		
-		this.rec = objController.getRec();
-		this.cir = objController.getCir();
-		
-		}
-		catch(IOException e) {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectPanel.fxml"));
+
+			// Add it to control Panel
+			GridPane ObjectPanel = (GridPane) loader.load();
+			controlPanelGridPane.add(ObjectPanel, 0, 0);
+
+			// initialize the obj controller
+			objController = loader.getController();
+			objController.init(simul, topStackPane, downStackPane);
+
+			// Get rec, cir from obj controller and pass it to statistic controller
+			this.rec = objController.getRec();
+			this.cir = objController.getCir();
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void showStatisticsPanel() {
+
+	private void showStatisticsPane() {
+		// Add and show StatisticsPane
 		try {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
-		StackPane panel = (StackPane) loader.load();
-		
-		topStackPane.getChildren().add(panel);
-		
-		StackPane.setMargin(panel, new Insets(0, 0, 0, 6));
-		
-		staController = loader.getController();
-		
-		staController.init(simul, this.rec, this.cir, this.topStackPane, this.downStackPane);
-		staController.setTopStackPane(this.topStackPane);
-//		staController.setSimul(simul);
-		}
-		catch(IOException e) {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
+
+			StackPane panel = (StackPane) loader.load();
+			topStackPane.getChildren().add(panel);
+			StackPane.setMargin(panel, new Insets(0, 0, 0, 6));
+
+			staController = loader.getController();
+			staController.init(simul, this.rec, this.cir, this.topStackPane, this.downStackPane);
+			staController.setTopStackPane(this.topStackPane);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	private void showForcePanel() {
+
+	private void showForcePane() {
+		// Add and show ForcePane
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ForcePanel.fxml"));
+
 			StackPane forcePanel = (StackPane) loader.load();
-			
 			controlPanelGridPane.add(forcePanel, 1, 0);
-			
+
 			forceController = loader.getController();
-			
-			forceController.setSimul(simul);
-		}
-		
-		catch(IOException e) {
+
+			forceController.init(simul);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void showSurfacePanel() {
+
+	private void showSurfacePane() {
+		// Add and show SurfacePane
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/SurfacePanel.fxml"));
+
 			GridPane surfacePanel = (GridPane) loader.load();
-			
 			controlPanelGridPane.add(surfacePanel, 2, 0);
 			surfacePanel.setAlignment(Pos.BOTTOM_CENTER);
-			
-			surfaceController = loader.getController();
 
-			surfaceController.setSimul(simul);
+			surfaceController = loader.getController();
+			surfaceController.init(simul);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
