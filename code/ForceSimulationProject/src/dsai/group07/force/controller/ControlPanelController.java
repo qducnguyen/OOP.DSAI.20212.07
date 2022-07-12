@@ -100,8 +100,7 @@ public class ControlPanelController {
 			StackPane.setMargin(panel, new Insets(0, 0, 0, 6));
 
 			staController = loader.getController();
-			staController.init(simul, this.rec, this.cir, this.topStackPane, this.downStackPane);
-			staController.setTopStackPane(this.topStackPane);
+			staController.init(simul, this.rec, this.cir, this.topStackPane);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

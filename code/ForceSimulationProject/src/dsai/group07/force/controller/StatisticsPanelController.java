@@ -87,10 +87,6 @@ public class StatisticsPanelController {
 
 	private Rectangle nArrow;
 
-	private StackPane topStackPane;
-
-	private StackPane downStackPane;
-
 	@FXML
 	CheckBox massCheckBox;
 
@@ -123,9 +119,9 @@ public class StatisticsPanelController {
 		accLabel.setText("Current Accelerate : 0.00 m/s^2");
 		velLabel.setText("Current Velocity : 0.00 m/s");
 		posLabel.setText("Current Position : 0.00 m");
-		aForceLabel.setText("Applied Force : 0 N");
-		fForceLabel.setText("Friction Force : 0 N");
-		sumForceLabel.setText("Net Force : 0 N");
+		aForceLabel.setText("0.00 N");
+		fForceLabel.setText("0.00 N");
+		sumForceLabel.setText("0.00 N");
 
 		angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
 		angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
@@ -135,19 +131,21 @@ public class StatisticsPanelController {
 		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
 		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 
-		aForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty());
-		fForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty());
-		sumForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty());
+		aForceLabel.visibleProperty()
+				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty()));
+		fForceLabel.visibleProperty()
+				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty()));
+		sumForceLabel.visibleProperty()
+				.bind(this.valueCheckBox.selectedProperty().and(this.sumForcesCheckBox.selectedProperty()));
 
 		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
 
-	public void init(Simulation simul, Rectangle rec, Circle cir, StackPane topStackPane, StackPane downStackPane) {
+	public void init(Simulation simul, Rectangle rec, Circle cir, StackPane topStackPane) {
 		setSimul(simul);
 		this.rec = rec;
 		this.cir = cir;
-		this.stackPane = topStackPane;
-		this.downStackPane = downStackPane;
+		setTopStackPane(topStackPane);
 		setUpAppliedForce();
 		setUpFrictionForce();
 		setUpNetForce();
@@ -162,9 +160,13 @@ public class StatisticsPanelController {
 		this.fArrowLabel.visibleProperty().bind(
 				this.forceCheckBox.selectedProperty().and(this.simul.getfForce().valueProperty().isNotEqualTo(0)));
 		this.nArrowLabel.visibleProperty().bind(this.sumForcesCheckBox.selectedProperty()
-				.and(this.simul.getNetForce().valueProperty().isNotEqualTo(0)));
+				.and(this.simul.isStartProperty()));
 
 		angVelLabel.textProperty().bind(this.simul.getSysAngVel().asString("Current Angular Velocity : %.2f m/s"));
+
+		aForceLabel.textProperty().bind(this.simul.getaForce().valueProperty().asString("%.2f N"));
+		fForceLabel.textProperty().bind(this.simul.getfForce().valueProperty().asString("%.2f N"));
+		sumForceLabel.textProperty().bind(this.simul.getNetForce().valueProperty().asString("%.2f N"));
 
 		this.simul.sysVelProperty().addListener((observable, oldValue, newValue) -> {
 			velLabel.textProperty().bind(newValue.valueProperty().asString("Current Velocity : %.2f m/s"));
@@ -235,20 +237,6 @@ public class StatisticsPanelController {
 			}
 		});
 
-		ObservableStringValue aForceString = Bindings.createStringBinding(
-				() -> "Current Applied Force : " + String.format("%.2f", this.simul.getaForce().getValue()) + " N",
-				this.simul.getaForce().valueProperty());
-		aForceLabel.textProperty().bind(aForceString);
-
-		ObservableStringValue fForceString = Bindings.createStringBinding(
-				() -> "Current Friction Force : " + String.format("%.2f", this.simul.getfForce().getValue()) + " N",
-				this.simul.getfForce().valueProperty());
-		fForceLabel.textProperty().bind(fForceString);
-
-		ObservableStringValue netForceString = Bindings.createStringBinding(
-				() -> "Current Net Force : " + String.format("%.2f", this.simul.getNetForce().getValue()) + " N",
-				this.simul.getNetForce().valueProperty());
-		sumForceLabel.textProperty().bind(netForceString);
 	};
 
 	private void setCylinderCheckBoxes(boolean isVi) {
@@ -269,7 +257,6 @@ public class StatisticsPanelController {
 		StackPane.setAlignment(aArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(aArrow);
 		aArrow.setFill(new ImagePattern(new Image("file:resources/images/aArrow_image.png")));
-
 		aArrow.setStrokeWidth(0);
 		aArrow.setStroke(Color.TRANSPARENT);
 
@@ -291,32 +278,51 @@ public class StatisticsPanelController {
 
 		aArrowLabel.translateYProperty().bind(aArrow.translateYProperty().subtract(aArrow.heightProperty().divide(2))
 				.add(aArrowLabel.heightProperty().divide(2)));
-		
+
 		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue.doubleValue() * oldValue.doubleValue() <= 0) {
 				if (newValue.doubleValue() >= 0) {
 					rotate.setAngle(0);
-					
-					aArrowLabel.translateXProperty()
-							.bind((translate.xProperty().multiply(2)).add(aArrowLabel.widthProperty().divide(2)).add(5));
-					
-					
+
+					aArrowLabel.translateXProperty().bind(
+							(translate.xProperty().multiply(2)).add(aArrowLabel.widthProperty().divide(2)).add(5));
+
 				} else {
 					rotate.setAngle(180);
-					
-					aArrowLabel.translateXProperty()
-					.bind((translate.xProperty().multiply(2)).subtract(aArrowLabel.widthProperty().divide(2)).subtract(5));
-					
+
+					aArrowLabel.translateXProperty().bind((translate.xProperty().multiply(2))
+							.subtract(aArrowLabel.widthProperty().divide(2)).subtract(5));
+
 				}
 			}
-			
+
+			// Set fArrowLabel based on aArrowLabel
 			if (newValue.doubleValue() * this.simul.getfForce().getValue() >= 0) {
 				fArrowLabel.translateXProperty().unbind();
 				fArrowLabel.setTranslateX(0);
-				System.out.println("Hello");
+				if (this.simul.getObj() instanceof Cube) {
+					fArrowLabel.translateYProperty()
+							.bind(((rec.heightProperty().divide(2)).subtract(fArrowLabel.heightProperty())
+									.subtract(fArrow.heightProperty().divide(2))).multiply(-1));
+				} else {
+					fArrowLabel.translateYProperty().bind(((cir.radiusProperty()).subtract(fArrowLabel.heightProperty())
+							.subtract(fArrow.heightProperty().divide(2))).multiply(-1));
 				}
-			
-			
+			} else {
+				// Rebind
+				fArrowLabel.translateYProperty().bind(fArrow.translateYProperty()
+						.subtract(fArrow.heightProperty().divide(2)).add(fArrowLabel.heightProperty().divide(2)));
+				if (this.simul.getfForce().getValue() >= 0) {
+					fArrowLabel.translateXProperty()
+							.bind(fArrow.widthProperty().add(5).add(fArrowLabel.widthProperty().divide(2)));
+
+				} else {
+					fArrowLabel.translateXProperty().bind(
+							fArrow.widthProperty().add(5).add(fArrowLabel.widthProperty().divide(2)).multiply(-1));
+
+				}
+			}
+
 			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
 			aArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
 
@@ -336,8 +342,6 @@ public class StatisticsPanelController {
 			aArrowLabel.toFront();
 			aArrow.toFront();
 		});
-
-	
 
 	}
 
@@ -363,28 +367,32 @@ public class StatisticsPanelController {
 
 		fArrowLabel.translateYProperty().bind(fArrow.translateYProperty().subtract(fArrow.heightProperty().divide(2))
 				.add(fArrowLabel.heightProperty().divide(2)));
-		
+
 		this.simul.getfForce().valueProperty().addListener((observable, oldValue, newValue) -> {
 
 			if (newValue.doubleValue() * oldValue.doubleValue() <= 0) {
 				if (newValue.doubleValue() >= 0) {
 					rotate.setAngle(0);
-					
-					fArrowLabel.translateXProperty()
-							.bind((translate.xProperty().multiply(2)).add(fArrowLabel.widthProperty().divide(2)).add(5));
-					
-					
+
+					fArrowLabel.translateXProperty().bind(
+							(translate.xProperty().multiply(2)).add(fArrowLabel.widthProperty().divide(2)).add(5));
+
+					// Rebind
+					fArrowLabel.translateYProperty().bind(fArrow.translateYProperty()
+							.subtract(fArrow.heightProperty().divide(2)).add(fArrowLabel.heightProperty().divide(2)));
+
 				} else {
 					rotate.setAngle(180);
-					
-					fArrowLabel.translateXProperty()
-					.bind((translate.xProperty().multiply(2)).subtract(fArrowLabel.widthProperty().divide(2)).subtract(5));
-					
+
+					fArrowLabel.translateXProperty().bind((translate.xProperty().multiply(2))
+							.subtract(fArrowLabel.widthProperty().divide(2)).subtract(5));
+
+					// Rebind
+					fArrowLabel.translateYProperty().bind(fArrow.translateYProperty()
+							.subtract(fArrow.heightProperty().divide(2)).add(fArrowLabel.heightProperty().divide(2)));
 				}
 			}
-			
-			
-			
+
 			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
 			fArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
 
@@ -404,7 +412,6 @@ public class StatisticsPanelController {
 			fArrowLabel.toFront();
 			fArrow.toFront();
 		});
-
 
 	};
 
@@ -432,26 +439,43 @@ public class StatisticsPanelController {
 		nArrow.setWidth(0);
 
 		this.simul.getNetForce().valueProperty().addListener((observable, oldValue, newValue) -> {
-//    				if (newValue.doubleValue() == 0) {
-//    					this.nArrowLabel.setVisible(false);
-//    				}
-//    				else {
-//    					this.nArrowLabel.setVisible(true);
-//    				}
 
 			if (newValue.doubleValue() >= 0) {
 				rotate.setAngle(0);
 			} else {
 				rotate.setAngle(180);
-
 			}
 			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
 			nArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
 
 		});
 
-		// Position arrow in the center of the object, bring arrow and label to front
+		// Bind nforceLabel to arrow
 
+		this.stackPane.getChildren().add(sumForceLabel);
+		StackPane.setAlignment(sumForceLabel, Pos.BOTTOM_CENTER);
+
+		nArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
+			sumForceLabel.setTranslateY(nArrow.getTranslateY() -  nArrow.getHeight() / 2 + sumForceLabel.getHeight() / 2);
+			double currentLabelWidth = sumForceLabel.widthProperty().doubleValue();
+			double currentNewValue = newValue.doubleValue();
+			double currentSign  = Math.signum(this.simul.getNetForce().getValue());
+			if (currentNewValue  > currentLabelWidth * 1.5) {
+				sumForceLabel.setTranslateX(currentNewValue / 2 * currentSign - currentLabelWidth );
+			}
+			else {
+				if (currentSign  >  0) {
+				sumForceLabel.setTranslateX(newValue.doubleValue()  - currentLabelWidth / 2 );}
+				else{
+					sumForceLabel.setTranslateX(- newValue.doubleValue()  - 3*currentLabelWidth / 2 );
+				}
+			}
+
+			sumForceLabel.toFront();
+
+		});
+
+		// Position arrow in the center of the object, bring arrow and label to front
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue instanceof Cube) {
 				nArrow.translateYProperty()
@@ -465,38 +489,35 @@ public class StatisticsPanelController {
 			nArrow.toFront();
 		});
 
-		// Position Label
-		nArrowLabel.translateXProperty().bind(translate.xProperty().multiply(2).add(20));
-		nArrowLabel.translateYProperty().bind(nArrow.translateYProperty());
+		nArrowLabel.translateYProperty().bind(nArrow.translateYProperty().subtract(nArrowLabel.heightProperty())
+				.subtract(nArrow.heightProperty().divide(2)));
 
 	};
 
 	public void setTopStackPane(StackPane topStackPane) {
-		this.topStackPane = topStackPane;
+		this.stackPane = topStackPane;
 		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
-
 		StackPane.setMargin(this.massLabel, new Insets(0, 0, 5, 0));
+		this.stackPane.getChildren().add(this.massLabel);
 
-		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue == null) {
-				this.massCheckBox.setSelected(false);
-			} else if (newValue instanceof Cylinder) {
-				double bottom_value = ((Cylinder) this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight();
-				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
+//		topStackPane.getChildren().add(sumForceLabel);
+//		StackPane.setAlignment(sumForceLabel, Pos.BOTTOM_CENTER);
 
-			} else if (newValue instanceof Cube) {
-				double bottom_value = ((Cube) this.simul.getObj()).getSize() * this.downStackPane.getHeight() * 2;
-				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
-			}
+//		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+//			if (newValue == null) {
+//				this.massCheckBox.setSelected(false);
+//			} else if (newValue instanceof Cylinder) {
+//				double bottom_value = ((Cylinder) this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight();
+//				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
+//
+//			} else if (newValue instanceof Cube) {
+//				double bottom_value = ((Cube) this.simul.getObj()).getSize() * this.downStackPane.getHeight() * 2;
+//				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
+//			}
+//
+//			this.massLabel.toFront();
+//		});
 
-			this.massLabel.toFront();
-		});
-
-		this.topStackPane.getChildren().add(this.massLabel);
-	}
-
-	public void setDownStackPane(StackPane downStackPane) {
-		this.downStackPane = downStackPane;
 	}
 
 }
