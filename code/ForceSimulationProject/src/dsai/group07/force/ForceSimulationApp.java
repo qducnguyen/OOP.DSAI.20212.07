@@ -1,3 +1,7 @@
+/*
+ *  main Class for the project. 
+ */
+
 package dsai.group07.force;
 
 import dsai.group07.force.controller.ForceSimulationAppController;
@@ -11,34 +15,38 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class ForceSimulationApp extends Application  {
+public class ForceSimulationApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+
+		// Name for the application
 		final String appName = "Force Simulation App";
-
 		primaryStage.setTitle(appName);
-		primaryStage.getIcons().add(new Image("file:resources/images/app_icon.png"));
-		primaryStage.setMinHeight(400);
-		primaryStage.setMinWidth(650);
 
-		
+		// Set icon for the application
+		primaryStage.getIcons().add(new Image("file:resources/images/app_icon.png"));
+
+		// Set minimum windows size to avoid abnormal look
+		primaryStage.setMinHeight(500);
+		primaryStage.setMinWidth(750);
+
+		// Load view for the stage
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/dsai/group07/force/view/RootLayout.fxml"));
 		Parent rootLayout = loader.load();
-		
-		ForceSimulationAppController appController = loader.getController();
-		
-		Simulation simul = new Simulation(null, new Surface(), new AppliedForce(0));
-		appController.init(simul);
-		
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
+
+		// Load model for view through its controller
+		ForceSimulationAppController appController = loader.getController();
+		Simulation simul = new Simulation(null, new Surface(), new AppliedForce(0));
+		appController.init(simul);
+
+		// Display the stage
 		primaryStage.show();
-		
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
