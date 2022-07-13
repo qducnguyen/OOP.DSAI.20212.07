@@ -27,8 +27,8 @@ public class ForceSimulationApp extends Application {
 		primaryStage.getIcons().add(new Image("file:resources/images/app_icon.png"));
 
 		// Set minimum windows size to avoid abnormal look
-		primaryStage.setMinHeight(500);
-		primaryStage.setMinWidth(750);
+		primaryStage.setMinHeight(600);
+		primaryStage.setMinWidth(850);
 
 		// Load view for the stage
 		FXMLLoader loader = new FXMLLoader();

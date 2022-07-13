@@ -1,0 +1,19 @@
+
+.check-box {
+    -fx-font-size: 15;
+    -fx-font-weight: 800;
+}  
+
+.check-box .box {
+
+-fx-background-color: white;
+-fx-border-color:black;
+-fx-border-radius:3px; 
+
+}
+
+.check-box:selected .mark {
+
+-fx-background-color: black;
+
+}

@@ -67,9 +67,9 @@ public class AnimationController {
 		// Binding rateProperty --> sysVel
 		this.simul.sysVelProperty().addListener((observable, oldValue, newValue) -> {
 
-			parallelTransitionUp.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.1))
+			parallelTransitionUp.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.2))
 					.then(10e-5 * 5).otherwise(newValue.valueProperty().multiply(0.05)));
-			parallelTransitionDown.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.1))
+			parallelTransitionDown.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.2))
 					.then(10e-5 * 5).otherwise(newValue.valueProperty().multiply(0.05)));
 		});
 	}

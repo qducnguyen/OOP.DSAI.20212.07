@@ -54,15 +54,6 @@ public class StatisticsPanelController {
 	private Label sumForceLabel;
 
 	@FXML
-	private CheckBox angCheckBox;
-
-	@FXML
-	private CheckBox angAccCheckBox;
-
-	@FXML
-	private CheckBox angVelCheckBox;
-
-	@FXML
 	private CheckBox posCheckBox;
 
 	@FXML
@@ -108,30 +99,17 @@ public class StatisticsPanelController {
 	@FXML
 	public void initialize() {
 
-		angLabel.setText("Current Angle Position  : 0.00 *");
-		angAccLabel.setText("Current Angular Accelerate: 0.00 */s^2");
-		angVelLabel.setText("Current Angular Velocity: 0.00 */s");
-
-		massLabel.setText("");
-
-		setCylinderCheckBoxes(false);
-
-		accLabel.setText("Current Accelerate : 0.00 m/s^2");
-		velLabel.setText("Current Velocity : 0.00 m/s");
-		posLabel.setText("Current Position : 0.00 m");
+		angLabel.setText("Angular Position\n0.00 º");
+		angAccLabel.setText("Angular Accelerate\n0.00 º/s²");
+		angVelLabel.setText("Angular Velocity\n0.00 º/s");
+		massLabel.setText(null);
+		accLabel.setText("Accelerate\n0.00 m/s²");
+		velLabel.setText("Velocity\n0.00 m/s");
+		posLabel.setText("Position\n0.00 m");
 		aForceLabel.setText("0.00 N");
 		fForceLabel.setText("0.00 N");
 		sumForceLabel.setText("0.00 N");
 
-		angLabel.visibleProperty().bind(this.angCheckBox.selectedProperty());
-		angAccLabel.visibleProperty().bind(this.angAccCheckBox.selectedProperty());
-		angVelLabel.visibleProperty().bind(this.angVelCheckBox.selectedProperty());
-
-		accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
-		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
-		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
-
-		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
 
 	public void init(Simulation simul, Rectangle rec, Circle cir, StackPane topStackPane) {
@@ -156,99 +134,107 @@ public class StatisticsPanelController {
 				.bind(this.sumForcesCheckBox.selectedProperty().and(this.simul.isStartProperty()));
 
 		aForceLabel.visibleProperty()
-				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty()));
+				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty())
+						.and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
 		fForceLabel.visibleProperty()
-				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty()));
+				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty())
+						.and(this.simul.getfForce().valueProperty().isNotEqualTo(0)));
 		sumForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty()
 				.and(this.sumForcesCheckBox.selectedProperty()).and(this.simul.isStartProperty()));
 
-		angVelLabel.textProperty().bind(this.simul.getSysAngVel().asString("Current Angular Velocity : %.2f m/s"));
+		angVelLabel.textProperty().bind(this.simul.getSysAngVel().asString("Angular Velocity\n%.2f m/s"));
 		aForceLabel.textProperty().bind(this.simul.getaForce().valueProperty().asString("%.2f N"));
 		fForceLabel.textProperty().bind(this.simul.getfForce().valueProperty().asString("%.2f N"));
 		sumForceLabel.textProperty().bind(this.simul.getNetForce().valueProperty().asString("%.2f N"));
 
 		this.simul.sysVelProperty().addListener((observable, oldValue, newValue) -> {
-			velLabel.textProperty().bind(newValue.valueProperty().asString("Current Velocity : %.2f m/s"));
+			velLabel.textProperty().bind(newValue.valueProperty().asString("Velocity\n%.2f m/s"));
 		});
+
+		accLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
+		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
+		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == null) {
-
 				// Restart
 				this.posCheckBox.setSelected(false);
-				this.angAccCheckBox.setSelected(false);
-				this.angCheckBox.setSelected(false);
-				this.angVelCheckBox.setSelected(false);
 				this.sumForcesCheckBox.setSelected(false);
-				this.angCheckBox.setSelected(false);
 				this.massCheckBox.setSelected(false);
 				this.forceCheckBox.setSelected(true);
 				this.accCheckBox.setSelected(false);
 				this.velCheckBox.setSelected(false);
 				this.valueCheckBox.setSelected(false);
 
-				setCylinderCheckBoxes(false);
-			}
+				angAccLabel.visibleProperty().unbind();
+				angVelLabel.visibleProperty().unbind();
+				angLabel.visibleProperty().unbind();
+				angAccLabel.setVisible(false);
+				angVelLabel.setVisible(false);
+				angLabel.setVisible(false);
 
-			else if (newValue instanceof Rotatable) {
-				setCylinderCheckBoxes(true);
+			} else if (newValue instanceof Rotatable) {
+				angAccLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
+				angVelLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
+				angLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 			} else {
-				setCylinderCheckBoxes(false);
+				angAccLabel.visibleProperty().unbind();
+				angVelLabel.visibleProperty().unbind();
+				angLabel.visibleProperty().unbind();
+				angAccLabel.setVisible(false);
+				angVelLabel.setVisible(false);
+				angLabel.setVisible(false);
 			}
 		});
 
+		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty().and(this.simul.isStartProperty()));
+
 		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) -> {
-			accLabel.textProperty().bind(newValue.valueProperty().asString("Current Accelerate : %.2f m/s^2"));
+			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/s²"));
 		});
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			this.massLabel.setText("");
+			this.massLabel.setText(null);
 
 			if (newValue != null) {
-				this.simul.setObject(newValue);
 
 				ObservableStringValue posString = Bindings.createStringBinding(
-						() -> "Current Position : " + String.format("%.2f", this.simul.getObj().getPos()) + " m",
+						() -> "Position\n" + String.format("%.2f", this.simul.getObj().getPos()) + " m",
 						this.simul.getObj().posProperty());
 				posLabel.textProperty().bind(posString);
 
 				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
+				System.out.println("Hello");
 				this.massLabel.toFront();
 
 				if (newValue instanceof Cylinder) {
 
-					ObservableStringValue angPosString = Bindings.createStringBinding(
-							() -> "Current Angle : "
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " *",
-							((Cylinder) this.simul.getObj()).angleProperty());
+					ObservableStringValue angPosString = Bindings
+							.createStringBinding(
+									() -> "Angular Position\n"
+											+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " º",
+									((Cylinder) this.simul.getObj()).angleProperty());
 					angLabel.textProperty().bind(angPosString);
 
 					ObservableStringValue angVelString = Bindings.createStringBinding(
-							() -> "Current Angular Velocity : "
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " */s",
+							() -> "Angular Velocity\n"
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " º/s",
 							((Cylinder) this.simul.getObj()).angVelProperty());
 					angVelLabel.textProperty().bind(angVelString);
 
 					ObservableStringValue angAccString = Bindings.createStringBinding(
-							() -> "Current Angular Accelerate : "
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " */s^2",
+							() -> "Angular Accelerate\n"
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " º/s²",
 							((Cylinder) this.simul.getObj()).angAccProperty());
 					angAccLabel.textProperty().bind(angAccString);
 				}
+			} else {
+				posLabel.textProperty().unbind();
+				posLabel.setText("Position\n0.00 m");
 			}
 		});
 
 	};
-
-	private void setCylinderCheckBoxes(boolean isVi) {
-		this.angCheckBox.setVisible(isVi);
-		this.angVelCheckBox.setVisible(isVi);
-		this.angAccCheckBox.setVisible(isVi);
-
-		this.angAccCheckBox.setDisable(!isVi);
-		this.angVelCheckBox.setDisable(!isVi);
-		this.angCheckBox.setDisable(!isVi);
-	}
 
 	private void setUpAppliedForce() {
 		// Setup Arrow
@@ -324,8 +310,8 @@ public class StatisticsPanelController {
 				}
 			}
 
-			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
-			aArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
+			translate.setX(firstWidth * newValue.doubleValue() / 350 / 2);
+			aArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 350);
 
 		});
 
@@ -334,21 +320,23 @@ public class StatisticsPanelController {
 		StackPane.setAlignment(aForceLabel, Pos.BOTTOM_CENTER);
 
 		aArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
-
+			aForceLabel.toFront();
 			double currentLabelWidth = aForceLabel.widthProperty().doubleValue();
 			double currentNewValue = newValue.doubleValue();
 			double currentSign = Math.signum(this.simul.getaForce().getValue());
 			if (currentNewValue > currentLabelWidth * 1.3) {
 				aArrowLabel.setText("Applied Force");
-				aForceLabel.toFront();
+				aForceLabel.translateXProperty().unbind();
+				aForceLabel.translateYProperty().unbind();
 				aForceLabel
 						.setTranslateY(aArrow.getTranslateY() - aArrow.getHeight() / 2 + aForceLabel.getHeight() / 2);
 				aForceLabel.setTranslateX(currentNewValue / 2 * currentSign - currentLabelWidth);
 			} else {
-				aForceLabel.toBack();
-				if (aForceLabel.isVisible()) {
-					aArrowLabel.setText("Applied Force\n" + aForceLabel.getText());
-				}
+				aForceLabel.translateXProperty()
+						.bind(aArrowLabel.translateXProperty().subtract(aArrowLabel.widthProperty().divide(2)));
+				aForceLabel.translateYProperty()
+						.bind(aArrowLabel.translateYProperty().add(aArrowLabel.heightProperty().multiply(0.6)));
+
 			}
 
 		});
@@ -417,8 +405,8 @@ public class StatisticsPanelController {
 				}
 			}
 
-			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
-			fArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
+			translate.setX(firstWidth * newValue.doubleValue() / 350 / 2);
+			fArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 350);
 
 		});
 
@@ -432,19 +420,21 @@ public class StatisticsPanelController {
 			double currentLabelWidth = fForceLabel.widthProperty().doubleValue();
 			double currentNewValue = newValue.doubleValue();
 			double currentSign = Math.signum(this.simul.getfForce().getValue());
+			fForceLabel.toFront();
 			if (currentNewValue > currentLabelWidth * 1.25) {
 				fArrowLabel.setText("Friction Force");
-				fForceLabel.toFront();
+				fForceLabel.translateXProperty().unbind();
+				fForceLabel.translateYProperty().unbind();
+
 				fForceLabel
 						.setTranslateY(fArrow.getTranslateY() - fArrow.getHeight() / 2 + fForceLabel.getHeight() / 2);
 				fForceLabel.setTranslateX(currentNewValue / 2 * currentSign - currentLabelWidth);
 			} else {
-				fForceLabel.toBack();
-				//TODO: BUG
-				if (fForceLabel.isVisible()) {
-					fArrowLabel.setText("Friction Force\n" + fForceLabel.getText());
-				}
 
+				fForceLabel.translateXProperty()
+						.bind(fArrowLabel.translateXProperty().subtract(fArrowLabel.widthProperty().divide(2)));
+				fForceLabel.translateYProperty()
+						.bind(fArrowLabel.translateYProperty().add(fArrowLabel.heightProperty().multiply(0.6)));
 			}
 
 		});
@@ -495,8 +485,8 @@ public class StatisticsPanelController {
 			} else {
 				rotate.setAngle(180);
 			}
-			translate.setX(firstWidth * newValue.doubleValue() / 300 / 2);
-			nArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 300);
+			translate.setX(firstWidth * newValue.doubleValue() / 350 / 2);
+			nArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 350);
 
 		});
 
@@ -550,23 +540,44 @@ public class StatisticsPanelController {
 		StackPane.setMargin(this.massLabel, new Insets(0, 0, 5, 0));
 		this.stackPane.getChildren().add(this.massLabel);
 
-//		topStackPane.getChildren().add(sumForceLabel);
-//		StackPane.setAlignment(sumForceLabel, Pos.BOTTOM_CENTER);
+		
+		
+		StackPane.setAlignment(this.velLabel, Pos.TOP_CENTER);
+		StackPane.setAlignment(this.accLabel, Pos.TOP_CENTER);
+		StackPane.setAlignment(this.posLabel, Pos.TOP_CENTER);
+		StackPane.setAlignment(this.angVelLabel, Pos.TOP_CENTER);
+		StackPane.setAlignment(this.angAccLabel, Pos.TOP_CENTER);
+		StackPane.setAlignment(this.angLabel, Pos.TOP_CENTER);
 
-//		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-//			if (newValue == null) {
-//				this.massCheckBox.setSelected(false);
-//			} else if (newValue instanceof Cylinder) {
-//				double bottom_value = ((Cylinder) this.simul.getObj()).getRadius() * 2 * this.downStackPane.getHeight();
-//				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
-//
-//			} else if (newValue instanceof Cube) {
-//				double bottom_value = ((Cube) this.simul.getObj()).getSize() * this.downStackPane.getHeight() * 2;
-//				StackPane.setMargin(this.massLabel, new Insets(0, 0, bottom_value, 0));
-//			}
-//
-//			this.massLabel.toFront();
-//		});
+		StackPane.setMargin(this.velLabel, new Insets(50, 50, 0, 0));
+		StackPane.setMargin(this.accLabel, new Insets(50, 50, 0, 0));
+		StackPane.setMargin(this.posLabel, new Insets(50, 50, 0, 0));
+		StackPane.setMargin(this.angVelLabel, new Insets(50, 50, 0, 0));
+		StackPane.setMargin(this.angAccLabel, new Insets(50, 50, 0, 0));
+		StackPane.setMargin(this.angLabel, new Insets(50, 50, 0, 0));
+		
+		//Reponsive app
+		this.accLabel.translateXProperty().bind(topStackPane.widthProperty().divide(2.6).multiply(-1));
+		this.angAccLabel.translateXProperty().bind(accLabel.translateXProperty());
+		this.velLabel.translateXProperty().bind(this.accLabel.translateXProperty().add(this.angAccLabel.widthProperty()).add(this.velLabel.widthProperty().divide(2.5)));
+		this.angVelLabel.translateXProperty().bind(velLabel.translateXProperty());
+		this.posLabel.translateXProperty().bind(this.velLabel.translateXProperty().add(this.angVelLabel.widthProperty()).add(this.posLabel.widthProperty().divide(2.5)));
+		this.angLabel.translateXProperty().bind(posLabel.translateXProperty());
+		
+		this.angVelLabel.translateYProperty().bind(this.velLabel.heightProperty());
+		this.angAccLabel.translateYProperty().bind(this.velLabel.heightProperty());
+		this.angLabel.translateYProperty().bind(this.velLabel.heightProperty());
+
+
+		
+		
+		
+		this.stackPane.getChildren().add(this.velLabel);
+		this.stackPane.getChildren().add(this.accLabel);
+		this.stackPane.getChildren().add(this.posLabel);
+		this.stackPane.getChildren().add(this.angVelLabel);
+		this.stackPane.getChildren().add(this.angAccLabel);
+		this.stackPane.getChildren().add(this.angLabel);
 
 	}
 

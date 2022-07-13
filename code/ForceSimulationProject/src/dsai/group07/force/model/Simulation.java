@@ -89,6 +89,7 @@ public class Simulation {
 			this.sysAcc.set(obj.accProperty());
 			this.sysVel.set(obj.velProperty());
 		}
+
 	}
 
 	public MainObject getObj() {
@@ -163,6 +164,7 @@ public class Simulation {
 		setObject(null);
 		aForce.setValue(0);
 		fForce.setValue(0);
+
 		try {
 			surface.setKiCoef(Surface.MAX_STA_COEF / 4);
 			surface.setStaCoef(Surface.MAX_STA_COEF / 2);
