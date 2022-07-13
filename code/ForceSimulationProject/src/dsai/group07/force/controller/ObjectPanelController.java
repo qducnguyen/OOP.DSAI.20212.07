@@ -139,7 +139,7 @@ public class ObjectPanelController {
 			}
 		});
 
-		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(1 / DEFAULT_ROTATE_VEL)); // Change later
+		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(1 / DEFAULT_ROTATE_VEL)); 
 
 	}
 

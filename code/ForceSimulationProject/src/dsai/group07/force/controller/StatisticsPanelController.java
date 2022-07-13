@@ -166,6 +166,13 @@ public class StatisticsPanelController {
 				this.accCheckBox.setSelected(false);
 				this.velCheckBox.setSelected(false);
 				this.valueCheckBox.setSelected(false);
+				
+				angAccLabel.visibleProperty().unbind();
+				angVelLabel.visibleProperty().unbind();
+				angLabel.visibleProperty().unbind();
+				angAccLabel.setVisible(false);
+				angVelLabel.setVisible(false);
+				angLabel.setVisible(false);
 
 			} else if (newValue instanceof Rotatable) {
 				angAccLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());

@@ -8,12 +8,12 @@
 
 <StackPane alignment="CENTER_LEFT" maxHeight="275.0" maxWidth="140.0" minHeight="185.0" minWidth="140.0" prefHeight="210.0" prefWidth="140.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
 	<children>
-		<Label fx:id="angLabel" text="angLabel" textFill="ORANGE" visible="false">
+		<Label fx:id="angLabel" text="angLabel" visible="false">
 			<StackPane.margin>
 				<Insets left="200.0" top="100.0" />
 			</StackPane.margin>
 		</Label>
-		<Label fx:id="angAccLabel" text="angAccLabel" textFill="ORANGE" visible="false">
+		<Label fx:id="angAccLabel" text="angAccLabel" visible="false">
 			<opaqueInsets>
 				<Insets left="25.0" top="-80.0" />
 			</opaqueInsets>
@@ -21,7 +21,7 @@
 				<Insets left="200.0" top="50.0" />
 			</StackPane.margin>
 		</Label>
-		<Label fx:id="angVelLabel" text="angVelLabel" textFill="ORANGE" visible="false">
+		<Label fx:id="angVelLabel" text="angVelLabel" visible="false">
 			<opaqueInsets>
 				<Insets />
 			</opaqueInsets>
@@ -29,17 +29,17 @@
 				<Insets left="200.0" />
 			</StackPane.margin>
 		</Label>
-		<Label fx:id="posLabel" text="posLabel" textFill="ORANGE" visible="false">
+		<Label fx:id="posLabel" text="posLabel" visible="false">
 			<StackPane.margin>
 				<Insets top="100.0" />
 			</StackPane.margin>
 		</Label>
-		<Label fx:id="accLabel" text="accLabel" textFill="ORANGE" visible="false">
+		<Label fx:id="accLabel" text="accLabel" visible="false">
 			<StackPane.margin>
 				<Insets top="50.0" />
 			</StackPane.margin>
 		</Label>
-		<Label fx:id="velLabel" text="velLabel" textFill="ORANGE" visible="false" StackPane.alignment="CENTER_LEFT">
+		<Label fx:id="velLabel" text="velLabel" visible="false" StackPane.alignment="CENTER_LEFT">
 			<StackPane.margin>
 				<Insets />
 			</StackPane.margin>

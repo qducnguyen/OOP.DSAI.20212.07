@@ -160,6 +160,7 @@ public class Simulation {
 
 	public void restart() {
 		setIsStart(false);
+		setIsPause(true);
 		setObject(null);
 		aForce.setValue(0);
 		fForce.setValue(0);
