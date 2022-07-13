@@ -102,7 +102,7 @@ public class StatisticsPanelController {
 		angLabel.setText("Angular Position  : 0.00 º");
 		angAccLabel.setText("Angular Accelerate: 0.00 º/s²");
 		angVelLabel.setText("Angular Velocity: 0.00 º/s");
-		massLabel.setText("");
+		massLabel.setText(null);
 		accLabel.setText("Accelerate : 0.00 m/s²");
 		velLabel.setText("Velocity : 0.00 m/s");
 		posLabel.setText("Position : 0.00 m");
@@ -110,7 +110,6 @@ public class StatisticsPanelController {
 		fForceLabel.setText("0.00 N");
 		sumForceLabel.setText("0.00 N");
 
-		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
 
 	public void init(Simulation simul, Rectangle rec, Circle cir, StackPane topStackPane) {
@@ -188,6 +187,8 @@ public class StatisticsPanelController {
 			}
 		});
 
+		
+		
 		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) -> {
 			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate : %.2f m/s²"));
 		});
