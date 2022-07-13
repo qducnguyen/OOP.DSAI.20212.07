@@ -131,13 +131,6 @@ public class StatisticsPanelController {
 		velLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
 		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 
-		aForceLabel.visibleProperty()
-				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty()));
-		fForceLabel.visibleProperty()
-				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty()));
-		sumForceLabel.visibleProperty()
-				.bind(this.valueCheckBox.selectedProperty().and(this.sumForcesCheckBox.selectedProperty()));
-
 		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty());
 	}
 
@@ -159,11 +152,17 @@ public class StatisticsPanelController {
 				this.forceCheckBox.selectedProperty().and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
 		this.fArrowLabel.visibleProperty().bind(
 				this.forceCheckBox.selectedProperty().and(this.simul.getfForce().valueProperty().isNotEqualTo(0)));
-		this.nArrowLabel.visibleProperty().bind(this.sumForcesCheckBox.selectedProperty()
-				.and(this.simul.isStartProperty()));
+		this.nArrowLabel.visibleProperty()
+				.bind(this.sumForcesCheckBox.selectedProperty().and(this.simul.isStartProperty()));
+
+		aForceLabel.visibleProperty()
+				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty()));
+		fForceLabel.visibleProperty()
+				.bind(this.valueCheckBox.selectedProperty().and(this.forceCheckBox.selectedProperty()));
+		sumForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty()
+				.and(this.sumForcesCheckBox.selectedProperty()).and(this.simul.isStartProperty()));
 
 		angVelLabel.textProperty().bind(this.simul.getSysAngVel().asString("Current Angular Velocity : %.2f m/s"));
-
 		aForceLabel.textProperty().bind(this.simul.getaForce().valueProperty().asString("%.2f N"));
 		fForceLabel.textProperty().bind(this.simul.getfForce().valueProperty().asString("%.2f N"));
 		sumForceLabel.textProperty().bind(this.simul.getNetForce().valueProperty().asString("%.2f N"));
@@ -186,6 +185,7 @@ public class StatisticsPanelController {
 				this.forceCheckBox.setSelected(true);
 				this.accCheckBox.setSelected(false);
 				this.velCheckBox.setSelected(false);
+				this.valueCheckBox.setSelected(false);
 
 				setCylinderCheckBoxes(false);
 			}
@@ -213,6 +213,7 @@ public class StatisticsPanelController {
 				posLabel.textProperty().bind(posString);
 
 				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
+				this.massLabel.toFront();
 
 				if (newValue instanceof Cylinder) {
 
@@ -328,8 +329,31 @@ public class StatisticsPanelController {
 
 		});
 
-		// Position arrow in the center of the object, bring arrow and label to front
+		// Label for arrow
+		this.stackPane.getChildren().add(aForceLabel);
+		StackPane.setAlignment(aForceLabel, Pos.BOTTOM_CENTER);
 
+		aArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
+
+			double currentLabelWidth = aForceLabel.widthProperty().doubleValue();
+			double currentNewValue = newValue.doubleValue();
+			double currentSign = Math.signum(this.simul.getaForce().getValue());
+			if (currentNewValue > currentLabelWidth * 1.3) {
+				aArrowLabel.setText("Applied Force");
+				aForceLabel.toFront();
+				aForceLabel
+						.setTranslateY(aArrow.getTranslateY() - aArrow.getHeight() / 2 + aForceLabel.getHeight() / 2);
+				aForceLabel.setTranslateX(currentNewValue / 2 * currentSign - currentLabelWidth);
+			} else {
+				aForceLabel.toBack();
+				if (aForceLabel.isVisible()) {
+					aArrowLabel.setText("Applied Force\n" + aForceLabel.getText());
+				}
+			}
+
+		});
+
+		// Position arrow in the center of the object, bring arrow and label to front
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue instanceof Cube) {
 				aArrow.translateYProperty()
@@ -398,8 +422,34 @@ public class StatisticsPanelController {
 
 		});
 
-		// Position arrow in the center of the object, bring arrow and label to front
+		// Label for arrow
+		// Bind nforceLabel to arrow
+		this.stackPane.getChildren().add(fForceLabel);
+		StackPane.setAlignment(fForceLabel, Pos.BOTTOM_CENTER);
 
+		fArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
+
+			double currentLabelWidth = fForceLabel.widthProperty().doubleValue();
+			double currentNewValue = newValue.doubleValue();
+			double currentSign = Math.signum(this.simul.getfForce().getValue());
+			if (currentNewValue > currentLabelWidth * 1.25) {
+				fArrowLabel.setText("Friction Force");
+				fForceLabel.toFront();
+				fForceLabel
+						.setTranslateY(fArrow.getTranslateY() - fArrow.getHeight() / 2 + fForceLabel.getHeight() / 2);
+				fForceLabel.setTranslateX(currentNewValue / 2 * currentSign - currentLabelWidth);
+			} else {
+				fForceLabel.toBack();
+				//TODO: BUG
+				if (fForceLabel.isVisible()) {
+					fArrowLabel.setText("Friction Force\n" + fForceLabel.getText());
+				}
+
+			}
+
+		});
+
+		// Position arrow in the center of the object, bring arrow and label to front
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue instanceof Cube) {
 				fArrow.translateYProperty()
@@ -456,18 +506,18 @@ public class StatisticsPanelController {
 		StackPane.setAlignment(sumForceLabel, Pos.BOTTOM_CENTER);
 
 		nArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
-			sumForceLabel.setTranslateY(nArrow.getTranslateY() -  nArrow.getHeight() / 2 + sumForceLabel.getHeight() / 2);
+			sumForceLabel
+					.setTranslateY(nArrow.getTranslateY() - nArrow.getHeight() / 2 + sumForceLabel.getHeight() / 2);
 			double currentLabelWidth = sumForceLabel.widthProperty().doubleValue();
 			double currentNewValue = newValue.doubleValue();
-			double currentSign  = Math.signum(this.simul.getNetForce().getValue());
-			if (currentNewValue  > currentLabelWidth * 1.5) {
-				sumForceLabel.setTranslateX(currentNewValue / 2 * currentSign - currentLabelWidth );
-			}
-			else {
-				if (currentSign  >  0) {
-				sumForceLabel.setTranslateX(newValue.doubleValue()  - currentLabelWidth / 2 );}
-				else{
-					sumForceLabel.setTranslateX(- newValue.doubleValue()  - 3*currentLabelWidth / 2 );
+			double currentSign = Math.signum(this.simul.getNetForce().getValue());
+			if (currentNewValue > currentLabelWidth * 1.5) {
+				sumForceLabel.setTranslateX(currentNewValue / 2 * currentSign - currentLabelWidth);
+			} else {
+				if (currentSign > 0) {
+					sumForceLabel.setTranslateX(newValue.doubleValue() - currentLabelWidth / 2);
+				} else {
+					sumForceLabel.setTranslateX(-newValue.doubleValue() - 3 * currentLabelWidth / 2);
 				}
 			}
 
