@@ -4,110 +4,145 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
 <StackPane alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
-   <children>
-      <Label fx:id="angLabel" text="Label" textFill="ORANGE" visible="false">
-         <StackPane.margin>
-            <Insets left="120.0" top="-200.0" />
-         </StackPane.margin>
-      </Label>
-      <Label fx:id="angAccLabel" text="Label" textFill="ORANGE" visible="false">
-         <opaqueInsets>
-            <Insets left="25.0" top="-80.0" />
-         </opaqueInsets>
-         <StackPane.margin>
-            <Insets left="120.0" top="-150.0" />
-         </StackPane.margin>
-      </Label>
-      <Label fx:id="angVelLabel" text="Label" textFill="ORANGE" visible="false">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <StackPane.margin>
-            <Insets left="120.0" top="-100.0" />
-         </StackPane.margin>
-      </Label>
-      <Label fx:id="posLabel" text="Label" textFill="ORANGE" visible="false">
-         <StackPane.margin>
-            <Insets left="120.0" top="-50.0" />
-         </StackPane.margin>
-      </Label>
-      <Label fx:id="accLabel" text="Label" textFill="ORANGE" visible="false">
-         <StackPane.margin>
-            <Insets left="120.0" />
-         </StackPane.margin></Label>
-      <Label fx:id="velLabel" text="Label" textFill="ORANGE" visible="false" StackPane.alignment="CENTER_LEFT">
-         <StackPane.margin>
-            <Insets left="120.0" top="50.0" />
-         </StackPane.margin>
-      </Label>
-      <Label fx:id="aForceLabel" text="Label" textFill="ORANGE" visible="false">
-         <StackPane.margin>
-            <Insets left="120.0" top="100.0" />
-         </StackPane.margin></Label>
-      <Label fx:id="fForceLabel" text="Label" textFill="ORANGE" visible="false">
-         <StackPane.margin>
-            <Insets left="120.0" top="150.0" />
-         </StackPane.margin></Label>
-      <Label fx:id="sumForceLabel" text="Label" textFill="ORANGE" visible="false">
-         <StackPane.margin>
-            <Insets left="120.0" top="200.0" />
-         </StackPane.margin></Label>
-      <CheckBox fx:id="angCheckBox" mnemonicParsing="false" text="Angluar">
-         <StackPane.margin>
-            <Insets top="-200.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="angAccCheckBox" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="AngularAcc">
-         <StackPane.margin>
-            <Insets top="-150.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="angVelCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Angular Vel">
-         <StackPane.margin>
-            <Insets top="-100.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="posCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Position">
-         <StackPane.margin>
-            <Insets top="-50.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Accelerate">
-         <StackPane.margin>
-            <Insets />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Velocity">
-         <StackPane.margin>
-            <Insets top="50.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="aForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Applied force">
-         <StackPane.margin>
-            <Insets top="100.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="fForceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Friction force">
-         <StackPane.margin>
-            <Insets top="150.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <CheckBox fx:id="sumForceCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" text="Net force">
-         <StackPane.margin>
-            <Insets top="200.0" />
-         </StackPane.margin>
-      </CheckBox>
-      <Label fx:id="massLabel" layoutX="110.0" layoutY="210.0" text="Label" textFill="ORANGE" visible="false">
-         <StackPane.margin>
-            <Insets left="100.0" top="250.0" />
-         </StackPane.margin>
-      </Label>
-      <CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" text="Mass">
-         <StackPane.margin>
-            <Insets top="250.0" />
-         </StackPane.margin>
-      </CheckBox>
-   </children>
+	<children>
+		<Label fx:id="angLabel" text="Label" textFill="ORANGE" visible="false">
+			<StackPane.margin>
+				<Insets left="120.0" top="-200.0" />
+			</StackPane.margin>
+		</Label>
+		<Label fx:id="angAccLabel" text="Label" textFill="ORANGE" visible="false">
+			<opaqueInsets>
+				<Insets left="25.0" top="-80.0" />
+			</opaqueInsets>
+			<StackPane.margin>
+				<Insets left="120.0" top="-150.0" />
+			</StackPane.margin>
+		</Label>
+		<Label fx:id="angVelLabel" text="Label" textFill="ORANGE" visible="false">
+			<opaqueInsets>
+				<Insets />
+			</opaqueInsets>
+			<StackPane.margin>
+				<Insets left="120.0" top="-100.0" />
+			</StackPane.margin>
+		</Label>
+		<Label fx:id="posLabel" text="Label" textFill="ORANGE" visible="false">
+			<StackPane.margin>
+				<Insets left="120.0" top="-50.0" />
+			</StackPane.margin>
+		</Label>
+		<Label fx:id="accLabel" text="Label" textFill="ORANGE" visible="false">
+			<StackPane.margin>
+				<Insets left="120.0" />
+			</StackPane.margin>
+		</Label>
+		<Label fx:id="velLabel" text="Label" textFill="ORANGE" visible="false" StackPane.alignment="CENTER_LEFT">
+			<StackPane.margin>
+				<Insets left="120.0" top="50.0" />
+			</StackPane.margin>
+		</Label>
+		<Label fx:id="aForceLabel" text="Label" textAlignment="CENTER" visible="false">
+			<StackPane.margin>
+				<Insets left="120.0" top="100.0" />
+			</StackPane.margin>
+			<font>
+				<Font name="System Bold" size="15.0" />
+			</font>
+		</Label>
+		<Label fx:id="fForceLabel" alignment="CENTER" text="Label" textAlignment="CENTER" visible="false">
+			<StackPane.margin>
+				<Insets left="120.0" top="150.0" />
+			</StackPane.margin>
+			<font>
+				<Font name="System Bold" size="15.0" />
+			</font>
+		</Label>
+		<Label fx:id="sumForceLabel" text="Label" textAlignment="CENTER" visible="false">
+			<StackPane.margin>
+				<Insets left="120.0" top="200.0" />
+			</StackPane.margin>
+			<font>
+				<Font name="System Bold" size="15.0" />
+			</font>
+		</Label>
+		<CheckBox fx:id="angCheckBox" mnemonicParsing="false" text="Angular">
+			<StackPane.margin>
+				<Insets top="-200.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<CheckBox fx:id="angAccCheckBox" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="Angular Acc">
+			<StackPane.margin>
+				<Insets top="-150.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<CheckBox fx:id="angVelCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Angular Vel">
+			<StackPane.margin>
+				<Insets top="-100.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<CheckBox fx:id="posCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Position">
+			<StackPane.margin>
+				<Insets top="-50.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Acceleration">
+			<StackPane.margin>
+				<Insets />
+			</StackPane.margin>
+		</CheckBox>
+		<CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Velocity">
+			<StackPane.margin>
+				<Insets top="50.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<CheckBox fx:id="sumForcesCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" text="Sum of Forces">
+			<StackPane.margin>
+				<Insets top="200.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<Label fx:id="massLabel" layoutX="110.0" layoutY="210.0" opacity="0.85" style="-fx-background-color: white; -fx-background-radius: 15;" text="Label" visible="false">
+			<StackPane.margin>
+				<Insets left="100.0" top="250.0" />
+			</StackPane.margin>
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+		</Label>
+		<CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" text="Masses">
+			<StackPane.margin>
+				<Insets top="250.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<CheckBox fx:id="forceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Forces">
+			<StackPane.margin>
+				<Insets top="100.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<CheckBox fx:id="valueCheckBox" mnemonicParsing="false" text="Values">
+			<StackPane.margin>
+				<Insets top="150.0" />
+			</StackPane.margin>
+		</CheckBox>
+		<Label fx:id="aArrowLabel" text="Applied Force" textAlignment="CENTER" visible="false">
+			<font>
+				<Font name="System Bold" size="16.0" />
+			</font>
+		</Label>
+		<Label fx:id="fArrowLabel" text="Friction Force" textAlignment="CENTER" visible="false">
+			<font>
+				<Font name="System Bold" size="16.0" />
+			</font>
+		</Label>
+		<Label fx:id="nArrowLabel" text="Sum of Forces" textAlignment="CENTER" visible="false">
+			<font>
+				<Font name="System Bold" size="16.0" />
+			</font>
+		</Label>
+	</children>
 </StackPane>

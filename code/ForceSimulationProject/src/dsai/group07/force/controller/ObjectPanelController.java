@@ -73,10 +73,11 @@ public class ObjectPanelController {
 	public void initialize() {
 
 		// Setting image for the Circle
-		Image cirImage = new Image("file:resources/images/plus-sign.png");
-
-		cir.setFill(new ImagePattern(cirImage));
-
+		cir.setFill(new ImagePattern(new Image("file:resources/images/cylinder_image.png")));
+		rec.setFill(new ImagePattern(new Image("file:resources/images/cube_image.png")));
+		
+		
+		
 	}
 
 	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
@@ -367,7 +368,7 @@ public class ObjectPanelController {
 		cir.setOnDragDetected(cirOnDragDectected);
 		rec.setOnDragDetected(recOnDragDectected);
 
-		gridPaneObjectContainer.setOnDragDropped(event -> {
+		gridPaneObjectContainer.getParent().setOnDragDropped(event -> {
 			Dragboard db = event.getDragboard();
 
 			if (db.hasContent(cirFormat)) {
@@ -391,7 +392,7 @@ public class ObjectPanelController {
 			}
 		});
 
-		gridPaneObjectContainer.setOnDragOver(event -> {
+		gridPaneObjectContainer.getParent().setOnDragOver(event -> {
 			Dragboard db = event.getDragboard();
 			if (db.hasContent(cirFormat) && cir.getParent() != gridPaneObjectContainer) {
 				event.acceptTransferModes(TransferMode.MOVE);
@@ -444,7 +445,6 @@ public class ObjectPanelController {
 				}
 
 				event.setDropCompleted(true);
-
 			}
 		});
 

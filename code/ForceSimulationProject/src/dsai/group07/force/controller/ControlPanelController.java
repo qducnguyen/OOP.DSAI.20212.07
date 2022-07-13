@@ -71,9 +71,11 @@ public class ControlPanelController {
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectPanel.fxml"));
 
 			// Add it to control Panel
+//			GridPane ObjectPanel = (GridPane) loader.load();
+			
 			GridPane ObjectPanel = (GridPane) loader.load();
 			controlPanelGridPane.add(ObjectPanel, 0, 0);
-
+			
 			// initialize the obj controller
 			objController = loader.getController();
 			objController.init(simul, topStackPane, downStackPane);
@@ -98,8 +100,7 @@ public class ControlPanelController {
 			StackPane.setMargin(panel, new Insets(0, 0, 0, 6));
 
 			staController = loader.getController();
-			staController.init(simul, this.rec, this.cir, this.topStackPane, this.downStackPane);
-			staController.setTopStackPane(this.topStackPane);
+			staController.init(simul, this.rec, this.cir, this.topStackPane);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +113,7 @@ public class ControlPanelController {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ForcePanel.fxml"));
 
-			StackPane forcePanel = (StackPane) loader.load();
+			GridPane forcePanel = (GridPane) loader.load();
 			controlPanelGridPane.add(forcePanel, 1, 0);
 
 			forceController = loader.getController();

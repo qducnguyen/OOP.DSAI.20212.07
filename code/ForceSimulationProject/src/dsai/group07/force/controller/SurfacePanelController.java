@@ -96,8 +96,8 @@ public class SurfacePanelController {
 		try {
 			this.simul.getSur().staCoefProperty().addListener((observable, oldValue, newValue) -> {
 				try {
-					System.out.println("Static Coeff Changed.");
-					System.out.println(this.simul.getaForce().getValue());
+//					System.out.println("Static Coeff Changed.");
+//					System.out.println(this.simul.getaForce().getValue());
 					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -106,7 +106,7 @@ public class SurfacePanelController {
 
 			this.simul.getSur().kiCoefProperty().addListener((observable, oldValue, newValue) -> {
 				try {
-					System.out.println("Kinetic Coeff Changed.");
+//					System.out.println("Kinetic Coeff Changed.");
 					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 				} catch (Exception e) {
 					e.printStackTrace();
