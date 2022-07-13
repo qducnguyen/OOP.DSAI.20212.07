@@ -36,7 +36,7 @@ public class SurfacePanelController {
 		staticCoefTextField.textProperty().addListener(event -> {
 			staticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!staticCoefTextField.getText().isEmpty()
-							&& !staticCoefTextField.getText().matches("\\\\d+\\\\.\\\\d+"));
+							&& !staticCoefTextField.getText().matches("^[+-]?[0-9]+(?:\\\\.[0-9]+)?$"));
 		});
 
 		kineticCoefTextField.textProperty().bindBidirectional(kineticCoefSlider.valueProperty(),
@@ -44,7 +44,7 @@ public class SurfacePanelController {
 		kineticCoefTextField.textProperty().addListener(event -> {
 			kineticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!kineticCoefTextField.getText().isEmpty()
-							&& !kineticCoefTextField.getText().matches("\\\\d+\\\\.\\\\d+"));
+							&& !kineticCoefTextField.getText().matches("^[+-]?[0-9]+(?:\\\\.[0-9]+)?$"));
 		});
 	}
 
@@ -65,6 +65,9 @@ public class SurfacePanelController {
 		kineticCoefSlider.valueProperty().bindBidirectional(simul.getSur().kiCoefProperty());
 
 		staticCoefTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			System.out.println(staticCoefTextField.getText());
+			System.out.println(staticCoefTextField.getText().matches("[0-1](?:\\\\.[0-9]+)?$"));
+			System.out.println("0.5".matches("[0-1](?:\\\\.[0-9]+)?$"));
 			try {
 				simul.getSur().setStaCoef(Double.parseDouble(newValue));
 			} catch (Exception e) {
