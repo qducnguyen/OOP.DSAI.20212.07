@@ -61,6 +61,7 @@ public class FrictionForce extends Force {
 
 	public void setMainObj(MainObject obj) {
 		this.mainObj = obj;
+		updateFrictionForce();
 	}
-
+	
 }

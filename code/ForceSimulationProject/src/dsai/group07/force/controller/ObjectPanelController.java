@@ -75,9 +75,7 @@ public class ObjectPanelController {
 		// Setting image for the Circle
 		cir.setFill(new ImagePattern(new Image("file:resources/images/cylinder_image.png")));
 		rec.setFill(new ImagePattern(new Image("file:resources/images/cube_image.png")));
-		
-		
-		
+
 	}
 
 	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
@@ -109,9 +107,8 @@ public class ObjectPanelController {
 		this.simul = simul;
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null) {
-				((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
-			}
+			((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
+			((FrictionForce) this.simul.getfForce()).setValue(0);
 		});
 
 	}

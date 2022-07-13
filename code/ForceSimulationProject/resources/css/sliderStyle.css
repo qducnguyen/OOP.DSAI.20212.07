@@ -1,0 +1,11 @@
+.slider .thumb {
+    -fx-pref-height: 20px;
+    -fx-pref-width: 10px;
+}
+
+.slider .axis { 
+    -fx-tick-label-fill: black;  
+    -fx-tick-label-font-weight: bold;
+}
+
+

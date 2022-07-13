@@ -128,8 +128,8 @@ public class ForceSimulationAppController {
 		// Add pause and reset button to the topStackPane
 		StackPane.setAlignment(pauseButton, Pos.BOTTOM_RIGHT);
 		StackPane.setAlignment(resetButton, Pos.BOTTOM_RIGHT);
-		StackPane.setMargin(pauseButton, new Insets(0, 100, 50, 0));
-		StackPane.setMargin(resetButton, new Insets(0, 25, 50, 0));
+		StackPane.setMargin(pauseButton, new Insets(0, 150, 10, 0));
+		StackPane.setMargin(resetButton, new Insets(0, 75, 10, 0));
 		topStackPane.getChildren().add(pauseButton);
 		topStackPane.getChildren().add(resetButton);
 

@@ -96,6 +96,7 @@ public class ControlPanelController {
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
 
 			StackPane panel = (StackPane) loader.load();
+			StackPane.setAlignment(panel, Pos.CENTER_RIGHT);
 			topStackPane.getChildren().add(panel);
 			StackPane.setMargin(panel, new Insets(0, 0, 0, 6));
 
