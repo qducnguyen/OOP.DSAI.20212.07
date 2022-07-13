@@ -50,6 +50,7 @@ public class ModelTest {
 		System.out.println("Angle " + mainObj.getAngle());
 
 		System.out.println(Math.signum(-0));
+		System.out.println("0.5".matches("^[+-]?[0-9]{1,9}(?:\\.[0-9]{1,2})?$"));
 	}
 
 }

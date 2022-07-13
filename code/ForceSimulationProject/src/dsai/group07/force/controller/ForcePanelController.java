@@ -32,7 +32,7 @@ public class ForcePanelController {
 
 		forceTextField.textProperty().addListener(event -> {
 			forceTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!forceTextField.getText().isEmpty() && !forceTextField.getText().matches("^[+-]?[0-9]+(?:\\.[0-9]+)?$"));
+					!forceTextField.getText().isEmpty() && !forceTextField.getText().matches("^([+-]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 
 		forceSlider.valueProperty().addListener((observable, oldValue, newValue) -> {

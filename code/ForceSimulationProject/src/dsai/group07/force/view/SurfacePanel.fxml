@@ -37,19 +37,19 @@
             <Insets top="4.0" />
          </GridPane.margin>
 		</Label>
-		<Slider fx:id="staticCoefSlider" blockIncrement="0.001" majorTickUnit="0.5" max="1.0" showTickLabels="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+		<Slider fx:id="staticCoefSlider" blockIncrement="0.001" majorTickUnit="0.5" max="1.0" showTickLabels="true" stylesheets="@sliderStyle.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <padding>
             <Insets left="8.0" right="8.0" top="10.0" />
          </padding></Slider>
-		<Slider fx:id="kineticCoefSlider" blockIncrement="0.001" majorTickUnit="0.5" max="1.0" showTickLabels="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+		<Slider fx:id="kineticCoefSlider" blockIncrement="0.001" majorTickUnit="0.5" max="1.0" showTickLabels="true" stylesheets="@sliderStyle.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <padding>
             <Insets left="8.0" right="8.0" top="15.0" />
          </padding></Slider>
-		<TextField fx:id="staticCoefTextField" alignment="CENTER" promptText="Input Coef" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+		<TextField fx:id="staticCoefTextField" alignment="CENTER" promptText="Input Coef" stylesheets="@errorTheme.css" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></TextField>
-		<TextField fx:id="kineticCoefTextField" alignment="CENTER" promptText="Input Coef" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+		<TextField fx:id="kineticCoefTextField" alignment="CENTER" promptText="Input Coef" stylesheets="@errorTheme.css" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></TextField>
