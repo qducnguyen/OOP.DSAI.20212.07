@@ -48,15 +48,18 @@ public class FrictionForce extends Force {
 				} else {
 					setValue(direction * surface.getKiCoef() * normalForce);
 				}
-			} else if (mainObj instanceof Cylinder) {
+			}
+			
+			else if (mainObj instanceof Cylinder) {
 				if (aForceValue <= 3 * surface.getStaCoef() * normalForce && aForceValue > 0) {
 					setValue(direction * aForceValue / 3);
-				} else {
+				} 
+				else {
 					setValue(direction * surface.getKiCoef() * normalForce); 
 				}
 			}
 		}
-	} 
+} 
 
 	public void setMainObj(MainObject obj) {
 		this.mainObj = obj;

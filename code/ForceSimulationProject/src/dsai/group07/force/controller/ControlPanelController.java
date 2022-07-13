@@ -68,42 +68,39 @@ public class ControlPanelController {
 
 	private void showObjectPanel() {
 		try {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectPanel.fxml"));
-		GridPane ObjectPanel = (GridPane) loader.load();
-		controlPanelGridPane.add(ObjectPanel, 0, 0);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectPanel.fxml"));
+			GridPane ObjectPanel = (GridPane) loader.load();
+			controlPanelGridPane.add(ObjectPanel, 0, 0);
 		
-		objController = loader.getController();
+			objController = loader.getController();
 		
-		objController.setSimul(simul);
-		objController.setTopStackPane(topStackPane);
-		objController.setDownStackPane(downStackPane);
+			objController.setSimul(simul);
+			objController.setTopStackPane(topStackPane);
+			objController.setDownStackPane(downStackPane);
 		
-		this.rec = objController.getRec();
-		this.cir = objController.getCir();
+			this.rec = objController.getRec();
+			this.cir = objController.getCir();
 		
 		}
-		catch(IOException e) {
-			e.printStackTrace();
+			catch(IOException e) {
+				e.printStackTrace();
 		}
 	}
 	
 	private void showStatisticsPanel() {
 		try {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
-		StackPane panel = (StackPane) loader.load();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/dsai/group07/force/view/StatisticsPanel.fxml"));
+			StackPane panel = (StackPane) loader.load();
 		
-		topStackPane.getChildren().add(panel);
+			topStackPane.getChildren().add(panel);
 		
-		staController = loader.getController();
-		
-		staController.init(simul, this.rec, this.cir, this.topStackPane, this.downStackPane);
-		staController.setTopStackPane(this.topStackPane);
-//		staController.setSimul(simul);
+			staController = loader.getController();
+			staController.init(simul, this.rec, this.cir, this.topStackPane, this.downStackPane);
 		}
-		catch(IOException e) {
-			e.printStackTrace();
+			catch(IOException e) {
+				e.printStackTrace();
 		}
 		
 	}

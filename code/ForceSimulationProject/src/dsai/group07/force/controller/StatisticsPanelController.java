@@ -24,8 +24,6 @@ public class StatisticsPanelController {
 	
 	private Simulation simul;
 	
-    private StackPane stackPane;
-	
     @FXML
     private Label angLabel;
 
@@ -148,12 +146,8 @@ public class StatisticsPanelController {
 		setSimul(simul);
 		this.rec = rec;
 		this.cir = cir;
-		this.stackPane = topStackPane;
 		this.downStackPane = downStackPane;
-		setUpAppliedForce();
-		setUpFrictionForce();
-		setUpNetForce();
-		
+		this.setTopStackPane(topStackPane);
 	}
 	
 	
@@ -257,7 +251,7 @@ public class StatisticsPanelController {
 		aArrow = new Rectangle(200 , 50);
 		aArrow.visibleProperty().bind(this.aForceCheckBox.selectedProperty());
 		StackPane.setAlignment(aArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(aArrow);	
+		this.topStackPane.getChildren().add(aArrow);	
 		Image recImage =  new Image("file:resources/images/arrow.png");
 		aArrow.setFill(new ImagePattern(recImage));
 		aArrow.setStroke(Color.TRANSPARENT);
@@ -266,7 +260,7 @@ public class StatisticsPanelController {
 		
 		// Label aArrowLabel = new Label("Applied Force");
 		StackPane.setAlignment(aArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(aArrowLabel);	
+		this.topStackPane.getChildren().add(aArrowLabel);	
 		
 
 		
@@ -326,7 +320,7 @@ public class StatisticsPanelController {
 		fArrow = new Rectangle(200 , 50);
 		fArrow.visibleProperty().bind(this.fForceCheckBox.selectedProperty());
 		StackPane.setAlignment(fArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(fArrow);	
+		this.topStackPane.getChildren().add(fArrow);	
 		Image recImage =  new Image("file:resources/images/arrow.png");
 		fArrow.setFill(new ImagePattern(recImage));
 		fArrow.setStroke(Color.TRANSPARENT);
@@ -335,7 +329,7 @@ public class StatisticsPanelController {
 		
 		// Label fArrowLabel = new Label("Friction Force");
 		StackPane.setAlignment(fArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(fArrowLabel);	
+		this.topStackPane.getChildren().add(fArrowLabel);	
 		
 
 		
@@ -389,7 +383,7 @@ public class StatisticsPanelController {
 		nArrow = new Rectangle(200 , 50);
 		nArrow.visibleProperty().bind(this.sumForceCheckBox.selectedProperty());
 		StackPane.setAlignment(nArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(nArrow);	
+		this.topStackPane.getChildren().add(nArrow);	
 		Image recImage =  new Image("file:resources/images/arrow.png");
 		nArrow.setFill(new ImagePattern(recImage));
 		nArrow.setStroke(Color.TRANSPARENT);
@@ -398,7 +392,7 @@ public class StatisticsPanelController {
 		
 		// Label nArrowLabel = new Label("Net Force");
 		StackPane.setAlignment(nArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(nArrowLabel);	
+		this.topStackPane.getChildren().add(nArrowLabel);	
 		
 
 		
@@ -454,7 +448,12 @@ public class StatisticsPanelController {
 	};
 
 	public void setTopStackPane(StackPane topStackPane){
+		
 		this.topStackPane = topStackPane;
+		setUpAppliedForce();
+		setUpFrictionForce();
+		setUpNetForce();
+		
 		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
 		
 

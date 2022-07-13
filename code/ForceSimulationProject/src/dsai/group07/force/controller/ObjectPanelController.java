@@ -66,10 +66,6 @@ public class ObjectPanelController {
     @FXML
     private Circle cir;
     
-
-    
-    
-    
 	public Rectangle getRec() {
 		return rec;
 	}
@@ -91,8 +87,6 @@ public class ObjectPanelController {
     	rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
     	
 	}
-
-	
 
 	public void setTopStackPane(StackPane topStackPane) {
 		this.topStackPane = topStackPane;
@@ -308,27 +302,27 @@ public class ObjectPanelController {
 	
 	public void startCirAmination() {
 		if(cirRotate != null && this.simul.getObj() instanceof Cylinder) {
-		cirRotate.play();
+			cirRotate.play();
 		}
 	}
 	
     public void continueCirAnimation() {
     	if(cirRotate != null && this.simul.getObj() instanceof Cylinder) {
-    	cirRotate.play();
+    		cirRotate.play();
     	}
     }
     
     
 	public void pauseCirAnimation() {
 		if(cirRotate != null) {
-		cirRotate.pause();
+			cirRotate.pause();
 		}
 	}
 	
 	public void resetCirAnimation() {
 		if(cirRotate != null) {
-		cirRotate.jumpTo(Duration.ZERO);
-		cirRotate.stop();
+			cirRotate.jumpTo(Duration.ZERO);
+			cirRotate.stop();
 		}
 	}
 	
@@ -586,14 +580,5 @@ public class ObjectPanelController {
 		
 		Platform.runLater(() -> cylinderMass.requestFocus());	
 		
-	}
-	
-	private boolean isNumber(String s) {
-		try {
-			Double.parseDouble(s);
-			return true;
-		}catch (Exception e) {
-			return false;
-		}
 	}
 }
