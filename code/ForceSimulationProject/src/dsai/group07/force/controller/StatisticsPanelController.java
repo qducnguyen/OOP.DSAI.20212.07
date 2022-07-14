@@ -552,6 +552,7 @@ public class StatisticsPanelController {
 
 	public void setTopStackPane(StackPane topStackPane) {
 		this.stackPane = topStackPane;
+		
 		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
 		StackPane.setMargin(this.massLabel, new Insets(0, 0, 5, 0));
 		this.stackPane.getChildren().add(this.massLabel);
