@@ -99,11 +99,11 @@ public class StatisticsPanelController {
 	@FXML
 	public void initialize() {
 
-		angLabel.setText("Angular Position\n0.00 º");
-		angAccLabel.setText("Angular Accelerate\n0.00 º/s²");
-		angVelLabel.setText("Angular Velocity\n0.00 º/s");
+		angLabel.setText("Angular Position\n0.00 ï¿½");
+		angAccLabel.setText("Angular Accelerate\n0.00 ï¿½/sï¿½");
+		angVelLabel.setText("Angular Velocity\n0.00 ï¿½/s");
 		massLabel.setText(null);
-		accLabel.setText("Accelerate\n0.00 m/s²");
+		accLabel.setText("Accelerate\n0.00 m/sï¿½");
 		velLabel.setText("Velocity\n0.00 m/s");
 		posLabel.setText("Position\n0.00 m");
 		aForceLabel.setText("0.00 N");
@@ -126,6 +126,9 @@ public class StatisticsPanelController {
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
+		// The visibilities of the aArrowLabel and fArrowLabel is true of the forceCheckBox is checked and the value of
+		// these 2 forces is not 0
+		
 		this.aArrowLabel.visibleProperty().bind(
 				this.forceCheckBox.selectedProperty().and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
 		this.fArrowLabel.visibleProperty().bind(
@@ -156,6 +159,7 @@ public class StatisticsPanelController {
 		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			// Case 1: if the simulation model doesn't contain object
 			if (newValue == null) {
 				// Restart
 				this.posCheckBox.setSelected(false);
@@ -173,11 +177,17 @@ public class StatisticsPanelController {
 				angVelLabel.setVisible(false);
 				angLabel.setVisible(false);
 
-			} else if (newValue instanceof Rotatable) {
+			}
+			
+			// Case 2: if the object in the simulation is in type of Cylinder.
+			else if (newValue instanceof Rotatable) {
 				angAccLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
 				angVelLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
 				angLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
-			} else {
+			} 
+			
+			// Case 3: if the object in the simulation is in type of Cube.
+			else {
 				angAccLabel.visibleProperty().unbind();
 				angVelLabel.visibleProperty().unbind();
 				angLabel.visibleProperty().unbind();
@@ -191,12 +201,12 @@ public class StatisticsPanelController {
 				.bind(this.massCheckBox.selectedProperty().and(this.simul.objProperty().isNotNull()));
 
 		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) -> {
-			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/s²"));
+			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/sï¿½"));
 		});
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			this.massLabel.setText(null);
-
+			
 			if (newValue != null) {
 
 				ObservableStringValue posString = Bindings.createStringBinding(
@@ -205,26 +215,25 @@ public class StatisticsPanelController {
 				posLabel.textProperty().bind(posString);
 
 				this.massLabel.setText(this.simul.getObj().getMass() + " kg");
-				System.out.println("Hello");
 				this.massLabel.toFront();
 
 				if (newValue instanceof Cylinder) {
 
 					ObservableStringValue angPosString = Bindings.createStringBinding(
 							() -> "Angular Position\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " º",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " ï¿½",
 							((Cylinder) this.simul.getObj()).angleProperty());
 					angLabel.textProperty().bind(angPosString);
 
 					ObservableStringValue angVelString = Bindings.createStringBinding(
 							() -> "Angular Velocity\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " º/s",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " ï¿½/s",
 							((Cylinder) this.simul.getObj()).angVelProperty());
 					angVelLabel.textProperty().bind(angVelString);
 
 					ObservableStringValue angAccString = Bindings.createStringBinding(
 							() -> "Angular Accelerate\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " º/s²",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " ï¿½/sï¿½",
 							((Cylinder) this.simul.getObj()).angAccProperty());
 					angAccLabel.textProperty().bind(angAccString);
 				}
@@ -461,6 +470,7 @@ public class StatisticsPanelController {
 
 	};
 
+	
 	private void setUpNetForce() {
 		nArrow = new Rectangle(200, 50);
 		nArrow.visibleProperty().bind(this.sumForcesCheckBox.selectedProperty());
