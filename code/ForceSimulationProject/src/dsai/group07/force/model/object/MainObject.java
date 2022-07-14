@@ -62,6 +62,8 @@ public abstract class MainObject {
 		}
 	}
 
+	public abstract void setSize(double size) throws Exception;
+	
 	public void applyForceInTime(Force force, double t) {
 		double oldVel = velProperty().getValue();
 		updateAcc(force);

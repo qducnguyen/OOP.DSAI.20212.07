@@ -99,11 +99,11 @@ public class StatisticsPanelController {
 	@FXML
 	public void initialize() {
 
-		angLabel.setText("Angular Position\n0.00 �");
-		angAccLabel.setText("Angular Accelerate\n0.00 �/s�");
-		angVelLabel.setText("Angular Velocity\n0.00 �/s");
+		angLabel.setText("Angular Position\n0.00 θ");
+		angAccLabel.setText("Angular Accelerate\n0.00 θ/s^2");
+		angVelLabel.setText("Angular Velocity\n0.00 θ/s");
 		massLabel.setText(null);
-		accLabel.setText("Accelerate\n0.00 m/s�");
+		accLabel.setText("Accelerate\n0.00 m/s^2");
 		velLabel.setText("Velocity\n0.00 m/s");
 		posLabel.setText("Position\n0.00 m");
 		aForceLabel.setText("0.00 N");
@@ -201,7 +201,7 @@ public class StatisticsPanelController {
 				.bind(this.massCheckBox.selectedProperty().and(this.simul.objProperty().isNotNull()));
 
 		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) -> {
-			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/s�"));
+			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/s^2"));
 		});
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
@@ -221,19 +221,19 @@ public class StatisticsPanelController {
 
 					ObservableStringValue angPosString = Bindings.createStringBinding(
 							() -> "Angular Position\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " �",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " θ",
 							((Cylinder) this.simul.getObj()).angleProperty());
 					angLabel.textProperty().bind(angPosString);
 
 					ObservableStringValue angVelString = Bindings.createStringBinding(
 							() -> "Angular Velocity\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " �/s",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " θ/s",
 							((Cylinder) this.simul.getObj()).angVelProperty());
 					angVelLabel.textProperty().bind(angVelString);
 
 					ObservableStringValue angAccString = Bindings.createStringBinding(
 							() -> "Angular Accelerate\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " �/s�",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " θ/s^2",
 							((Cylinder) this.simul.getObj()).angAccProperty());
 					angAccLabel.textProperty().bind(angAccString);
 				}

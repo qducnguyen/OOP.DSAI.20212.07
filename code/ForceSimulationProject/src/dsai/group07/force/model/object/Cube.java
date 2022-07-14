@@ -1,5 +1,6 @@
 package dsai.group07.force.model.object;
 
+import dsai.group07.force.model.vector.Force;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -41,5 +42,7 @@ public class Cube extends MainObject {
 			this.size.setValue(size);
 		}
 	}
+
+	
 
 }

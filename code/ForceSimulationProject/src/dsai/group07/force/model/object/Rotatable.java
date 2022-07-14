@@ -34,10 +34,6 @@ public interface Rotatable {
 
 	double getRadius();
 
-	void setRadius(double radius) throws Exception;
-
 	void applyForceInTimeRotate(Force force, double t) throws Exception;
 
-	// void upAngAcc(HorizontalDirection fric);
-	// void upAngVel(HorizontalDirection fric);
 }

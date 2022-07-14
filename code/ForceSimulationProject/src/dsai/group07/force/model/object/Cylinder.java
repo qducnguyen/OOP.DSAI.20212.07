@@ -25,7 +25,7 @@ public class Cylinder extends MainObject implements Rotatable {
 
 	public Cylinder(double mass, double radius) throws Exception {
 		this(mass);
-		setRadius(radius);
+		setSize(radius);
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class Cylinder extends MainObject implements Rotatable {
 	}
 
 	@Override
-	public void setRadius(double radius) throws Exception {
+	public void setSize(double radius) throws Exception {
 		if (radius < MIN_RADIUS) {
 			this.radius.setValue(MIN_RADIUS);
 			throw new Exception("The radius of object must be > " + MIN_RADIUS + " and <= " + MAX_RADIUS);
