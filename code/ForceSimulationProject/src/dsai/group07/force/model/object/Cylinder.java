@@ -4,7 +4,6 @@ import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.FrictionForce;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-//import javafx.geometry.HorizontalDirection;
 
 public class Cylinder extends MainObject implements Rotatable {
 

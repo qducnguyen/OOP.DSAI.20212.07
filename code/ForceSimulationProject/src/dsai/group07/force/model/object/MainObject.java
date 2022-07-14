@@ -53,8 +53,6 @@ public abstract class MainObject {
 		double oldVel = velProperty().getValue();
 		double newVel = oldVel + accProperty().getValue() * t;
 
-//		System.out.println(oldVel);
-//		System.out.println(newVel);
 		if (oldVel * newVel < 0) {
 			setVel(0);
 		} else {
