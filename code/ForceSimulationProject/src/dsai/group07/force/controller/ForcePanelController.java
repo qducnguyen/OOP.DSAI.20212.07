@@ -32,19 +32,19 @@ public class ForcePanelController {
 
 		forceTextField.textProperty().addListener(event -> {
 			forceTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!forceTextField.getText().isEmpty() && !forceTextField.getText().matches("^([+-]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
+					!forceTextField.getText().isEmpty()
+							&& !forceTextField.getText().matches("^([+-]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 
 		forceSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			forceTextField.setText(String.format("%.2f", newValue));
 		});
 	}
-	
+
 	public void init(Simulation simul) {
 		setSimul(simul);
 	}
-	
-	
+
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
@@ -98,7 +98,7 @@ public class ForcePanelController {
 		try {
 			if (Math.abs((double) Double.parseDouble(forceTextField.getText())) > AppliedForce.ABS_MAX_AFORCE) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setContentText("\nPlease input a number >= -500 and <= 500");
+				alert.setContentText("\nPlease input a number >= -" + AppliedForce.ABS_MAX_AFORCE + " and <= " + AppliedForce.ABS_MAX_AFORCE);
 				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 				alert.showAndWait();
 			}
@@ -107,7 +107,7 @@ public class ForcePanelController {
 					"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setContentText(e.getMessage() + "\nPlease input a number >= -500 and <= 500");
+			alert.setContentText(e.getMessage() + "\nPlease input a number >= -" + AppliedForce.ABS_MAX_AFORCE + " and <=" + AppliedForce.ABS_MAX_AFORCE);
 			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 			alert.showAndWait();
 		}

@@ -97,37 +97,37 @@
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </padding>
 		</Label>
-		<CheckBox fx:id="posCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@checkboxStyle.css" text="Position">
+		<CheckBox fx:id="posCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Position">
 			<StackPane.margin>
 				<Insets top="150.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@checkboxStyle.css" text="Acceleration">
+		<CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Acceleration">
 			<StackPane.margin>
 				<Insets top="100.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@checkboxStyle.css" text="Velocity">
+		<CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Velocity">
 			<StackPane.margin>
 				<Insets top="50.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="sumForcesCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" stylesheets="@checkboxStyle.css" text="Sum of Forces">
+		<CheckBox fx:id="sumForcesCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Sum of Forces">
 			<StackPane.margin>
 				<Insets top="-100.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" stylesheets="@checkboxStyle.css" text="Mass">
+		<CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Mass">
 			<StackPane.margin>
 				<Insets />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="forceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" stylesheets="@checkboxStyle.css" text="Forces">
+		<CheckBox fx:id="forceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Forces">
 			<StackPane.margin>
 				<Insets top="-150.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="valueCheckBox" mnemonicParsing="false" stylesheets="@checkboxStyle.css" text="Values">
+		<CheckBox fx:id="valueCheckBox" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Values">
 			<StackPane.margin>
 				<Insets top="-50.0" />
 			</StackPane.margin>

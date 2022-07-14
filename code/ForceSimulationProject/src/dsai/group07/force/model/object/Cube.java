@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Cube extends MainObject {
 
-	private DoubleProperty size = new SimpleDoubleProperty(MAX_SIZE);
+	private DoubleProperty size = new SimpleDoubleProperty(MAX_SIZE * 0.3);
 	public static final double MAX_SIZE = 1.0;
 	public static final double MIN_SIZE = 0.1;
 
@@ -31,12 +31,9 @@ public class Cube extends MainObject {
 	}
 
 	public void setSize(double size) throws Exception {
-		if (size < MIN_SIZE) {
-			setSize(MIN_SIZE);
-			throw new Exception("Cube's size must > " + MIN_SIZE + " and <= " + MAX_SIZE);
-		} else if (size > MAX_SIZE) {
-			setSize(MAX_SIZE);
-			throw new Exception("Cube's size must > " + MIN_SIZE + " and <= " + MAX_SIZE);
+		if (size < MIN_SIZE || size > MAX_SIZE) {
+			setSize(MAX_SIZE * 0.3);
+			throw new Exception("Cube's size must >= " + MIN_SIZE + " and <= " + MAX_SIZE);
 		} else {
 			this.size.setValue(size);
 		}
