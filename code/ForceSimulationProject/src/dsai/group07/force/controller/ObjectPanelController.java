@@ -398,7 +398,6 @@ public class ObjectPanelController {
 			Dragboard db = event.getDragboard();
 
 			if (db.hasContent(cirFormat)) {
-				// TODO: another view for drag and drop ...
 				cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 				gridPaneObjectContainer.add(cir, 1, 0);
 				// model
@@ -432,7 +431,6 @@ public class ObjectPanelController {
 			if (db.hasContent(cirFormat)) {
 				StackPane.setAlignment(cir, Pos.BOTTOM_CENTER);
 
-				// TODO: another view for drag and drop ...
 				if (topStackPane.getChildren().contains(rec)) {
 					gridPaneObjectContainer.add(rec, 0, 0);
 					this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));

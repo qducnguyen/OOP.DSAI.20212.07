@@ -50,10 +50,6 @@ public class SurfacePanelController {
 	}
 
 	public void init(Simulation simul) {
-		setSimul(simul);
-	}
-
-	public void setSimul(Simulation simul) {
 		this.simul = simul;
 		
 		// slider change <-> model change
