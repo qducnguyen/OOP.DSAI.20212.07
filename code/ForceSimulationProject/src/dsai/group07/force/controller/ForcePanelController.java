@@ -40,12 +40,8 @@ public class ForcePanelController {
 		});
 	}
 	
+	
 	public void init(Simulation simul) {
-		setSimul(simul);
-	}
-	
-	
-	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
 		forceSlider.valueProperty().bindBidirectional(this.simul.getaForce().valueProperty());
