@@ -32,37 +32,20 @@ public class ForcePanelController {
 
 		forceTextField.textProperty().addListener(event -> {
 			forceTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!forceTextField.getText().isEmpty() && !forceTextField.getText().matches("\\\\d+\\\\.\\\\d+"));
+					!forceTextField.getText().isEmpty()
+							&& !forceTextField.getText().matches("^([+-]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 
 		forceSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			forceTextField.setText(String.format("%.3f", newValue));
+			forceTextField.setText(String.format("%.2f", newValue));
 		});
 	}
-	
-	@FXML
-	void forceTextFieldOnAction(ActionEvent event) {
-		try {
-			// If the value that we pass to the applied force text field is larger than the maximum value or it is not in type of number.
-			if (Math.abs((double) Double.parseDouble(forceTextField.getText())) > AppliedForce.ABS_MAX_AFORCE) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setContentText("\nPlease input a number >= -500 and <= 500");
-				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-				alert.showAndWait();
-			}
-			
-			this.simul.getaForce().setValue((double) Double.parseDouble(forceTextField.getText()));
-			System.out.println(
-					"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
-		} catch (Exception e) {
-			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setContentText(e.getMessage() + "\nPlease input a number >= -500 and <= 500");
-			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-			alert.showAndWait();
-		}
-	}
-	
+
 	public void init(Simulation simul) {
+		setSimul(simul);
+	}
+
+	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
 		forceSlider.valueProperty().bindBidirectional(this.simul.getaForce().valueProperty());
@@ -94,7 +77,6 @@ public class ForcePanelController {
 			if (newValue == null) {
 				forceTextField.setDisable(true);
 				forceSlider.setDisable(true);
-				
 				forceTextField.setText("0");
 				this.simul.setaForce(0);
 			} else {
@@ -109,6 +91,26 @@ public class ForcePanelController {
 			}
 		});
 
+	}
+
+	@FXML
+	void forceTextFieldOnAction(ActionEvent event) {
+		try {
+			this.simul.getaForce().setValue((double) Double.parseDouble(forceTextField.getText()));
+			if (Math.abs((double) Double.parseDouble(forceTextField.getText())) > AppliedForce.ABS_MAX_AFORCE) {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setContentText("\nPlease input a number >= -" + AppliedForce.ABS_MAX_AFORCE + " and <= " + AppliedForce.ABS_MAX_AFORCE);
+				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+				alert.showAndWait();
+			}
+			System.out.println(
+					"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
+		} catch (Exception e) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setContentText(e.getMessage() + "\nPlease input a number >= -" + AppliedForce.ABS_MAX_AFORCE + " and <=" + AppliedForce.ABS_MAX_AFORCE);
+			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+			alert.showAndWait();
+		}
 	}
 
 	public void netForceListener() {

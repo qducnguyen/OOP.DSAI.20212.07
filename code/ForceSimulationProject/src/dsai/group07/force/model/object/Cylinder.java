@@ -4,14 +4,13 @@ import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.FrictionForce;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-//import javafx.geometry.HorizontalDirection;
 
 public class Cylinder extends MainObject implements Rotatable {
 
 	private DoubleProperty angle = new SimpleDoubleProperty();
 	private DoubleProperty angAcc = new SimpleDoubleProperty();
 	private DoubleProperty angVel = new SimpleDoubleProperty();
-	private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS);
+	private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS * 0.3);
 	public static final double MAX_RADIUS = 1.0;
 	public static final double MIN_RADIUS = 0.1;
 
@@ -104,12 +103,9 @@ public class Cylinder extends MainObject implements Rotatable {
 
 	@Override
 	public void setRadius(double radius) throws Exception {
-		if (radius < MIN_RADIUS) {
-			this.radius.setValue(MIN_RADIUS);
-			throw new Exception("The radius of object must be > " + MIN_RADIUS + " and <= " + MAX_RADIUS);
-		} else if (radius > MAX_RADIUS) {
-			this.radius.setValue(MAX_RADIUS);
-			throw new Exception("The radius of object must be > " + MIN_RADIUS + " and <= " + MAX_RADIUS);
+		if (radius < MIN_RADIUS || radius > MAX_RADIUS) {
+			this.radius.setValue(MAX_RADIUS * 0.3);
+			throw new Exception("The radius of object must be >= " + MIN_RADIUS + " and <= " + MAX_RADIUS);
 		} else {
 			this.radius.setValue(radius);
 		}

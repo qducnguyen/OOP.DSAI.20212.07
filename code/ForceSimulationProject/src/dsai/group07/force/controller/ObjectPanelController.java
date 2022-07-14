@@ -189,18 +189,20 @@ public class ObjectPanelController {
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
 		TextField cubeMass = new TextField();
-		cubeMass.setPromptText("Input mass for cube");
+		//cubeMass.setPromptText("Input mass for cube");
 		cubeMass.textProperty().addListener(event -> {
 			cubeMass.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!cubeMass.getText().isEmpty() && !cubeMass.getText().matches("\\\\d+\\\\.\\\\d+"));
+					!cubeMass.getText().isEmpty() && !cubeMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
+		cubeMass.getStylesheets().add("file:resources/css/errorTheme.css");
 
 		TextField cubeSide = new TextField();
 		cubeSide.setPromptText("Input Side-length for cube");
 		cubeSide.textProperty().addListener(event -> {
 			cubeSide.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!cubeSide.getText().isEmpty() && !cubeSide.getText().matches("\\\\d+\\\\.\\\\d+"));
+					!cubeSide.getText().isEmpty() && !cubeSide.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
+		cubeSide.getStylesheets().add("file:resources/css/errorTheme.css");
 
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
 		OKEButton.setDisable(true);
@@ -208,15 +210,29 @@ public class ObjectPanelController {
 		grid.add(new Label("Cube Mass: (> 0, default " + MainObject.DEFAULT_MASS + ")"), 0, 0);
 		grid.add(cubeMass, 1, 0);
 		grid.add(new Label("Cube Side: (>= " + Cube.MIN_SIZE + " and <=" + Cube.MAX_SIZE + ", default "
-				+ Cylinder.MAX_RADIUS + ")"), 0, 1);
+				+ Cube.MAX_SIZE * 0.3 + ")"), 0, 1);
 		grid.add(cubeSide, 1, 1);
 
 		// Set the disable property of the OKEButton
+		int[] condition1 = {0};
+		int[] condition2 = {0};
+		
 		cubeMass.textProperty().addListener((observable, oldValue, newValue) -> {
-			OKEButton.setDisable(newValue.trim().isEmpty());
+			if (!cubeMass.getText().isEmpty() && cubeMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
+				condition1[0] = 1;
+			} else {
+				condition1[0] = 0;
+			}
+			OKEButton.setDisable(condition1[0] == 0 || condition2[0] == 0);
 		});
+		
 		cubeSide.textProperty().addListener((observable, oldValue, newValue) -> {
-			OKEButton.setDisable(newValue.trim().isEmpty());
+			if (!cubeSide.getText().isEmpty() && cubeSide.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
+				condition2[0] = 1;
+			} else {
+				condition2[0] = 0;
+			}
+			OKEButton.setDisable(condition1[0] == 0 || condition2[0] == 0);
 		});
 
 		dialog.getDialogPane().setContent(grid);
@@ -244,12 +260,12 @@ public class ObjectPanelController {
 					this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(cubSide * 2));
 				} catch (Exception e) {
 					try {
-						this.simul.setObject(new Cube(MainObject.DEFAULT_MASS, Cube.MAX_SIZE));
+						this.simul.setObject(new Cube(MainObject.DEFAULT_MASS, Cube.MAX_SIZE * 0.3));
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-					this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 2));
-					this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 2));
+					this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 0.3 * 2));
+					this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 0.3 * 2));
 					Alert alert = new Alert(Alert.AlertType.WARNING);
 					alert.setContentText(e.getMessage());
 					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -282,15 +298,17 @@ public class ObjectPanelController {
 		cylinderMass.setPromptText("Input mass for cylinder");
 		cylinderMass.textProperty().addListener(event -> {
 			cylinderMass.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!cylinderMass.getText().isEmpty() && !cylinderMass.getText().matches("\\\\d+\\\\.\\\\d+"));
+					!cylinderMass.getText().isEmpty() && !cylinderMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
+		cylinderMass.getStylesheets().add("file:resources/css/errorTheme.css");
 
 		TextField cylinderRadius = new TextField();
 		cylinderRadius.setPromptText("Input radius for cylinder");
 		cylinderRadius.textProperty().addListener(event -> {
 			cylinderRadius.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!cylinderRadius.getText().isEmpty() && !cylinderRadius.getText().matches("\\\\d+\\\\.\\\\d+"));
+					!cylinderRadius.getText().isEmpty() && !cylinderRadius.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
+		cylinderRadius.getStylesheets().add("file:resources/css/errorTheme.css");
 
 		// Enable/Disable OKE Button
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
@@ -299,17 +317,28 @@ public class ObjectPanelController {
 		grid.add(new Label("Cylinder Mass: (> 0, default " + MainObject.DEFAULT_MASS + ")"), 0, 0);
 		grid.add(cylinderMass, 1, 0);
 		grid.add(new Label("Cylinder Radius: (>= " + Cylinder.MIN_RADIUS + " and <= " + Cylinder.MAX_RADIUS
-				+ ", default " + Cylinder.MAX_RADIUS + ")"), 0, 1);
+				+ ", default " + Cylinder.MAX_RADIUS * 0.3 + ")"), 0, 1);
 		grid.add(cylinderRadius, 1, 1);
 
-		// Set the disable property of the OKEButton
+		int[] condition1 = {0};
+		int[] condition2 = {0};
+		
 		cylinderMass.textProperty().addListener((observable, oldValue, newValue) -> {
-			// String.trim() : remove all whitespace
-			OKEButton.setDisable(newValue.trim().isEmpty());
+			if (!cylinderMass.getText().isEmpty() && cylinderMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
+				condition1[0] = 1;
+			} else {
+				condition1[0] = 0;
+			}
+			OKEButton.setDisable(condition1[0] == 0 || condition2[0] == 0);
 		});
-
+		
 		cylinderRadius.textProperty().addListener((observable, oldValue, newValue) -> {
-			OKEButton.setDisable(newValue.trim().isEmpty());
+			if (!cylinderRadius.getText().isEmpty() && cylinderRadius.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
+				condition2[0] = 1;
+			} else {
+				condition2[0] = 0;
+			}
+			OKEButton.setDisable(condition1[0] == 0 || condition2[0] == 0);
 		});
 
 		dialog.getDialogPane().setContent(grid);
@@ -337,11 +366,11 @@ public class ObjectPanelController {
 
 				} catch (Exception e) {
 					try {
-						this.simul.setObject(new Cylinder(MainObject.DEFAULT_MASS, Cylinder.MAX_RADIUS));
+						this.simul.setObject(new Cylinder(MainObject.DEFAULT_MASS, Cylinder.MAX_RADIUS * 0.3));
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-					this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(Cylinder.MAX_RADIUS));
+					this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(Cylinder.MAX_RADIUS * 0.3));
 					Alert alert = new Alert(Alert.AlertType.WARNING);
 					alert.setContentText(e.getMessage());
 					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

@@ -40,11 +40,9 @@ public class Surface {
 	}
 
 	public void setStaCoef(double staCoef) throws Exception {
-		if (staCoef < 0) {
-			this.staCoef.setValue(0);
-			throw new Exception("Static friction coefficient must be >= 0 and <= " + MAX_STA_COEF);
-		} else if (staCoef > MAX_STA_COEF) {
-			this.staCoef.setValue(MAX_STA_COEF);
+		if (staCoef < 0 || staCoef > MAX_STA_COEF) {
+			this.staCoef.setValue(MAX_STA_COEF / 2);
+			System.out.println("Static friction coefficient is setted to " + String.format("%.3f", getStaCoef()));
 			throw new Exception("Static friction coefficient must be >= 0 and <= " + MAX_STA_COEF);
 		} else if (staCoef == 0) {
 			kiCoef.setValue(0);
@@ -52,7 +50,8 @@ public class Surface {
 			System.out.println("Kinetic friction coefficient is setted to " + String.format("%.3f", getKiCoef()));
 			System.out.println("Static friction coefficient is setted to " + String.format("%.3f", getStaCoef()));
 		} else if (staCoef <= getKiCoef()) {
-			this.staCoef.setValue(Math.min(getKiCoef() + STEP_COEF, MAX_STA_COEF));
+			this.staCoef.setValue(getKiCoef() + STEP_COEF);
+			System.out.println("Static friction coefficient is setted to " + String.format("%.3f", getStaCoef()));
 			throw new Exception("Static friction coefficient must be > kinetic friction coefficient: "
 					+ String.format("%.3f", getKiCoef()));
 		} else {
@@ -62,14 +61,13 @@ public class Surface {
 	}
 
 	public void setKiCoef(double kiCoef) throws Exception {
-		if (kiCoef < 0) {
-			this.kiCoef.setValue(0);
-			throw new Exception("Kinetic friction coefficient must be >= 0 and <= " + MAX_STA_COEF);
-		} else if (kiCoef > MAX_STA_COEF) {
-			this.kiCoef.setValue(MAX_STA_COEF);
-			throw new Exception("Static friction coefficient must be >= 0 and <= " + MAX_STA_COEF);
+		if (kiCoef < 0 || kiCoef >= MAX_STA_COEF) {
+			this.kiCoef.setValue(MAX_STA_COEF / 4);
+			System.out.println("Kinetic friction coefficient is setted to " + String.format("%.3f", getKiCoef()));
+			throw new Exception("Kinetic friction coefficient must be >= 0 and < " + MAX_STA_COEF);
 		} else if (getStaCoef() <= kiCoef) {
 			this.kiCoef.setValue(Math.max(0, getStaCoef() - STEP_COEF));
+			System.out.println("Kinetic friction coefficient is setted to " + String.format("%.3f", getKiCoef()));
 			throw new Exception("Kinetic friction coefficient must be < static friction coefficient: "
 					+ String.format("%.3f", getStaCoef()));
 		} else {

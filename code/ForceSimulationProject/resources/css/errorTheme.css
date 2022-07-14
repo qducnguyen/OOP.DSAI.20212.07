@@ -1,0 +1,4 @@
+.text-input:error {
+    -fx-text-fill: white;
+    -fx-background-color: derive(red, 99%);
+}
