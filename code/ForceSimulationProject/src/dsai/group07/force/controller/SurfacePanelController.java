@@ -2,11 +2,15 @@ package dsai.group07.force.controller;
 
 import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.surface.Surface;
+import dsai.group07.force.model.vector.AppliedForce;
 import dsai.group07.force.model.vector.FrictionForce;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 
+import javafx.application.Platform;
 import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
@@ -31,16 +35,22 @@ public class SurfacePanelController {
 
 	@FXML
 	public void initialize() {
-		staticCoefTextField.textProperty().bindBidirectional(staticCoefSlider.valueProperty(),
-				NumberFormat.getNumberInstance());
+		Platform.runLater(() -> {
+			staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+				staticCoefTextField.setText(String.format("%.3f", newValue));
+			});
+		});
 		staticCoefTextField.textProperty().addListener(event -> {
 			staticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!staticCoefTextField.getText().isEmpty()
 							&& !staticCoefTextField.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
-
-		kineticCoefTextField.textProperty().bindBidirectional(kineticCoefSlider.valueProperty(),
-				NumberFormat.getNumberInstance());
+		
+		Platform.runLater(() -> {
+			kineticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+				kineticCoefTextField.setText(String.format("%.3f", newValue));
+			});
+		});
 		kineticCoefTextField.textProperty().addListener(event -> {
 			kineticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!kineticCoefTextField.getText().isEmpty()
@@ -55,49 +65,65 @@ public class SurfacePanelController {
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
-		staticCoefTextField.textProperty().bindBidirectional(simul.getSur().staCoefProperty(),
-				NumberFormat.getNumberInstance());
+		Platform.runLater(() -> {
+			staticCoefSlider.valueProperty().bindBidirectional(simul.getSur().staCoefProperty());
+			staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+				try {
+					this.simul.getSur().setStaCoef(newValue.doubleValue());
+				} catch (Exception e) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
+					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+					alert.showAndWait();
+				}
+			});
+			
+			kineticCoefSlider.valueProperty().bindBidirectional(simul.getSur().kiCoefProperty());
+			kineticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+				try {
+					this.simul.getSur().setKiCoef(newValue.doubleValue());
+				} catch (Exception e) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
+					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+					alert.showAndWait();
+				}
+			});
 
-		kineticCoefTextField.textProperty().bindBidirectional(simul.getSur().kiCoefProperty(),
-				NumberFormat.getNumberInstance());
-
-		staticCoefSlider.valueProperty().bindBidirectional(simul.getSur().staCoefProperty());
-		kineticCoefSlider.valueProperty().bindBidirectional(simul.getSur().kiCoefProperty());
-
-		staticCoefTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			try {
-				simul.getSur().setStaCoef(Double.parseDouble(newValue));
-			} catch (Exception e) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				this.simul.getSur();
-				alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
-				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-				alert.showAndWait();
-			}
+			surfaceListener();
 		});
-
-		kineticCoefTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			try {
-				simul.getSur().setKiCoef(Double.parseDouble(newValue));
-			} catch (Exception e) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				this.simul.getSur();
-				alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
-				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-				alert.showAndWait();
-			}
-		});
-
-		surfaceListener();
-
+	}
+	
+	@FXML
+	void staticTextFieldOnAction(ActionEvent event) {
+		try {
+			double newValue = Double.parseDouble(staticCoefTextField.getText());
+			this.simul.getSur().setStaCoef(newValue);
+		} catch (Exception e) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
+			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+			alert.showAndWait();
+		}
+	}
+	
+	@FXML
+	void kineticTextFieldOnAction(ActionEvent event) {
+		try {
+			double newValue = Double.parseDouble(kineticCoefTextField.getText());
+			this.simul.getSur().setKiCoef(newValue);
+		} catch (Exception e) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
+			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+			alert.showAndWait();
+		}
 	}
 
 	public void surfaceListener() {
 		try {
 			this.simul.getSur().staCoefProperty().addListener((observable, oldValue, newValue) -> {
 				try {
-//					System.out.println("Static Coeff Changed.");
-//					System.out.println(this.simul.getaForce().getValue());
 					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -106,7 +132,6 @@ public class SurfacePanelController {
 
 			this.simul.getSur().kiCoefProperty().addListener((observable, oldValue, newValue) -> {
 				try {
-//					System.out.println("Kinetic Coeff Changed.");
 					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 				} catch (Exception e) {
 					e.printStackTrace();

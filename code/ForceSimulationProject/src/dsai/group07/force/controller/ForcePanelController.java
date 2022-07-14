@@ -96,13 +96,13 @@ public class ForcePanelController {
 	@FXML
 	void forceTextFieldOnAction(ActionEvent event) {
 		try {
+			this.simul.getaForce().setValue((double) Double.parseDouble(forceTextField.getText()));
 			if (Math.abs((double) Double.parseDouble(forceTextField.getText())) > AppliedForce.ABS_MAX_AFORCE) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
 				alert.setContentText("\nPlease input a number >= -" + AppliedForce.ABS_MAX_AFORCE + " and <= " + AppliedForce.ABS_MAX_AFORCE);
 				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 				alert.showAndWait();
 			}
-			this.simul.getaForce().setValue((double) Double.parseDouble(forceTextField.getText()));
 			System.out.println(
 					"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
 		} catch (Exception e) {
