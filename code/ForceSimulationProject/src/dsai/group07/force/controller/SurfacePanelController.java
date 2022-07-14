@@ -35,18 +35,13 @@ public class SurfacePanelController {
 
 	@FXML
 	public void initialize() {
-		staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			staticCoefTextField.setText(String.format("%.3f", newValue));
-		});
+		// text validation
 		staticCoefTextField.textProperty().addListener(event -> {
 			staticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!staticCoefTextField.getText().isEmpty()
 							&& !staticCoefTextField.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 		
-		kineticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			kineticCoefTextField.setText(String.format("%.3f", newValue));
-		});
 		kineticCoefTextField.textProperty().addListener(event -> {
 			kineticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!kineticCoefTextField.getText().isEmpty()
@@ -60,8 +55,23 @@ public class SurfacePanelController {
 
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
-
+		
+		// slider change <-> model change
 		staticCoefSlider.valueProperty().bindBidirectional(this.simul.getSur().staCoefProperty());
+		
+		// model change -> text field change
+		this.simul.getSur().staCoefProperty().addListener((observable, oldValue, newValue) -> {
+			staticCoefTextField.setText(String.format("%.3f", newValue));
+		});
+		
+		// unfocus -> set text
+		staticCoefTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue) {
+				staticCoefTextField.setText(String.format("%.3f", this.simul.getSur().getStaCoef()));
+			}
+		});
+		
+		// slider -> object
 		staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			try {
 				this.simul.getSur().setStaCoef(newValue.doubleValue());
@@ -74,25 +84,39 @@ public class SurfacePanelController {
 		});
 		
 		kineticCoefSlider.valueProperty().bindBidirectional(this.simul.getSur().kiCoefProperty());
+		
+		this.simul.getSur().kiCoefProperty().addListener((observable, oldValue, newValue) -> {
+			kineticCoefTextField.setText(String.format("%.3f", newValue));
+		});
+		
+		kineticCoefTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue) {
+				kineticCoefTextField.setText(String.format("%.3f", this.simul.getSur().getKiCoef()));
+			}
+		});
+		
 		kineticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			try {
 				this.simul.getSur().setKiCoef(newValue.doubleValue());
 			} catch (Exception e) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and < " + Surface.MAX_STA_COEF);
+				alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
 				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 				alert.showAndWait();
 			}
 		});
-
+		
+		// update fForce
 		surfaceListener();
 	}
 	
+	// text filed enter -> model change
 	@FXML
 	void staticTextFieldOnAction(ActionEvent event) {
 		try {
 			double newValue = Double.parseDouble(staticCoefTextField.getText());
 			this.simul.getSur().setStaCoef(newValue);
+			staticCoefTextField.getParent().requestFocus();
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
@@ -106,6 +130,7 @@ public class SurfacePanelController {
 		try {
 			double newValue = Double.parseDouble(kineticCoefTextField.getText());
 			this.simul.getSur().setKiCoef(newValue);
+			kineticCoefTextField.getParent().requestFocus();
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and < " + Surface.MAX_STA_COEF);
@@ -113,7 +138,8 @@ public class SurfacePanelController {
 			alert.showAndWait();
 		}
 	}
-
+	
+	// update fForce
 	public void surfaceListener() {
 		try {
 			this.simul.getSur().staCoefProperty().addListener((observable, oldValue, newValue) -> {
