@@ -24,7 +24,7 @@ public class StatisticsPanelController {
 
 	private Simulation simul;
 
-	private StackPane stackPane;
+	private StackPane topStackPane;
 
 	@FXML
 	private Label angLabel;
@@ -99,11 +99,11 @@ public class StatisticsPanelController {
 	@FXML
 	public void initialize() {
 
-		angLabel.setText("Angular Position\n0.00 º");
-		angAccLabel.setText("Angular Accelerate\n0.00 º/s²");
-		angVelLabel.setText("Angular Velocity\n0.00 º/s");
+		angLabel.setText("Angular Position\n0.00 ï¿½");
+		angAccLabel.setText("Angular Accelerate\n0.00 ï¿½/sï¿½");
+		angVelLabel.setText("Angular Velocity\n0.00 ï¿½/s");
 		massLabel.setText(null);
-		accLabel.setText("Accelerate\n0.00 m/s²");
+		accLabel.setText("Accelerate\n0.00 m/sï¿½");
 		velLabel.setText("Velocity\n0.00 m/s");
 		posLabel.setText("Position\n0.00 m");
 		aForceLabel.setText("0.00 N");
@@ -156,6 +156,7 @@ public class StatisticsPanelController {
 		posLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			// Case 1: if the simulation model does not have object
 			if (newValue == null) {
 				// Restart
 				this.posCheckBox.setSelected(false);
@@ -173,11 +174,15 @@ public class StatisticsPanelController {
 				angVelLabel.setVisible(false);
 				angLabel.setVisible(false);
 
-			} else if (newValue instanceof Rotatable) {
+			} 
+			// Case 2: if the object in the simulation model is Cylinder.
+			else if (newValue instanceof Rotatable) {
 				angAccLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
 				angVelLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
 				angLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
-			} else {
+			} 
+			// Case 3: if the object in the simulation model is Cube
+			else {
 				angAccLabel.visibleProperty().unbind();
 				angVelLabel.visibleProperty().unbind();
 				angLabel.visibleProperty().unbind();
@@ -190,7 +195,7 @@ public class StatisticsPanelController {
 		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty().and(this.simul.isStartProperty()));
 
 		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) -> {
-			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/s²"));
+			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/sï¿½"));
 		});
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
@@ -212,19 +217,19 @@ public class StatisticsPanelController {
 					ObservableStringValue angPosString = Bindings
 							.createStringBinding(
 									() -> "Angular Position\n"
-											+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " º",
+											+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " ï¿½",
 									((Cylinder) this.simul.getObj()).angleProperty());
 					angLabel.textProperty().bind(angPosString);
 
 					ObservableStringValue angVelString = Bindings.createStringBinding(
 							() -> "Angular Velocity\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " º/s",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngVel()) + " ï¿½/s",
 							((Cylinder) this.simul.getObj()).angVelProperty());
 					angVelLabel.textProperty().bind(angVelString);
 
 					ObservableStringValue angAccString = Bindings.createStringBinding(
 							() -> "Angular Accelerate\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " º/s²",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngAcc()) + " ï¿½/sï¿½",
 							((Cylinder) this.simul.getObj()).angAccProperty());
 					angAccLabel.textProperty().bind(angAccString);
 				}
@@ -242,7 +247,7 @@ public class StatisticsPanelController {
 		aArrow = new Rectangle(200, 50);
 		aArrow.visibleProperty().bind(this.forceCheckBox.selectedProperty());
 		StackPane.setAlignment(aArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(aArrow);
+		this.topStackPane.getChildren().add(aArrow);
 		aArrow.setFill(new ImagePattern(new Image("file:resources/images/aArrow_image.png")));
 		aArrow.setStrokeWidth(0);
 		aArrow.setStroke(Color.TRANSPARENT);
@@ -251,7 +256,7 @@ public class StatisticsPanelController {
 
 		// Label aArrowLabel = new Label("Applied Force");
 		StackPane.setAlignment(aArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(aArrowLabel);
+		this.topStackPane.getChildren().add(aArrowLabel);
 
 		// Resize Arrow
 		double firstWidth = aArrow.getWidth();
@@ -316,7 +321,7 @@ public class StatisticsPanelController {
 		});
 
 		// Label for arrow
-		this.stackPane.getChildren().add(aForceLabel);
+		this.topStackPane.getChildren().add(aForceLabel);
 		StackPane.setAlignment(aForceLabel, Pos.BOTTOM_CENTER);
 
 		aArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -358,14 +363,16 @@ public class StatisticsPanelController {
 	}
 
 	private void setUpFrictionForce() {
+		
 		fArrow = new Rectangle(200, 50);
 		fArrow.visibleProperty().bind(this.forceCheckBox.selectedProperty());
+		
 		StackPane.setAlignment(fArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(fArrow);
+		this.topStackPane.getChildren().add(fArrow);
 		fArrow.setFill(new ImagePattern(new Image("file:resources/images/fArrow_image.png")));
 		fArrow.setStrokeWidth(0);
 		StackPane.setAlignment(fArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(fArrowLabel);
+		this.topStackPane.getChildren().add(fArrowLabel);
 
 		// Resize Arrow
 		double firstWidth = fArrow.getWidth();
@@ -412,7 +419,7 @@ public class StatisticsPanelController {
 
 		// Label for arrow
 		// Bind nforceLabel to arrow
-		this.stackPane.getChildren().add(fForceLabel);
+		this.topStackPane.getChildren().add(fForceLabel);
 		StackPane.setAlignment(fForceLabel, Pos.BOTTOM_CENTER);
 
 		fArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -459,14 +466,14 @@ public class StatisticsPanelController {
 		nArrow = new Rectangle(200, 50);
 		nArrow.visibleProperty().bind(this.sumForcesCheckBox.selectedProperty());
 		StackPane.setAlignment(nArrow, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(nArrow);
+		this.topStackPane.getChildren().add(nArrow);
 		nArrow.setFill(new ImagePattern(new Image("file:resources/images/sumArrow_image.png")));
 
 		nArrow.setStrokeWidth(0);
 
 		// Label for arrow
 		StackPane.setAlignment(nArrowLabel, Pos.BOTTOM_CENTER);
-		this.stackPane.getChildren().add(nArrowLabel);
+		this.topStackPane.getChildren().add(nArrowLabel);
 
 		// Resize Arrow
 		double firstWidth = nArrow.getWidth();
@@ -492,7 +499,7 @@ public class StatisticsPanelController {
 
 		// Bind nforceLabel to arrow
 
-		this.stackPane.getChildren().add(sumForceLabel);
+		this.topStackPane.getChildren().add(sumForceLabel);
 		StackPane.setAlignment(sumForceLabel, Pos.BOTTOM_CENTER);
 
 		nArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -535,10 +542,10 @@ public class StatisticsPanelController {
 	};
 
 	public void setTopStackPane(StackPane topStackPane) {
-		this.stackPane = topStackPane;
+		this.topStackPane = topStackPane;
 		StackPane.setAlignment(this.massLabel, Pos.BOTTOM_CENTER);
 		StackPane.setMargin(this.massLabel, new Insets(0, 0, 5, 0));
-		this.stackPane.getChildren().add(this.massLabel);
+		this.topStackPane.getChildren().add(this.massLabel);
 
 		
 		
@@ -568,16 +575,13 @@ public class StatisticsPanelController {
 		this.angAccLabel.translateYProperty().bind(this.velLabel.heightProperty());
 		this.angLabel.translateYProperty().bind(this.velLabel.heightProperty());
 
-
 		
-		
-		
-		this.stackPane.getChildren().add(this.velLabel);
-		this.stackPane.getChildren().add(this.accLabel);
-		this.stackPane.getChildren().add(this.posLabel);
-		this.stackPane.getChildren().add(this.angVelLabel);
-		this.stackPane.getChildren().add(this.angAccLabel);
-		this.stackPane.getChildren().add(this.angLabel);
+		this.topStackPane.getChildren().add(this.velLabel);
+		this.topStackPane.getChildren().add(this.accLabel);
+		this.topStackPane.getChildren().add(this.posLabel);
+		this.topStackPane.getChildren().add(this.angVelLabel);
+		this.topStackPane.getChildren().add(this.angAccLabel);
+		this.topStackPane.getChildren().add(this.angLabel);
 
 	}
 

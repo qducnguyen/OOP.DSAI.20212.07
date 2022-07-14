@@ -212,6 +212,7 @@ public class ObjectPanelController {
 		grid.add(cubeSide, 1, 1);
 
 		// Set the disable property of the OKEButton
+		// If user doesn't type in value for cubeMass or cubeSize then the OKButton will be disable.
 		cubeMass.textProperty().addListener((observable, oldValue, newValue) -> {
 			OKEButton.setDisable(newValue.trim().isEmpty());
 		});
@@ -248,6 +249,7 @@ public class ObjectPanelController {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
+					
 					this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 2));
 					this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 2));
 					Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -493,6 +495,5 @@ public class ObjectPanelController {
 			cc.put(shapeFormat, this.shapeFormat.toString());
 			db.setContent(cc);
 		}
-
 	}
 }

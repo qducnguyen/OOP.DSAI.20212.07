@@ -32,6 +32,19 @@ public class ControlPanelController {
 
 	@FXML
 	private GridPane controlPanelGridPane;
+	
+	
+	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
+		setSimul(simul);
+		setTopStackPane(topStackPane);
+		setDownStackPane(downStackPane);
+		
+		showObjectPane();
+		showForcePane();
+		showSurfacePane();
+		showStatisticsPane();
+	}
+
 
 	public void setTopStackPane(StackPane topStackPane) {
 		this.topStackPane = topStackPane;
@@ -52,18 +65,6 @@ public class ControlPanelController {
 	public GridPane getControlPanelGridPane() {
 		return controlPanelGridPane;
 	}
-
-	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
-		setSimul(simul);
-		setTopStackPane(topStackPane);
-		setDownStackPane(downStackPane);
-		
-		showObjectPane();
-		showForcePane();
-		showSurfacePane();
-		showStatisticsPane();
-	}
-
 	private void showObjectPane() {
 		// Add and show objectPanel in ControlPane
 		try {

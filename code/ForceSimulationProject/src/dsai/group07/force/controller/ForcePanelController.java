@@ -31,6 +31,7 @@ public class ForcePanelController {
 		forceSlider.setDisable(true);
 
 		forceTextField.textProperty().addListener(event -> {
+			// If the value passed into Text Field isn't decimal then raise an error.
 			forceTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!forceTextField.getText().isEmpty() && !forceTextField.getText().matches("\\\\d+\\\\.\\\\d+"));
 		});
@@ -40,12 +41,8 @@ public class ForcePanelController {
 		});
 	}
 	
+	
 	public void init(Simulation simul) {
-		setSimul(simul);
-	}
-	
-	
-	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
 		forceSlider.valueProperty().bindBidirectional(this.simul.getaForce().valueProperty());
