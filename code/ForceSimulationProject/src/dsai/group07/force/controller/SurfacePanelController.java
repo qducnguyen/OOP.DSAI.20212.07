@@ -35,10 +35,8 @@ public class SurfacePanelController {
 
 	@FXML
 	public void initialize() {
-		Platform.runLater(() -> {
-			staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-				staticCoefTextField.setText(String.format("%.3f", newValue));
-			});
+		staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			staticCoefTextField.setText(String.format("%.3f", newValue));
 		});
 		staticCoefTextField.textProperty().addListener(event -> {
 			staticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
@@ -46,10 +44,8 @@ public class SurfacePanelController {
 							&& !staticCoefTextField.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 		
-		Platform.runLater(() -> {
-			kineticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-				kineticCoefTextField.setText(String.format("%.3f", newValue));
-			});
+		kineticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			kineticCoefTextField.setText(String.format("%.3f", newValue));
 		});
 		kineticCoefTextField.textProperty().addListener(event -> {
 			kineticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
@@ -65,33 +61,31 @@ public class SurfacePanelController {
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
 
-		Platform.runLater(() -> {
-			staticCoefSlider.valueProperty().bindBidirectional(simul.getSur().staCoefProperty());
-			staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-				try {
-					this.simul.getSur().setStaCoef(newValue.doubleValue());
-				} catch (Exception e) {
-					Alert alert = new Alert(Alert.AlertType.WARNING);
-					alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
-					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-					alert.showAndWait();
-				}
-			});
-			
-			kineticCoefSlider.valueProperty().bindBidirectional(simul.getSur().kiCoefProperty());
-			kineticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-				try {
-					this.simul.getSur().setKiCoef(newValue.doubleValue());
-				} catch (Exception e) {
-					Alert alert = new Alert(Alert.AlertType.WARNING);
-					alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
-					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-					alert.showAndWait();
-				}
-			});
-
-			surfaceListener();
+		staticCoefSlider.valueProperty().bindBidirectional(this.simul.getSur().staCoefProperty());
+		staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			try {
+				this.simul.getSur().setStaCoef(newValue.doubleValue());
+			} catch (Exception e) {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
+				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+				alert.showAndWait();
+			}
 		});
+		
+		kineticCoefSlider.valueProperty().bindBidirectional(this.simul.getSur().kiCoefProperty());
+		kineticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			try {
+				this.simul.getSur().setKiCoef(newValue.doubleValue());
+			} catch (Exception e) {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and < " + Surface.MAX_STA_COEF);
+				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+				alert.showAndWait();
+			}
+		});
+
+		surfaceListener();
 	}
 	
 	@FXML
@@ -114,7 +108,7 @@ public class SurfacePanelController {
 			this.simul.getSur().setKiCoef(newValue);
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and <= " + Surface.MAX_STA_COEF);
+			alert.setContentText(e.getMessage() + "\nPlease input a number >= 0 and < " + Surface.MAX_STA_COEF);
 			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 			alert.showAndWait();
 		}
