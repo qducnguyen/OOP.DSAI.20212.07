@@ -187,7 +187,8 @@ public class StatisticsPanelController {
 			}
 		});
 
-		this.massLabel.visibleProperty().bind(this.massCheckBox.selectedProperty().and(this.simul.isStartProperty()));
+		this.massLabel.visibleProperty()
+				.bind(this.massCheckBox.selectedProperty().and(this.simul.objProperty().isNotNull()));
 
 		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) -> {
 			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/s²"));
@@ -209,11 +210,10 @@ public class StatisticsPanelController {
 
 				if (newValue instanceof Cylinder) {
 
-					ObservableStringValue angPosString = Bindings
-							.createStringBinding(
-									() -> "Angular Position\n"
-											+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " º",
-									((Cylinder) this.simul.getObj()).angleProperty());
+					ObservableStringValue angPosString = Bindings.createStringBinding(
+							() -> "Angular Position\n"
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " º",
+							((Cylinder) this.simul.getObj()).angleProperty());
 					angLabel.textProperty().bind(angPosString);
 
 					ObservableStringValue angVelString = Bindings.createStringBinding(
@@ -294,7 +294,14 @@ public class StatisticsPanelController {
 				} else {
 					fArrowLabel.translateYProperty().bind(((cir.radiusProperty()).subtract(fArrowLabel.heightProperty())
 							.subtract(fArrow.heightProperty().divide(2))).multiply(-1));
+
 				}
+
+				fForceLabel.translateXProperty()
+						.bind(fArrowLabel.translateXProperty().subtract(fArrowLabel.widthProperty().divide(2)));
+				fForceLabel.translateYProperty()
+						.bind(fArrowLabel.translateYProperty().add(fArrowLabel.heightProperty().multiply(0.6)));
+
 			} else {
 				// Rebind
 				fArrowLabel.translateYProperty().bind(fArrow.translateYProperty()
@@ -310,8 +317,8 @@ public class StatisticsPanelController {
 				}
 			}
 
-			translate.setX(firstWidth * newValue.doubleValue() / 350 / 2);
-			aArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 350);
+			translate.setX(firstWidth * newValue.doubleValue() / 375 / 2);
+			aArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 375);
 
 		});
 
@@ -319,13 +326,13 @@ public class StatisticsPanelController {
 		this.stackPane.getChildren().add(aForceLabel);
 		StackPane.setAlignment(aForceLabel, Pos.BOTTOM_CENTER);
 
-		aArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
+//		aArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
+		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
 			aForceLabel.toFront();
 			double currentLabelWidth = aForceLabel.widthProperty().doubleValue();
-			double currentNewValue = newValue.doubleValue();
+			double currentNewValue = aArrow.getWidth();
 			double currentSign = Math.signum(this.simul.getaForce().getValue());
 			if (currentNewValue > currentLabelWidth * 1.3) {
-				aArrowLabel.setText("Applied Force");
 				aForceLabel.translateXProperty().unbind();
 				aForceLabel.translateYProperty().unbind();
 				aForceLabel
@@ -405,8 +412,8 @@ public class StatisticsPanelController {
 				}
 			}
 
-			translate.setX(firstWidth * newValue.doubleValue() / 350 / 2);
-			fArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 350);
+			translate.setX(firstWidth * newValue.doubleValue() / 375 / 2);
+			fArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 375);
 
 		});
 
@@ -415,14 +422,13 @@ public class StatisticsPanelController {
 		this.stackPane.getChildren().add(fForceLabel);
 		StackPane.setAlignment(fForceLabel, Pos.BOTTOM_CENTER);
 
-		fArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
+		this.simul.getfForce().valueProperty().addListener((observable, oldValue, newValue) -> {
 
 			double currentLabelWidth = fForceLabel.widthProperty().doubleValue();
-			double currentNewValue = newValue.doubleValue();
+			double currentNewValue = fArrow.getWidth();
 			double currentSign = Math.signum(this.simul.getfForce().getValue());
 			fForceLabel.toFront();
 			if (currentNewValue > currentLabelWidth * 1.25) {
-				fArrowLabel.setText("Friction Force");
 				fForceLabel.translateXProperty().unbind();
 				fForceLabel.translateYProperty().unbind();
 
@@ -485,8 +491,8 @@ public class StatisticsPanelController {
 			} else {
 				rotate.setAngle(180);
 			}
-			translate.setX(firstWidth * newValue.doubleValue() / 350 / 2);
-			nArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 350);
+			translate.setX(firstWidth * newValue.doubleValue() / 375 / 2);
+			nArrow.setWidth(firstWidth * Math.abs(newValue.doubleValue()) / 375);
 
 		});
 
@@ -540,8 +546,6 @@ public class StatisticsPanelController {
 		StackPane.setMargin(this.massLabel, new Insets(0, 0, 5, 0));
 		this.stackPane.getChildren().add(this.massLabel);
 
-		
-		
 		StackPane.setAlignment(this.velLabel, Pos.TOP_CENTER);
 		StackPane.setAlignment(this.accLabel, Pos.TOP_CENTER);
 		StackPane.setAlignment(this.posLabel, Pos.TOP_CENTER);
@@ -555,23 +559,21 @@ public class StatisticsPanelController {
 		StackPane.setMargin(this.angVelLabel, new Insets(50, 50, 0, 0));
 		StackPane.setMargin(this.angAccLabel, new Insets(50, 50, 0, 0));
 		StackPane.setMargin(this.angLabel, new Insets(50, 50, 0, 0));
-		
-		//Reponsive app
+
+		// Reponsive app
 		this.accLabel.translateXProperty().bind(topStackPane.widthProperty().divide(2.6).multiply(-1));
 		this.angAccLabel.translateXProperty().bind(accLabel.translateXProperty());
-		this.velLabel.translateXProperty().bind(this.accLabel.translateXProperty().add(this.angAccLabel.widthProperty()).add(this.velLabel.widthProperty().divide(2.5)));
+		this.velLabel.translateXProperty().bind(this.accLabel.translateXProperty().add(this.angAccLabel.widthProperty())
+				.add(this.velLabel.widthProperty().divide(2.5)));
 		this.angVelLabel.translateXProperty().bind(velLabel.translateXProperty());
-		this.posLabel.translateXProperty().bind(this.velLabel.translateXProperty().add(this.angVelLabel.widthProperty()).add(this.posLabel.widthProperty().divide(2.5)));
+		this.posLabel.translateXProperty().bind(this.velLabel.translateXProperty().add(this.angVelLabel.widthProperty())
+				.add(this.posLabel.widthProperty().divide(2.5)));
 		this.angLabel.translateXProperty().bind(posLabel.translateXProperty());
-		
+
 		this.angVelLabel.translateYProperty().bind(this.velLabel.heightProperty());
 		this.angAccLabel.translateYProperty().bind(this.velLabel.heightProperty());
 		this.angLabel.translateYProperty().bind(this.velLabel.heightProperty());
 
-
-		
-		
-		
 		this.stackPane.getChildren().add(this.velLabel);
 		this.stackPane.getChildren().add(this.accLabel);
 		this.stackPane.getChildren().add(this.posLabel);

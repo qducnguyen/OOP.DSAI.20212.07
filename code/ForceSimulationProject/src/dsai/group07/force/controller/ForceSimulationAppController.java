@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -36,6 +37,9 @@ public class ForceSimulationAppController {
 
 	@FXML
 	private Button resetButton;
+
+	@FXML
+	private Label brandLabel;
 
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
@@ -128,23 +132,28 @@ public class ForceSimulationAppController {
 		// Add pause and reset button to the topStackPane
 		StackPane.setAlignment(pauseButton, Pos.BOTTOM_CENTER);
 		StackPane.setAlignment(resetButton, Pos.BOTTOM_CENTER);
+		StackPane.setAlignment(brandLabel, Pos.TOP_LEFT);
+
 		StackPane.setMargin(pauseButton, new Insets(0, 0, 10, 0));
 		StackPane.setMargin(resetButton, new Insets(0, 0, 10, 0));
+		StackPane.setMargin(brandLabel, new Insets(5, 0, 0, 5));
+		
 		topStackPane.getChildren().add(pauseButton);
 		topStackPane.getChildren().add(resetButton);
-		
+		topStackPane.getChildren().add(brandLabel);
+
 		// Reponsive App
 		pauseButton.translateXProperty().bind(topStackPane.widthProperty().divide(3.2));
-		resetButton.translateXProperty().bind(pauseButton.translateXProperty().add(pauseButton.widthProperty()).add(30));
-		pauseButton.translateYProperty().bind(topStackPane.heightProperty().divide(12).multiply(-1).add(pauseButton.heightProperty()));
+		resetButton.translateXProperty()
+				.bind(pauseButton.translateXProperty().add(pauseButton.widthProperty()).add(30));
+		pauseButton.translateYProperty()
+				.bind(topStackPane.heightProperty().divide(12).multiply(-1).add(pauseButton.heightProperty()));
 		resetButton.translateYProperty().bind(pauseButton.translateYProperty());
-		
-		// 
-		
-		
 
-		// Bind resetButton vs isStartProperty, if not start -> no reset
-		resetButton.disableProperty().bind(this.simul.isStartProperty().not());
+		//
+
+		// Bind resetButton vs isStartProperty and objProperty, if not start -> no reset
+		resetButton.disableProperty().bind((this.simul.isStartProperty().not()).and(this.simul.objProperty().isNull()));
 
 		// Null object --> Disable pause Button
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
