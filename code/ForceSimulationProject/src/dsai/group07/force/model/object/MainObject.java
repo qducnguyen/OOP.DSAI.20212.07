@@ -19,7 +19,7 @@ public abstract class MainObject {
 	public static final double DEFAULT_MASS = 50;
 
 	/**
-	 * A HorizontalVector holds the massProperty of MainObject.
+	 * Holds the mass property of MainObject.
 	 */
 	private DoubleProperty mass = new SimpleDoubleProperty(DEFAULT_MASS);
 
