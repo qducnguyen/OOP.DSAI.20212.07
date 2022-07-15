@@ -199,8 +199,7 @@ public abstract class MainObject {
 	/**
 	 * Default class constructor.
 	 */
-	public MainObject() {
-	}
+	public MainObject() {}
 
 	/**
 	 * Class constructor specifying mass
