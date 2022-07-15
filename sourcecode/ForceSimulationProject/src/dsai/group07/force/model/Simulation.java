@@ -1,7 +1,6 @@
 package dsai.group07.force.model;
 
 import dsai.group07.force.model.object.MainObject;
-import dsai.group07.force.model.object.Rotatable;
 import dsai.group07.force.model.surface.Surface;
 import dsai.group07.force.model.vector.AppliedForce;
 import dsai.group07.force.model.vector.Force;
