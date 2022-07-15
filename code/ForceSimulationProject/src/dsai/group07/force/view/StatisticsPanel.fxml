@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane alignment="CENTER_LEFT" maxHeight="200.0" maxWidth="150.0" minHeight="200.0" minWidth="150.0" opacity="0.95" prefHeight="200.0" prefWidth="150.0" style="-fx-background-color: #EDEADE; -fx-background-radius: 15;" stylesheets="@../../../../../resources/css/checkboxStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
+<StackPane alignment="CENTER_LEFT" maxHeight="200.0" maxWidth="180.0" minHeight="200.0" minWidth="180.0" opacity="0.95" prefHeight="200.0" prefWidth="180.0" style="-fx-background-color: #EDEADE; -fx-background-radius: 15;" stylesheets="@../../../../../resources/css/checkboxStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsai.group07.force.controller.StatisticsPanelController">
 	<children>
 		<Label fx:id="angLabel" styleClass="statistic-display" text="angLabel" textAlignment="CENTER" visible="false">
 			<StackPane.margin>

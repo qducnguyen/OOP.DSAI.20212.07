@@ -201,7 +201,7 @@ public class StatisticsPanelController {
 				.bind(this.massCheckBox.selectedProperty().and(this.simul.objProperty().isNotNull()));
 
 		this.simul.sysAccProperty().addListener((observable, oldValue, newValue) -> {
-			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/s�"));
+			accLabel.textProperty().bind(newValue.valueProperty().asString("Accelerate\n%.2f m/s^2"));
 		});
 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
@@ -221,7 +221,7 @@ public class StatisticsPanelController {
 
 					ObservableStringValue angPosString = Bindings.createStringBinding(
 							() -> "Angular Position\n"
-									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " �",
+									+ String.format("%.2f", ((Cylinder) this.simul.getObj()).getAngle()) + " 0",
 							((Cylinder) this.simul.getObj()).angleProperty());
 					angLabel.textProperty().bind(angPosString);
 
