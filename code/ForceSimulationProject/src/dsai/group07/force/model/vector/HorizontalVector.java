@@ -111,7 +111,8 @@ public class HorizontalVector {
 	}
 
 	/**
-	 * Updates the (sign of) value of this HorizontalVector according to its direction
+	 * Updates the (sign of) value of this HorizontalVector according to its
+	 * direction
 	 */
 	protected void updateDirectionValue() {
 		double absValue = Math.abs(this.getValue());
