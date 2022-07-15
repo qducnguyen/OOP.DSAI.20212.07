@@ -4,8 +4,9 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 /**
- * This class is used to represent the cube object It is child class of
- * MainObject class It contains further information about cube size
+ * This class is used to represent the cube object. 
+ * It is child class of MainObject class.
+ * It contains further information about cube size.
  *
  */
 public class Cube extends MainObject {
