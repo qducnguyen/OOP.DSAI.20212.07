@@ -10,8 +10,8 @@ import javafx.beans.property.SimpleDoubleProperty;
  */
 public class Cube extends MainObject {
 	/**
-	 * Holds the size property of this Cube Default size = 0.3 *
-	 * {@link Cube#MAX_SIZE}
+	 * Holds the size property of this Cube.
+	 * Default size = 0.3 * {@link Cube#MAX_SIZE}
 	 */
 	private DoubleProperty size = new SimpleDoubleProperty(MAX_SIZE * 0.3);
 	// max and min size of class Cube
