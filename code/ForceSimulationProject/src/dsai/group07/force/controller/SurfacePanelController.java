@@ -96,6 +96,12 @@ public class SurfacePanelController {
 			}
 		});
 
+		// when object changes -> friction force changes
+		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
+			((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
+			((FrictionForce) this.simul.getfForce()).setValue(0);
+		});
+
 		// update fForce
 		surfaceListener();
 	}

@@ -69,7 +69,7 @@ public class ForceSimulationAppController {
 
 			// initialize the animation controller
 			aniController = loader.getController();
-			aniController.setSim(simul);
+			aniController.init(simul);
 
 		} catch (IOException e) {
 			e.printStackTrace();

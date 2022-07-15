@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class ForceSimulationApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+
 		// Name for the application
 		final String appName = "Force Simulation App";
 		primaryStage.setTitle(appName);
@@ -26,7 +26,7 @@ public class ForceSimulationApp extends Application {
 		// Set icon for the application
 		primaryStage.getIcons().add(new Image("file:resources/images/app_icon.png"));
 
-		// Set minimum windows size to avoid abnormal look
+		// Set minimum windows size to avoid unusual look
 		primaryStage.setMinHeight(600);
 		primaryStage.setMinWidth(850);
 

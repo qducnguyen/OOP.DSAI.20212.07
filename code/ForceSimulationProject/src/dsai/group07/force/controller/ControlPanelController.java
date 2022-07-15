@@ -1,5 +1,5 @@
 /*
- * ControlPanelController.java
+ * The class functionalities: initialize control panel which includes: 4 main controller panels
  */
 
 package dsai.group07.force.controller;
@@ -57,7 +57,7 @@ public class ControlPanelController {
 		setSimul(simul);
 		setTopStackPane(topStackPane);
 		setDownStackPane(downStackPane);
-		
+
 		showObjectPane();
 		showForcePane();
 		showSurfacePane();
@@ -71,15 +71,11 @@ public class ControlPanelController {
 			loader.setLocation(getClass().getResource("/dsai/group07/force/view/ObjectPanel.fxml"));
 
 			// Add it to control Panel
-			
+
 			GridPane ObjectPanel = (GridPane) loader.load();
-			// Margin
 			GridPane.setMargin(ObjectPanel, new Insets(41, 40, 8, 20));
-			
 			controlPanelGridPane.add(ObjectPanel, 0, 0);
-			
-			
-			
+
 			// initialize the obj controller
 			objController = loader.getController();
 			objController.init(simul, topStackPane, downStackPane);
@@ -103,10 +99,9 @@ public class ControlPanelController {
 			StackPane.setAlignment(panel, Pos.TOP_CENTER);
 			topStackPane.getChildren().add(panel);
 			StackPane.setMargin(panel, new Insets(50, 50, 0, 0));
-			
-			//Reponsive app
+
+			// Reponsive app
 			panel.translateXProperty().bind(topStackPane.widthProperty().divide(2.6));
-			
 			staController = loader.getController();
 			staController.init(simul, this.rec, this.cir, this.topStackPane);
 		} catch (IOException e) {
@@ -123,9 +118,7 @@ public class ControlPanelController {
 
 			GridPane forcePanel = (GridPane) loader.load();
 			controlPanelGridPane.add(forcePanel, 1, 0);
-
 			forceController = loader.getController();
-
 			forceController.init(simul);
 		} catch (IOException e) {
 			e.printStackTrace();
