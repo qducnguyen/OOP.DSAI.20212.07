@@ -15,7 +15,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Simulation {
-
 	private BooleanProperty isStart = new SimpleBooleanProperty(false);
 	private BooleanProperty isPause = new SimpleBooleanProperty(true);
 	// isStart = false --> isPause always true but the opposite is not true.

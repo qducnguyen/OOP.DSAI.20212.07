@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class ForceSimulationApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+		
 		// Name for the application
 		final String appName = "Force Simulation App";
 		primaryStage.setTitle(appName);

@@ -45,11 +45,11 @@
          <padding>
             <Insets left="8.0" right="8.0" top="15.0" />
          </padding></Slider>
-		<TextField fx:id="staticCoefTextField" alignment="CENTER" onAction="#staticTextFieldOnAction" promptText="Input Coef" stylesheets="@../../../../../resources/css/errorTheme.css" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+		<TextField fx:id="staticCoefTextField" alignment="CENTER" onAction="#staticTextFieldOnAction" promptText="Input Coef" stylesheets="@../../../../../resources/css/errorTheme.css" text="0.500" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></TextField>
-		<TextField fx:id="kineticCoefTextField" alignment="CENTER" onAction="#kineticTextFieldOnAction" promptText="Input Coef" stylesheets="@../../../../../resources/css/errorTheme.css" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+		<TextField fx:id="kineticCoefTextField" alignment="CENTER" onAction="#kineticTextFieldOnAction" promptText="Input Coef" stylesheets="@../../../../../resources/css/errorTheme.css" text="0.250" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></TextField>

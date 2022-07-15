@@ -123,7 +123,7 @@ public class ObjectPanelController {
 	}
 
 	private void setUpCircleRotation() {
-		final int DURATION_ROTATE = 3;
+		final int DURATION_ROTATE = 12;
 		final double DEFAULT_ROTATE_VEL = 10;
 		this.cirRotate = new RotateTransition(Duration.seconds(DURATION_ROTATE), cir);
 		this.cirRotate.setByAngle(360);
