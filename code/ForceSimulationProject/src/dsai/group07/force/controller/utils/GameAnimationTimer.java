@@ -9,24 +9,14 @@ import javafx.animation.AnimationTimer;
 
 public abstract class GameAnimationTimer extends AnimationTimer {
 
-	long pauseStart;
+	private long lastFrameTimeNanos;
 
-	long lastFrameTimeNanos;
+	
+	private boolean isPaused;
 
-	boolean isPaused;
-	boolean isActive;
-
-	boolean pauseScheduled;
-	boolean playScheduled;
-	boolean restartScheduled;
-
-	public boolean isPaused() {
-		return isPaused;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
+	private boolean pauseScheduled;
+	private boolean playScheduled;
+	private boolean restartScheduled;
 
 	public void pause() {
 		if (!isPaused) {
@@ -43,41 +33,34 @@ public abstract class GameAnimationTimer extends AnimationTimer {
 	@Override
 	public void start() {
 		super.start();
-		isActive = true;
 		restartScheduled = true;
 	}
 
 	@Override
 	public void stop() {
 		super.stop();
-		pauseStart = 0;
-		isPaused = false;
-		isActive = false;
+		isPaused = true;
 		pauseScheduled = false;
 		playScheduled = false;
 	}
 
+	// This method is invoked each frame.
 	@Override
 	public void handle(long now) {
 		if (pauseScheduled) {
-			pauseStart = now;
 			isPaused = true;
 			pauseScheduled = false;
 		}
 
 		if (playScheduled) {
-//            animationStart += (now - pauseStart);
 			isPaused = false;
 			playScheduled = false;
-
 			lastFrameTimeNanos = now;
 		}
 
 		if (restartScheduled) {
 			isPaused = false;
-//            animationStart = now;
 			restartScheduled = false;
-
 			lastFrameTimeNanos = now;
 		}
 
@@ -88,7 +71,7 @@ public abstract class GameAnimationTimer extends AnimationTimer {
 		}
 	}
 
-	// Use this to get
+	// Use this to calculate velocity and position of the object
 	public abstract void tick(double secondsSinceLastFrame);
 
 }
