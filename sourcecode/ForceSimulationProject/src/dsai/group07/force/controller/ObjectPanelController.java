@@ -172,7 +172,7 @@ public class ObjectPanelController {
 	}
 
 	private void cubeInput() {
-		// Dialog input when choose cube
+		// Dialog input when choosing cube
 
 		// Pair<String, String> : as a dictionary in python -> return result
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -288,7 +288,7 @@ public class ObjectPanelController {
 	}
 
 	private void cylinderInput() {
-		// Input dialog for
+		// Dialog input when choosing cylinder.
 
 		// Pair<String, String> : as a dictionary in python -> return result
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -540,6 +540,7 @@ public class ObjectPanelController {
 			SnapshotParameters snapShotparams = new SnapshotParameters();
 			snapShotparams.setFill(Color.TRANSPARENT);
 			db.setDragView(s.snapshot(snapShotparams, null), event.getX(), event.getY());
+			// Special case then the type of object is Circle.
 			if (s instanceof Circle) {
 				db.setDragViewOffsetX(event.getX() + cir.getRadius());
 				db.setDragViewOffsetY(event.getY() + cir.getRadius());
