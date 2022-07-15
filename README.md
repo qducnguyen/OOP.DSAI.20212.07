@@ -14,7 +14,7 @@
 
 ### Installation 
 -  We just use [Java 8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) and [Eclipse](https://www.eclipse.org/) for our project.
--  Our main Class is [ForceSimulationApp.java](/sourcecode/ForceSimulationProject/src/dsai/group07/)
+-  Our main Class is [ForceSimulationApp.java](/sourcecode/ForceSimulationProject/src/dsai/group07/force)
 
 ### Folder Organization
 1. [sourcecode](/sourcecode) folder: official Java Project

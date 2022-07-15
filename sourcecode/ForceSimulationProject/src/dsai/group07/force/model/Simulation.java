@@ -1,7 +1,6 @@
 package dsai.group07.force.model;
 
 import dsai.group07.force.model.object.MainObject;
-import dsai.group07.force.model.surface.Surface;
 import dsai.group07.force.model.vector.AppliedForce;
 import dsai.group07.force.model.vector.Force;
 import dsai.group07.force.model.vector.FrictionForce;
@@ -50,7 +49,7 @@ public class Simulation {
 	private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
 	/**
 	 * Holds the system angular acceleration of this Simulation. It equals the
-	 * newest Cylinder's angular acceleration
+	 * newest Cylinder's angular acceleration	
 	 */
 	private DoubleProperty sysAngAcc = new SimpleDoubleProperty(0);
 	/**
