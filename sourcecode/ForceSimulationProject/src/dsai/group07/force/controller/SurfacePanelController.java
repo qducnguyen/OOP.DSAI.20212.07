@@ -27,9 +27,12 @@ public class SurfacePanelController {
 	@FXML
 	private Slider kineticCoefSlider;
 
-	@FXML
-	public void initialize() {
-		// text validation
+	public void init(Simulation simul) {
+		// set simulation
+		this.simul = simul;
+		
+		// text validation using pseudo class "error": matches positive integer and double number
+		// changes background color of text field to red when invalid input
 		staticCoefTextField.textProperty().addListener(event -> {
 			staticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!staticCoefTextField.getText().isEmpty()
@@ -41,27 +44,23 @@ public class SurfacePanelController {
 					!kineticCoefTextField.getText().isEmpty()
 							&& !kineticCoefTextField.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
-	}
 
-	public void init(Simulation simul) {
-		this.simul = simul;
-
-		// slider change <-> model change
+		// slider changes <-> static / kinetic coefficient changes
 		staticCoefSlider.valueProperty().bindBidirectional(this.simul.getSur().staCoefProperty());
 
-		// model change -> text field change
+		// static / kinetic coefficient changes -> text field changes
 		this.simul.getSur().staCoefProperty().addListener((observable, oldValue, newValue) -> {
 			staticCoefTextField.setText(String.format("%.3f", newValue));
 		});
 
-		// unfocus -> set text
+		// unfocus text filed -> set text of text field
 		staticCoefTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
 			if (!newValue) {
 				staticCoefTextField.setText(String.format("%.3f", this.simul.getSur().getStaCoef()));
 			}
 		});
 
-		// slider -> object
+		// slider changes -> static / kinetic coefficient changes
 		staticCoefSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			try {
 				this.simul.getSur().setStaCoef(newValue.doubleValue());
@@ -96,17 +95,17 @@ public class SurfacePanelController {
 			}
 		});
 
-		// when object changes -> friction force changes
+		// when static / kinetic friction coefficient changes -> friction force changes
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
 			((FrictionForce) this.simul.getfForce()).setValue(0);
 		});
 
-		// update fForce
+		// updates friction force when static / kinetic coefficient changes
 		surfaceListener();
 	}
 
-	// text filed enter -> model change
+	// when text filed entered -> static / kinetic friction coefficient changes
 	@FXML
 	void staticTextFieldOnAction(ActionEvent event) {
 		try {
@@ -135,7 +134,7 @@ public class SurfacePanelController {
 		}
 	}
 
-	// update fForce
+	// updates friction force when static / kinetic coefficient changes
 	public void surfaceListener() {
 		try {
 			this.simul.getSur().staCoefProperty().addListener((observable, oldValue, newValue) -> {
