@@ -10,14 +10,15 @@
 
 
 ### Installation 
--   We use [Java 1.8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) for our project
+-  We just use [Java 8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) and [Eclipse](https://www.eclipse.org/) for our project.
+-  Our main Class is [ForceSimulationApp.java](/sourcecode/ForceSimulationProject/src/dsai/group07/)
 
 ### Folder Organization
-1. [sourcecode](/sourcecode) folder: including official Java Project
-2. [demo](/demo) folder: containing demo Java Project
-3. [design](/design) folder: including all design for the project (class diagram and use-case diagram)
-4. [report](/report) folder: containing our `.docx` report file
-5. [presentation](/presentation) folder: including our slides for presentation
+1. [sourcecode](/sourcecode) folder: official Java Project
+2. [demo](/demo) folder: demo Java Project
+3. [design](/design) folder: all designs for the project (class diagram and use-case diagram)
+4. [report](/report) folder: `.docx` report file
+5. [presentation](/presentation) folder: slides for presentation
 
 ### Member information 
 
@@ -40,7 +41,7 @@
 | Controller package                | 1, 2, 3       |
 | Model package                     | 3, 2, 1       |
 | View package                      | 2, 4          |
-| Report                            | 2, 1 ,3       |
-| Presentation                      | 4 , 2         |
+| Report                            | 2, 1, 3       |
+| Presentation                      | 4, 2          |
 | Demo video                        | 4             |
 
