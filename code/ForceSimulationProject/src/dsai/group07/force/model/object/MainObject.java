@@ -7,41 +7,42 @@ import javafx.beans.property.DoubleProperty;
 
 /**
  * This class is an abstract class, which is parent class of Cube and Cylinder.
- * It contains attributes and methods for mass, transitional acceleration, transitional velocity and position.
+ * It contains attributes and methods for mass, transitional acceleration,
+ * transitional velocity and position.
  */
 
 public abstract class MainObject {
-	
+
 	/**
 	 * Holds default value of mass of class MainObject.
 	 */
 	public static final double DEFAULT_MASS = 50;
-	
+
 	/**
 	 * A HorizontalVector holds the massProperty of MainObject.
 	 */
 	private DoubleProperty mass = new SimpleDoubleProperty(DEFAULT_MASS);
-	
+
 	/**
-	 * Holds the transitional acceleration property of this MainObject.
-	 * Initial value is 0.0.
+	 * Holds the transitional acceleration property of this MainObject. Initial
+	 * value is 0.0.
 	 */
 	private HorizontalVector acc = new HorizontalVector(0.0);
-	
+
 	/**
-	 * Holds the transition velocity property of this MainObject.
-	 * Initial value is 0.0.
+	 * Holds the transition velocity property of this MainObject. Initial value is
+	 * 0.0.
 	 */
 	private HorizontalVector vel = new HorizontalVector(0.0);
-	
+
 	/**
-	 * Holds position property of this MainObject.
-	 * Initial value is 0.0.
+	 * Holds position property of this MainObject. Initial value is 0.0.
 	 */
 	private DoubleProperty pos = new SimpleDoubleProperty();
 
 	/**
 	 * Gets the mass property of this MainObject.
+	 * 
 	 * @return This MainObject's mass property.
 	 */
 	public DoubleProperty massProperty() {
@@ -50,6 +51,7 @@ public abstract class MainObject {
 
 	/**
 	 * Gets the mass of this MainObject.
+	 * 
 	 * @return This MainObject's mass.
 	 */
 	public double getMass() {
@@ -58,6 +60,7 @@ public abstract class MainObject {
 
 	/**
 	 * Changes the mass of this MainObject
+	 * 
 	 * @param mass This MainObject's new mass
 	 * @throws Exception Throws new Exception if new mass <= 0
 	 */
@@ -72,6 +75,7 @@ public abstract class MainObject {
 
 	/**
 	 * Gets the transitional acceleration property of this MainObject
+	 * 
 	 * @return This MainObject's transitional acceleration property
 	 */
 	public HorizontalVector accProperty() {
@@ -80,6 +84,7 @@ public abstract class MainObject {
 
 	/**
 	 * Gets the transitional velocity of this MainObject
+	 * 
 	 * @return This MainObject transitional velocity
 	 */
 	public HorizontalVector velProperty() {
@@ -88,6 +93,7 @@ public abstract class MainObject {
 
 	/**
 	 * Changes the transitional acceleration of this MainObject
+	 * 
 	 * @param acc This MainObject's new transitional acceleration
 	 */
 	public void setAcc(double acc) {
@@ -96,6 +102,7 @@ public abstract class MainObject {
 
 	/**
 	 * Changes the transitional velocity of this MainObject
+	 * 
 	 * @param vel This MainObject's new transitional velocity
 	 */
 	public void setVel(double vel) {
@@ -103,8 +110,9 @@ public abstract class MainObject {
 	}
 
 	/**
-	 * Updates the transitional acceleration of this MainObject 
-	 * when apply a Force on it
+	 * Updates the transitional acceleration of this MainObject when apply a Force
+	 * on it
+	 * 
 	 * @param force The Force applied in this MainObject
 	 */
 	public void updateAcc(Force force) {
@@ -112,8 +120,8 @@ public abstract class MainObject {
 	}
 
 	/**
-	 * Updates the transitional velocity of this MainObject
-	 * in time t
+	 * Updates the transitional velocity of this MainObject in time t
+	 * 
 	 * @param t The time interval between two stages of this MainObject
 	 */
 	public void updateVel(double t) {
@@ -122,7 +130,8 @@ public abstract class MainObject {
 		// new transitional velocity
 		double newVel = oldVel + accProperty().getValue() * t;
 		// when transitional velocity of MainObject changes sign
-		// It must be set to 0 before continuing update to avoid effect of time interval t
+		// It must be set to 0 before continuing update to avoid effect of time interval
+		// t
 		// In case applied force < normal force * static coefficient -> make Cube stop
 		if (oldVel * newVel < 0) {
 			setVel(0);
@@ -130,12 +139,14 @@ public abstract class MainObject {
 			setVel(newVel);
 		}
 	}
+
 	/**
-	 * Applies force in time time interval to update 
-	 * transitional acceleration, transitional velocity and position
+	 * Applies force in time time interval to update transitional acceleration,
+	 * transitional velocity and position
+	 * 
 	 * @param netforce The net force which applies in this MainObject
-	 * @param fForce The friction force which applies in this MainObject
-	 * @param t The time interval when applying forces
+	 * @param fForce   The friction force which applies in this MainObject
+	 * @param t        The time interval when applying forces
 	 */
 	public void applyForceInTime(Force netforce, Force fForce, double t) {
 		// old transitional velocity
@@ -148,8 +159,9 @@ public abstract class MainObject {
 		updatePos(oldVel, t);
 	}
 
-	/** 
+	/**
 	 * Gets the position property of this MainObject
+	 * 
 	 * @return This MainObject's position property
 	 */
 	public DoubleProperty posProperty() {
@@ -158,6 +170,7 @@ public abstract class MainObject {
 
 	/**
 	 * Gets the position of this MainObject
+	 * 
 	 * @return This MainObject position
 	 */
 	public double getPos() {
@@ -166,15 +179,18 @@ public abstract class MainObject {
 
 	/**
 	 * Changes the position of this MainObject
+	 * 
 	 * @param pos This MainObject's new position
 	 */
 	public void setPos(double pos) {
 		this.pos.setValue(pos);
 	}
+
 	/**
 	 * Updates the position of this MainObject
+	 * 
 	 * @param oldVel This MainObject's old transitional velocity
-	 * @param t The time interval between two stages of this MainObject
+	 * @param t      The time interval between two stages of this MainObject
 	 */
 	public void updatePos(double oldVel, double t) {
 		setPos(getPos() + oldVel * t + 0.5 * accProperty().getValue() * t * t);
@@ -185,9 +201,10 @@ public abstract class MainObject {
 	 */
 	public MainObject() {
 	}
-	
+
 	/**
 	 * Class constructor specifying mass
+	 * 
 	 * @param mass The mass of this MainObject
 	 * @throws Exception Throw exception if mass <= 0
 	 */
