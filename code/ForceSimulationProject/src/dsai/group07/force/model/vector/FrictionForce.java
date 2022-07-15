@@ -115,6 +115,7 @@ public class FrictionForce extends Force {
 
 	/**
 	 * Changes the current MainObject relating to this FrictionForce
+	 * 
 	 * @param obj The current MainObject relating to this FrictionForce
 	 */
 	public void setMainObj(MainObject obj) {
