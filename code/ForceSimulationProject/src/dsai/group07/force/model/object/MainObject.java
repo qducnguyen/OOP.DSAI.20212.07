@@ -60,9 +60,9 @@ public abstract class MainObject {
 		}
 	}
 
-	public void applyForceInTime(Force force, double t) {
+	public void applyForceInTime(Force netforce, Force fForce, double t) {
 		double oldVel = velProperty().getValue();
-		updateAcc(force);
+		updateAcc(netforce);
 		updateVel(t);
 		updatePos(oldVel, t);
 	}

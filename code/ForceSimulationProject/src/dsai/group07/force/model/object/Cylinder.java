@@ -118,4 +118,14 @@ public class Cylinder extends MainObject implements Rotatable {
 		updateAngVel(t);
 		updateAngle(oldAngVel, t);
 	}
+	
+	@Override
+	public void applyForceInTime(Force netforce, Force fForce, double t) {
+		super.applyForceInTime(netforce, fForce, t);
+		try {
+			this.applyForceInTimeRotate(fForce, t);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -183,14 +183,7 @@ public class Simulation {
 	}
 
 	public void applyForceInTime(double t) {
-		obj.get().applyForceInTime(getNetForce(), t);
-		if (obj.get() instanceof Rotatable) {
-			try {
-				((Rotatable) obj.get()).applyForceInTimeRotate(getfForce(), t);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		obj.get().applyForceInTime(getNetForce(), getfForce(), t);
 	}
 
 }
