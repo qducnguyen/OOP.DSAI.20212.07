@@ -30,8 +30,13 @@ public class Cylinder extends MainObject implements Rotatable {
 	 * {@link Cylinder#MAX_RADIUS}
 	 */
 	private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS * 0.3);
-	// max and min radius of class Cylinder
+	/**
+	 * Holds the max radius of class Cylinder
+	 */
 	public static final double MAX_RADIUS = 1.0;
+	/**
+	 * Holds the min radius of class Cylinder
+	 */
 	public static final double MIN_RADIUS = 0.1;
 
 	/**
@@ -155,7 +160,9 @@ public class Cylinder extends MainObject implements Rotatable {
 		updateAngVel(t);
 		updateAngle(oldAngVel, t);
 	}
-
+	/**
+	 * netForce causes translation and fForce causes rotation
+	 */
 	@Override
 	public void applyForceInTime(Force netforce, Force fForce, double t) {
 		// Applies netForce (sum of forces) for translation
