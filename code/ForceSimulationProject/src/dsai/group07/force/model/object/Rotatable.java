@@ -115,7 +115,7 @@ public interface Rotatable {
 	 * Applies a force in a time time interval to update angular acceleration,
 	 * angular velocity and angular of this Rotatable
 	 * 
-	 * @param force The force applying on this Rotatable that causes rotation
+	 * @param force The force applies on this Rotatable that causes rotation
 	 * @param t     The time interval between two stages of this Rotatable
 	 */
 	void applyForceInTimeRotate(Force force, double t);
