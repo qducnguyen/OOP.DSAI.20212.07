@@ -31,7 +31,7 @@ public class SurfacePanelController {
 		// set simulation
 		this.simul = simul;
 		
-		// text validation: matches positive integer and double number
+		// text validation using pseudo class "error": matches positive integer and double number
 		// changes background color of text field to red when invalid input
 		staticCoefTextField.textProperty().addListener(event -> {
 			staticCoefTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),

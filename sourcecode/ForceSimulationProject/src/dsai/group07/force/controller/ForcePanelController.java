@@ -25,28 +25,34 @@ public class ForcePanelController {
 	@FXML
 	private Slider forceSlider;
 
-	@FXML
-	public void initialize() {
+	public void init(Simulation simul) {
+		// set Simulation
+		this.simul = simul;
+		
+		// text validation using pseudo class "error": matches positive / negative integer and double number
+		// changes background color of text field to red when invalid input
 		forceTextField.setDisable(true);
 		forceSlider.setDisable(true);
 
+		// text validation: 
 		forceTextField.textProperty().addListener(event -> {
 			forceTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
 					!forceTextField.getText().isEmpty()
 							&& !forceTextField.getText().matches("^([+-]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 
+		// slider changes -> text field changes
 		forceSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			forceTextField.setText(String.format("%.2f", newValue));
 		});
-	}
 
-	public void init(Simulation simul) {
-		this.simul = simul;
-
+		// slider changes <-> applied force of this Simulation changes
 		forceSlider.valueProperty().bindBidirectional(this.simul.getaForce().valueProperty());
+		
+		// updates net force
 		netForceListener();
 
+		// applied changes -> updates friction force
 		this.simul.getaForce().valueProperty().addListener(observable -> {
 			try {
 				((FrictionForce) this.simul.getfForce()).updateFrictionForce();
@@ -55,6 +61,7 @@ public class ForcePanelController {
 			}
 		});
 
+		// applied changes -> starting and continuing property changes
 		this.simul.getaForce().valueProperty().addListener((observable, oldValue, newValue) -> {
 
 			if (!this.simul.getIsStart() && newValue.doubleValue() != 0.0) // newValue.doubleValue() != 0: Prevent auto
@@ -69,17 +76,23 @@ public class ForcePanelController {
 
 		});
 
+		// main object changes -> 
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == null) {
+				// setDisable true of slider and text field when null object
 				forceTextField.setDisable(true);
 				forceSlider.setDisable(true);
+				// also set text filed and applied force to 0
 				forceTextField.setText("0");
 				this.simul.setaForce(0);
 			} else {
+				// setDisable true of slider and text field when object != null
 				forceTextField.setDisable(false);
 				forceSlider.setDisable(false);
+				
+				// sets object relating to friction force
 				((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
-
+				// update friction force when object changes
 				this.simul.getObj().velProperty().valueProperty().addListener((observable1, oldValue1, newValue1) -> {
 					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 				});
@@ -89,6 +102,7 @@ public class ForcePanelController {
 
 	}
 
+	// text filed entered -> changes applied force
 	@FXML
 	void forceTextFieldOnAction(ActionEvent event) {
 		try {
@@ -109,6 +123,7 @@ public class ForcePanelController {
 		}
 	}
 
+	// updates net force when applied / friction force changes
 	public void netForceListener() {
 		this.simul.getaForce().valueProperty().addListener(observable -> {
 			try {
