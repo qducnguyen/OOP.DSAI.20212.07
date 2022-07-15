@@ -96,7 +96,7 @@ public class StatisticsPanelController {
 
 	public void init(Simulation simul, Rectangle rec, Circle cir, StackPane topStackPane) {
 
-		// Default labels
+		// Initial labels
 		angLabel.setText("Angular Position\n0.00 *");
 		angAccLabel.setText("Angular Accelerate\n0.00 */s^2");
 		angVelLabel.setText("Angular Velocity\n0.00 */s");
@@ -121,7 +121,7 @@ public class StatisticsPanelController {
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
 		// The visibilities of the aArrowLabel and fArrowLabel is true of the
-		// forceCheckBox is checked and the value of these 2 forces is not 0
+		// forceCheckBox is checked and the value of these 2 forces are not 0
 		this.aArrowLabel.visibleProperty().bind(
 				this.forceCheckBox.selectedProperty().and(this.simul.getaForce().valueProperty().isNotEqualTo(0)));
 		this.fArrowLabel.visibleProperty().bind(
@@ -139,12 +139,12 @@ public class StatisticsPanelController {
 		sumForceLabel.visibleProperty().bind(this.valueCheckBox.selectedProperty()
 				.and(this.sumForcesCheckBox.selectedProperty()).and(this.simul.isStartProperty()));
 
-		// accLabel <-> accCheckbox
+		// We bind the visible properties of these labels to the associated checkboxes.
 		accLabel.visibleProperty().bind(accCheckBox.selectedProperty());
 		velLabel.visibleProperty().bind(velCheckBox.selectedProperty());
 		posLabel.visibleProperty().bind(posCheckBox.selectedProperty());
 
-		// mass visible
+		// mass visibility.
 		this.massLabel.visibleProperty()
 				.bind(this.massCheckBox.selectedProperty().and(this.simul.objProperty().isNotNull()));
 
@@ -187,7 +187,7 @@ public class StatisticsPanelController {
 			}
 		});
 
-		// Bind text with all Label
+		// Bind Text Value for Label attributes with values of simulation.
 		angVelLabel.textProperty().bind(this.simul.getSysAngVel().asString("Angular Velocity\n%.2f m/s"));
 		aForceLabel.textProperty().bind(this.simul.getaForce().valueProperty().asString("%.2f N"));
 		fForceLabel.textProperty().bind(this.simul.getfForce().valueProperty().asString("%.2f N"));

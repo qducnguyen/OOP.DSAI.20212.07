@@ -74,7 +74,7 @@ public class ObjectPanelController {
 	}
 
 	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
-		// Setting image for the Circle
+		// Setting image for the Cylinder and Cube.
 		cir.setFill(new ImagePattern(new Image("file:resources/images/cylinder_image.png")));
 		rec.setFill(new ImagePattern(new Image("file:resources/images/cube_image.png")));
 
@@ -94,7 +94,7 @@ public class ObjectPanelController {
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
 
-		// responsive design
+		// responsive design.
 		cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 		rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
 		rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
@@ -106,7 +106,7 @@ public class ObjectPanelController {
 	}
 
 	public void resetObjectPosition() {
-		// Reset object into main stage when click reset button
+		// Reset object to the intial postion when click reset button
 
 		// Rebind
 		gridPaneObjectContainer.getChildren().clear();
@@ -133,7 +133,7 @@ public class ObjectPanelController {
 		cirRotate.setCycleCount(Animation.INDEFINITE);
 		this.cirRotate.setRate(0.0);
 
-		// Obj change , if cylinder -> bind sysangacc to angaccProperty
+		// Obj change , if object is cylinder then bind sysAngAcc to angAccProperty
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue instanceof Rotatable) {
 				this.simul.getSysAngAcc().bind(((Rotatable) newValue).angAccProperty());
@@ -141,7 +141,7 @@ public class ObjectPanelController {
 			}
 		});
 
-		// Bind Rotate rate -> sysAngVel
+		// Bind Rotate rate to sysAngVel
 		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(1 / DEFAULT_ROTATE_VEL));
 
 	}
@@ -204,7 +204,7 @@ public class ObjectPanelController {
 		// Theme
 		cubeMass.getStylesheets().add("file:resources/css/errorTheme.css");
 
-		// Similar for the field
+		// Similar for the side
 		TextField cubeSide = new TextField();
 		cubeSide.setPromptText("Input side-length for cube");
 		cubeSide.textProperty().addListener(event -> {
@@ -430,7 +430,8 @@ public class ObjectPanelController {
 		// 4 events are for when topStackPane and downStackPane get Object or not
 		gridPaneObjectContainer.getParent().setOnDragDropped(event -> {
 			Dragboard db = event.getDragboard();
-
+			
+			// Case 1: If we are dragging the cylinder.
 			if (db.hasContent(cirFormat)) {
 				cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 				gridPaneObjectContainer.add(cir, 1, 0);
@@ -439,7 +440,8 @@ public class ObjectPanelController {
 
 				event.setDropCompleted(true);
 			}
-
+			
+			// Case 2: If we are dragging the cube.
 			else if (db.hasContent(recFormat)) {
 				rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
 				rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
@@ -453,10 +455,14 @@ public class ObjectPanelController {
 
 		gridPaneObjectContainer.getParent().setOnDragOver(event -> {
 			Dragboard db = event.getDragboard();
+			// Case 1: if we want to drag the cylinder from topStackPane to the girdPaneObjectContainer.
 			if (db.hasContent(cirFormat) && cir.getParent() != gridPaneObjectContainer) {
 				event.acceptTransferModes(TransferMode.MOVE);
-			} else if (db.hasContent(recFormat) && rec.getParent() != gridPaneObjectContainer)
+			} 
+			// Case 2: if we want to drag the cube from topStackPane to the gridPaneObjectContainer
+			else if (db.hasContent(recFormat) && rec.getParent() != gridPaneObjectContainer) {
 				event.acceptTransferModes(TransferMode.MOVE);
+			}
 		});
 
 		topStackPane.setOnDragDropped(event -> {
