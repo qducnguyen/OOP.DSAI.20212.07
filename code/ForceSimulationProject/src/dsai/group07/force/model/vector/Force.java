@@ -10,6 +10,7 @@ public class Force extends HorizontalVector {
 
 	/**
 	 * Class constructor specifying value
+	 * 
 	 * @param value The value of this Force
 	 */
 	public Force(double value) {
@@ -18,6 +19,7 @@ public class Force extends HorizontalVector {
 
 	/**
 	 * Gets the sum of two forces
+	 * 
 	 * @param f1 The first Force
 	 * @param f2 The second Force
 	 * @return The sum of two forces f1 and f2
@@ -25,7 +27,7 @@ public class Force extends HorizontalVector {
 	public static Force sumTwoForce(Force f1, Force f2) {
 		// Create new Force which value = algebraic sum of values of f1 and f2
 		Force netForce = new Force(f1.getValue() + f2.getValue());
-		// Update direction 
+		// Update direction
 		netForce.updateValueDirection();
 		return netForce;
 	}
