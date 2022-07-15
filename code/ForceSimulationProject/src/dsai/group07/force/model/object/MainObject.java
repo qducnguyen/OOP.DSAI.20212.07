@@ -120,7 +120,7 @@ public abstract class MainObject {
 	}
 
 	/**
-	 * Updates the transitional velocity of this MainObject in time t
+	 * Updates the transitional velocity of this MainObject after time interval t
 	 * 
 	 * @param t The time interval between two stages of this MainObject
 	 */
@@ -141,7 +141,7 @@ public abstract class MainObject {
 	}
 
 	/**
-	 * Applies force in time time interval to update transitional acceleration,
+	 * Applies forces in time time interval to update transitional acceleration,
 	 * transitional velocity and position
 	 * 
 	 * @param netforce The net force which applies in this MainObject
