@@ -37,10 +37,10 @@
 | Model detail class diagram        | 3             |
 | Controller detail class diagram   | 2             |
 | Use-case diagram                  | 4             |
-| controller package                | 1, 2, 3       |
-| model package                     | 3, 2, 1       |
-| view package                      | 2, 4          |
-| report                            | 2, 1 ,3       |
-| presentation                      | 4 , 2         |
-| demo video                        | 4             |
+| Controller package                | 1, 2, 3       |
+| Model package                     | 3, 2, 1       |
+| View package                      | 2, 4          |
+| Report                            | 2, 1 ,3       |
+| Presentation                      | 4 , 2         |
+| Demo video                        | 4             |
 
