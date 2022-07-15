@@ -44,7 +44,7 @@ public abstract class GameAnimationTimer extends AnimationTimer {
 		playScheduled = false;
 	}
 
-	// This method is invoked each frame.
+	// This method is invoked each time frame.
 	@Override
 	public void handle(long now) {
 		if (pauseScheduled) {
