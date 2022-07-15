@@ -26,7 +26,7 @@ public class ForceSimulationApp extends Application {
 		// Set icon for the application
 		primaryStage.getIcons().add(new Image("file:resources/images/app_icon.png"));
 
-		// Set minimum windows size to avoid abnormal look
+		// Set minimum windows size to avoid unusual look
 		primaryStage.setMinHeight(600);
 		primaryStage.setMinWidth(850);
 

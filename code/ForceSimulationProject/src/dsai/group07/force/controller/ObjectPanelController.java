@@ -1,3 +1,7 @@
+/*
+ * Everything related to objects: rotation for the cylinder, cubeInput, cylinderInput and setUpDragandDrop
+ */
+
 package dsai.group07.force.controller;
 
 import java.util.Optional;
@@ -6,7 +10,7 @@ import dsai.group07.force.model.Simulation;
 import dsai.group07.force.model.object.Cube;
 import dsai.group07.force.model.object.Cylinder;
 import dsai.group07.force.model.object.MainObject;
-import dsai.group07.force.model.vector.FrictionForce;
+import dsai.group07.force.model.object.Rotatable;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -49,7 +53,7 @@ public class ObjectPanelController {
 	private StackPane topStackPane;
 	private StackPane downStackPane;
 
-	// For rotation
+	// For the cylinder rotation
 	private RotateTransition cirRotate;
 
 	@FXML
@@ -69,16 +73,11 @@ public class ObjectPanelController {
 		return cir;
 	}
 
-	@FXML
-	public void initialize() {
-
+	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
 		// Setting image for the Circle
 		cir.setFill(new ImagePattern(new Image("file:resources/images/cylinder_image.png")));
 		rec.setFill(new ImagePattern(new Image("file:resources/images/cube_image.png")));
 
-	}
-
-	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
 		setSimul(simul);
 		setTopStackPane(topStackPane);
 		setDownStackPane(downStackPane);
@@ -88,11 +87,14 @@ public class ObjectPanelController {
 
 	}
 
+	public void setSimul(Simulation simul) {
+		this.simul = simul;
+	}
+
 	public void setDownStackPane(StackPane downStackPane) {
 		this.downStackPane = downStackPane;
 
-		// TODO: responsive application
-		// TODO: more binding for circle
+		// responsive design
 		cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 		rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
 		rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
@@ -103,43 +105,44 @@ public class ObjectPanelController {
 		this.topStackPane = topStackPane;
 	}
 
-	public void setSimul(Simulation simul) {
-		this.simul = simul;
-
-		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
-			((FrictionForce) this.simul.getfForce()).setValue(0);
-		});
-
-	}
-
 	public void resetObjectPosition() {
+		// Reset object into main stage when click reset button
+
+		// Rebind
 		gridPaneObjectContainer.getChildren().clear();
+		gridPaneObjectContainer.add(rec, 0, 0);
+		gridPaneObjectContainer.add(cir, 1, 0);
+
+		// Responsive design
 		cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(0.3));
 		rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
 		rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(0.6));
-		gridPaneObjectContainer.add(rec, 0, 0);
-		gridPaneObjectContainer.add(cir, 1, 0);
+
 	}
 
 	private void setUpCircleRotation() {
-		final int DURATION_ROTATE = 3;
-		final double DEFAULT_ROTATE_VEL = 10;
-		this.cirRotate = new RotateTransition(Duration.seconds(DURATION_ROTATE), cir);
-		this.cirRotate.setByAngle(360);
-		this.cirRotate.setInterpolator(Interpolator.LINEAR);
-		this.cirRotate.setCycleCount(Animation.INDEFINITE);
+		// Set up rotation in for circle in here
 
+		final int DURATION_ROTATE = 10;
+		final double DEFAULT_ROTATE_VEL = 10;
+
+		// set Rotation
+		cirRotate = new RotateTransition(Duration.seconds(DURATION_ROTATE), cir);
+		cirRotate.setByAngle(360);
+		cirRotate.setInterpolator(Interpolator.LINEAR);
+		cirRotate.setCycleCount(Animation.INDEFINITE);
 		this.cirRotate.setRate(0.0);
 
+		// Obj change , if cylinder -> bind sysangacc to angaccProperty
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue instanceof Cylinder) {
-				this.simul.getSysAngAcc().bind(((Cylinder) newValue).angAccProperty());
-				this.simul.getSysAngVel().bind(((Cylinder) newValue).angVelProperty());
+			if (newValue instanceof Rotatable) {
+				this.simul.getSysAngAcc().bind(((Rotatable) newValue).angAccProperty());
+				this.simul.getSysAngVel().bind(((Rotatable) newValue).angVelProperty());
 			}
 		});
 
-		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(1 / DEFAULT_ROTATE_VEL)); 
+		// Bind Rotate rate -> sysAngVel
+		this.cirRotate.rateProperty().bind(this.simul.getSysAngVel().multiply(1 / DEFAULT_ROTATE_VEL));
 
 	}
 
@@ -169,6 +172,8 @@ public class ObjectPanelController {
 	}
 
 	private void cubeInput() {
+		// Dialog input when choose cube
+
 		// Pair<String, String> : as a dictionary in python -> return result
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 
@@ -189,18 +194,22 @@ public class ObjectPanelController {
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
 		TextField cubeMass = new TextField();
-		//cubeMass.setPromptText("Input mass for cube");
+		cubeMass.setPromptText("Input mass for cube");
+
+		// Text validation
 		cubeMass.textProperty().addListener(event -> {
-			cubeMass.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!cubeMass.getText().isEmpty() && !cubeMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
+			cubeMass.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), !cubeMass.getText().isEmpty()
+					&& !cubeMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
+		// Theme
 		cubeMass.getStylesheets().add("file:resources/css/errorTheme.css");
 
+		// Similar for the field
 		TextField cubeSide = new TextField();
-		cubeSide.setPromptText("Input Side-length for cube");
+		cubeSide.setPromptText("Input side-length for cube");
 		cubeSide.textProperty().addListener(event -> {
-			cubeSide.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!cubeSide.getText().isEmpty() && !cubeSide.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
+			cubeSide.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), !cubeSide.getText().isEmpty()
+					&& !cubeSide.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 		cubeSide.getStylesheets().add("file:resources/css/errorTheme.css");
 
@@ -214,9 +223,9 @@ public class ObjectPanelController {
 		grid.add(cubeSide, 1, 1);
 
 		// Set the disable property of the OKEButton
-		int[] condition1 = {0};
-		int[] condition2 = {0};
-		
+		int[] condition1 = { 0 };
+		int[] condition2 = { 0 };
+
 		cubeMass.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (!cubeMass.getText().isEmpty() && cubeMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
 				condition1[0] = 1;
@@ -225,7 +234,7 @@ public class ObjectPanelController {
 			}
 			OKEButton.setDisable(condition1[0] == 0 || condition2[0] == 0);
 		});
-		
+
 		cubeSide.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (!cubeSide.getText().isEmpty() && cubeSide.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
 				condition2[0] = 1;
@@ -264,8 +273,10 @@ public class ObjectPanelController {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-					this.rec.heightProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 0.3 * 2));
-					this.rec.widthProperty().bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 0.3 * 2));
+					this.rec.heightProperty()
+							.bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 0.3 * 2));
+					this.rec.widthProperty()
+							.bind(this.downStackPane.heightProperty().multiply(Cube.MAX_SIZE * 0.3 * 2));
 					Alert alert = new Alert(Alert.AlertType.WARNING);
 					alert.setContentText(e.getMessage());
 					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -277,6 +288,8 @@ public class ObjectPanelController {
 	}
 
 	private void cylinderInput() {
+		// Input dialog for
+
 		// Pair<String, String> : as a dictionary in python -> return result
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 
@@ -297,8 +310,8 @@ public class ObjectPanelController {
 		TextField cylinderMass = new TextField();
 		cylinderMass.setPromptText("Input mass for cylinder");
 		cylinderMass.textProperty().addListener(event -> {
-			cylinderMass.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!cylinderMass.getText().isEmpty() && !cylinderMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
+			cylinderMass.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), !cylinderMass.getText().isEmpty()
+					&& !cylinderMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 		cylinderMass.getStylesheets().add("file:resources/css/errorTheme.css");
 
@@ -306,7 +319,8 @@ public class ObjectPanelController {
 		cylinderRadius.setPromptText("Input radius for cylinder");
 		cylinderRadius.textProperty().addListener(event -> {
 			cylinderRadius.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-					!cylinderRadius.getText().isEmpty() && !cylinderRadius.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
+					!cylinderRadius.getText().isEmpty()
+							&& !cylinderRadius.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 		cylinderRadius.getStylesheets().add("file:resources/css/errorTheme.css");
 
@@ -320,20 +334,22 @@ public class ObjectPanelController {
 				+ ", default " + Cylinder.MAX_RADIUS * 0.3 + ")"), 0, 1);
 		grid.add(cylinderRadius, 1, 1);
 
-		int[] condition1 = {0};
-		int[] condition2 = {0};
-		
+		int[] condition1 = { 0 };
+		int[] condition2 = { 0 };
+
 		cylinderMass.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (!cylinderMass.getText().isEmpty() && cylinderMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
+			if (!cylinderMass.getText().isEmpty()
+					&& cylinderMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
 				condition1[0] = 1;
 			} else {
 				condition1[0] = 0;
 			}
 			OKEButton.setDisable(condition1[0] == 0 || condition2[0] == 0);
 		});
-		
+
 		cylinderRadius.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (!cylinderRadius.getText().isEmpty() && cylinderRadius.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
+			if (!cylinderRadius.getText().isEmpty()
+					&& cylinderRadius.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$")) {
 				condition2[0] = 1;
 			} else {
 				condition2[0] = 0;
@@ -370,7 +386,8 @@ public class ObjectPanelController {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-					this.cir.radiusProperty().bind(this.downStackPane.heightProperty().multiply(Cylinder.MAX_RADIUS * 0.3));
+					this.cir.radiusProperty()
+							.bind(this.downStackPane.heightProperty().multiply(Cylinder.MAX_RADIUS * 0.3));
 					Alert alert = new Alert(Alert.AlertType.WARNING);
 					alert.setContentText(e.getMessage());
 					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -384,16 +401,33 @@ public class ObjectPanelController {
 	}
 
 	private void setUpDragandDrop() {
+		// Drag and drop for the objects
 
+		// DataFormat for distinguishing cir and rec
 		final DataFormat cirFormat = new DataFormat("dsai.group07.force.circle");
 		final DataFormat recFormat = new DataFormat("dsai.group07.force.rec");
 
+		// Setup drag EventHandler event for each cir and rec
 		EventDragDetected cirOnDragDectected = new EventDragDetected(cirFormat);
 		EventDragDetected recOnDragDectected = new EventDragDetected(recFormat);
 
 		cir.setOnDragDetected(cirOnDragDectected);
 		rec.setOnDragDetected(recOnDragDectected);
 
+		// If the simulation starts --> Drag event for cir and rec and otherwise
+		this.simul.isStartProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue) {
+				rec.setOnDragDetected(null);
+				cir.setOnDragDetected(null);
+
+			} else {
+				cir.setOnDragDetected(cirOnDragDectected);
+				rec.setOnDragDetected(recOnDragDectected);
+
+			}
+		});
+
+		// 4 events are for when topStackPane and downStackPane get Object or not
 		gridPaneObjectContainer.getParent().setOnDragDropped(event -> {
 			Dragboard db = event.getDragboard();
 
@@ -425,7 +459,7 @@ public class ObjectPanelController {
 				event.acceptTransferModes(TransferMode.MOVE);
 		});
 
-		this.topStackPane.setOnDragDropped(event -> {
+		topStackPane.setOnDragDropped(event -> {
 			Dragboard db = event.getDragboard();
 
 			if (db.hasContent(cirFormat)) {
@@ -472,7 +506,7 @@ public class ObjectPanelController {
 			}
 		});
 
-		this.topStackPane.setOnDragOver(event -> {
+		topStackPane.setOnDragOver(event -> {
 			Dragboard db = event.getDragboard();
 			if (db.hasContent(cirFormat) && cir.getParent() != topStackPane) {
 
@@ -480,18 +514,6 @@ public class ObjectPanelController {
 
 			} else if (db.hasContent(recFormat) && this.rec.getParent() != topStackPane)
 				event.acceptTransferModes(TransferMode.MOVE);
-		});
-
-		this.simul.isStartProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue) {
-				rec.setOnDragDetected(null);
-				cir.setOnDragDetected(null);
-
-			} else {
-				cir.setOnDragDetected(cirOnDragDectected);
-				rec.setOnDragDetected(recOnDragDectected);
-
-			}
 		});
 
 	}

@@ -1,5 +1,5 @@
 /*
- * AnimationController.java including: Background transition
+ * AnimationController.java including: Background transition, pass time between two frames to the model, reponsive design for background
  */
 
 package dsai.group07.force.controller;
@@ -19,9 +19,14 @@ import javafx.util.Duration;
 public class AnimationController {
 
 	private final int BACKGROUND_WIDTH = 2000;
-	private final float RATIO_TWO_BACKGROUNDS = 20.0f;
-	private final int NUM_DURATION = 120000;
 
+	// Ratio between clouds and bricks
+	private final float RATIO_TWO_BACKGROUNDS = 200.0f;
+
+	// Transition duration
+	private final int TRANSITION_DURATION = 15000;
+
+	// model and timer
 	private GameAnimationTimer timer;
 	private Simulation simul;
 
@@ -54,8 +59,9 @@ public class AnimationController {
 		return downStackPane;
 	}
 
-	public void setSim(Simulation sim) {
-		this.simul = sim;
+	public void init(Simulation simul) {
+		setSim(simul);
+		setupTransition();
 
 		timer = new GameAnimationTimer() {
 			@Override
@@ -72,40 +78,49 @@ public class AnimationController {
 			parallelTransitionDown.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.2))
 					.then(10e-5 * 5).otherwise(newValue.valueProperty().multiply(0.05)));
 		});
+
+		// handle responsive
+		backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
+		backGroundMiddleUp.fitHeightProperty().bind(topStackPane.heightProperty());
+		backGroundRightDown.fitHeightProperty().bind(downStackPane.heightProperty());
+		backGroundMiddleDown.fitHeightProperty().bind(downStackPane.heightProperty());
+
 	}
 
-	@FXML
-	public void initialize() {
+	public void setSim(Simulation sim) {
+		this.simul = sim;
+	}
 
+	private void setupTransition() {
 		// Set transition for the background
-		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(NUM_DURATION),
-				backGroundRightUp);
-		translateTransition.setFromX(0);
-		translateTransition.setToX(-1 * BACKGROUND_WIDTH);
-		translateTransition.setInterpolator(Interpolator.LINEAR);
+		TranslateTransition translateTransitionRU = new TranslateTransition(
+				Duration.millis(TRANSITION_DURATION * RATIO_TWO_BACKGROUNDS), backGroundRightUp);
+		translateTransitionRU.setFromX(0);
+		translateTransitionRU.setToX(-1 * BACKGROUND_WIDTH);
+		translateTransitionRU.setInterpolator(Interpolator.LINEAR);
 
-		TranslateTransition translateTransition2 = new TranslateTransition(Duration.millis(NUM_DURATION),
-				backGroundMiddleUp);
-		translateTransition2.setFromX(0);
-		translateTransition2.setToX(-1 * BACKGROUND_WIDTH);
-		translateTransition2.setInterpolator(Interpolator.LINEAR);
+		TranslateTransition translateTransitionMU = new TranslateTransition(
+				Duration.millis(TRANSITION_DURATION * RATIO_TWO_BACKGROUNDS), backGroundMiddleUp);
+		translateTransitionMU.setFromX(0);
+		translateTransitionMU.setToX(-1 * BACKGROUND_WIDTH);
+		translateTransitionMU.setInterpolator(Interpolator.LINEAR);
 
-		TranslateTransition translateTransition3 = new TranslateTransition(
-				Duration.millis(NUM_DURATION / RATIO_TWO_BACKGROUNDS), backGroundMiddleDown);
-		translateTransition3.setFromX(0);
-		translateTransition3.setToX(-1 * BACKGROUND_WIDTH);
-		translateTransition3.setInterpolator(Interpolator.LINEAR);
+		TranslateTransition translateTransitionMD = new TranslateTransition(Duration.millis(TRANSITION_DURATION),
+				backGroundMiddleDown);
+		translateTransitionMD.setFromX(0);
+		translateTransitionMD.setToX(-1 * BACKGROUND_WIDTH);
+		translateTransitionMD.setInterpolator(Interpolator.LINEAR);
 
-		TranslateTransition translateTransition4 = new TranslateTransition(
-				Duration.millis(NUM_DURATION / RATIO_TWO_BACKGROUNDS), backGroundRightDown);
-		translateTransition4.setFromX(0);
-		translateTransition4.setToX(-1 * BACKGROUND_WIDTH);
-		translateTransition4.setInterpolator(Interpolator.LINEAR);
+		TranslateTransition translateTransitionRD = new TranslateTransition(Duration.millis(TRANSITION_DURATION),
+				backGroundRightDown);
+		translateTransitionRD.setFromX(0);
+		translateTransitionRD.setToX(-1 * BACKGROUND_WIDTH);
+		translateTransitionRD.setInterpolator(Interpolator.LINEAR);
 
-		parallelTransitionUp = new ParallelTransition(translateTransition, translateTransition2);
+		parallelTransitionUp = new ParallelTransition(translateTransitionRU, translateTransitionMU);
 		parallelTransitionUp.setCycleCount(Animation.INDEFINITE);
 
-		parallelTransitionDown = new ParallelTransition(translateTransition3, translateTransition4);
+		parallelTransitionDown = new ParallelTransition(translateTransitionMD, translateTransitionRD);
 		parallelTransitionDown.setCycleCount(Animation.INDEFINITE);
 
 		// NOTE: We also try to group two parallel transitions but there is a bug so we
@@ -115,11 +130,6 @@ public class AnimationController {
 		parallelTransitionUp.setRate(0.0);
 		parallelTransitionDown.setRate(0.0);
 
-		// TODO: one specific class to handle responsive application
-		backGroundRightUp.fitHeightProperty().bind(topStackPane.heightProperty());
-		backGroundMiddleUp.fitHeightProperty().bind(topStackPane.heightProperty());
-		backGroundRightDown.fitHeightProperty().bind(downStackPane.heightProperty());
-		backGroundMiddleDown.fitHeightProperty().bind(downStackPane.heightProperty());
 	}
 
 	public void startAmination() {
