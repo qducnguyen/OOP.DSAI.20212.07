@@ -1,11 +1,14 @@
 # OOP - Mini Project Group 07 DSAI 
 ## Force Simulation App
 
---- 
+---
 ### Demonstration
 
+<img src="https://i.imgur.com/J2AxOUR.png" alt="Demo Image" style="height: 400px; width:647px;">
 
-- *Video link*:  
+
+--- 
+- *Video link:  https://youtu.be/Gkl-By81k-0*
 
 
 
