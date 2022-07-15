@@ -14,8 +14,13 @@ public class Cube extends MainObject {
 	 * Default size = 0.3 * {@link Cube#MAX_SIZE}
 	 */
 	private DoubleProperty size = new SimpleDoubleProperty(MAX_SIZE * 0.3);
-	// max and min size of class Cube
+	/**
+	 * Holds the max size of class Cube
+	 */
 	public static final double MAX_SIZE = 1.0;
+	/**
+	 * Holds the min size of class Cube
+	 */
 	public static final double MIN_SIZE = 0.1;
 
 	/**
