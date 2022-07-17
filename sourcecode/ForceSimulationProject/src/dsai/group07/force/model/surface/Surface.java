@@ -13,12 +13,12 @@ public class Surface {
 	 * Holds the static friction property of this Surface
 	 * Default value = {@link #MAX_STA_COEF} / 2
 	 */
-	DoubleProperty staCoef = new SimpleDoubleProperty(MAX_STA_COEF / 2);
+	private DoubleProperty staCoef = new SimpleDoubleProperty(MAX_STA_COEF / 2);
 	/**
 	 * Holds the kinetic friction coefficient of this Surface
 	 * Default value = {@link #MAX_STA_COEF} / 4
 	 */
-	DoubleProperty kiCoef = new SimpleDoubleProperty(MAX_STA_COEF / 4);
+	private DoubleProperty kiCoef = new SimpleDoubleProperty(MAX_STA_COEF / 4);
 	/**
 	 * Holds the max static coefficient of class Surface
 	 */
